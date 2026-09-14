@@ -1,0 +1,1797 @@
+{
+  "待机": {
+    "en": "Standby",
+    "ja": "待機",
+    "ko": "대기"
+  },
+  "待确认": {
+    "en": "Review",
+    "ja": "要確認",
+    "ko": "확인 필요"
+  },
+  "跟随自动结果": {
+    "en": "Use automatic result",
+    "ja": "自動判定を使用",
+    "ko": "자동 결과 사용"
+  },
+  "主导航": {
+    "en": "Navigation",
+    "ja": "メインナビゲーション",
+    "ko": "주 탐색"
+  },
+  "现场演出": {
+    "en": "Live",
+    "ja": "ライブ",
+    "ko": "라이브"
+  },
+  "准备音乐": {
+    "en": "Prepare",
+    "ja": "楽曲準備",
+    "ko": "음악 준비"
+  },
+  "设置": {
+    "en": "Settings",
+    "ja": "設定",
+    "ko": "설정"
+  },
+  "最小化": {
+    "en": "Minimize",
+    "ja": "最小化",
+    "ko": "최소화"
+  },
+  "最大化": {
+    "en": "Maximize",
+    "ja": "最大化",
+    "ko": "최대화"
+  },
+  "关闭": {
+    "en": "Close",
+    "ja": "閉じる",
+    "ko": "닫기"
+  },
+  "输出预览": {
+    "en": "Output preview",
+    "ja": "出力プレビュー",
+    "ko": "출력 미리보기"
+  },
+  "现场输出画面预览": {
+    "en": "Live output preview",
+    "ja": "ライブ出力のプレビュー",
+    "ko": "라이브 출력 미리보기"
+  },
+  "正在启动视觉引擎…": {
+    "en": "Starting the visual engine…",
+    "ja": "ビジュアルを起動中…",
+    "ko": "비주얼 시작 중…"
+  },
+  "待机输出为深色静态画面": {
+    "en": "Standby outputs a static dark frame",
+    "ja": "待機中は暗い静止画を出力します",
+    "ko": "대기 중에는 어두운 정지 화면을 출력합니다"
+  },
+  "切黑": {
+    "en": "Blackout",
+    "ja": "ブラックアウト",
+    "ko": "블랙아웃"
+  },
+  "当前视觉": {
+    "en": "Current visual",
+    "ja": "現在のビジュアル",
+    "ko": "현재 비주얼"
+  },
+  "当前": {
+    "en": "Current",
+    "ja": "現在",
+    "ko": "현재"
+  },
+  "候选": {
+    "en": "Candidate",
+    "ja": "候補",
+    "ko": "후보"
+  },
+  "手动指定视觉": {
+    "en": "Manual visual",
+    "ja": "ビジュアルを手動指定",
+    "ko": "비주얼 수동 지정"
+  },
+  "恢复自动": {
+    "en": "Return to auto",
+    "ja": "自動に戻す",
+    "ko": "자동으로 복귀"
+  },
+  "音频输入": {
+    "en": "Audio input",
+    "ja": "音声入力",
+    "ko": "오디오 입력"
+  },
+  "刷新设备": {
+    "en": "Refresh devices",
+    "ja": "デバイスを更新",
+    "ko": "장치 새로고침"
+  },
+  "通道": {
+    "en": "Channels",
+    "ja": "チャンネル",
+    "ko": "채널"
+  },
+  "全部混合": {
+    "en": "Mix all channels",
+    "ja": "全チャンネルをミックス",
+    "ko": "모든 채널 믹스"
+  },
+  "画面输出": {
+    "en": "Visual output",
+    "ja": "映像出力",
+    "ko": "화면 출력"
+  },
+  "输出屏幕": {
+    "en": "Display",
+    "ja": "出力先画面",
+    "ko": "출력 화면"
+  },
+  "布局": {
+    "en": "Layout",
+    "ja": "レイアウト",
+    "ko": "레이아웃"
+  },
+  "左右": {
+    "en": "Horizontal",
+    "ja": "左右",
+    "ko": "좌우"
+  },
+  "上下": {
+    "en": "Vertical",
+    "ja": "上下",
+    "ko": "상하"
+  },
+  "窗口预览": {
+    "en": "Window",
+    "ja": "ウィンドウ",
+    "ko": "창 미리보기"
+  },
+  "全屏输出": {
+    "en": "Fullscreen",
+    "ja": "全画面出力",
+    "ko": "전체 화면 출력"
+  },
+  "收起": {
+    "en": "Hide",
+    "ja": "非表示",
+    "ko": "숨기기"
+  },
+  "现场表现": {
+    "en": "Performance",
+    "ja": "映像の調整",
+    "ko": "비주얼 조정"
+  },
+  "画面亮度": {
+    "en": "Brightness",
+    "ja": "明るさ",
+    "ko": "화면 밝기"
+  },
+  "响应强度": {
+    "en": "Response intensity",
+    "ja": "反応の強さ",
+    "ko": "반응 강도"
+  },
+  "柔和响应": {
+    "en": "Gentle",
+    "ja": "穏やか",
+    "ko": "부드럽게"
+  },
+  "标准响应": {
+    "en": "Standard",
+    "ja": "標準",
+    "ko": "표준"
+  },
+  "强烈响应": {
+    "en": "Strong",
+    "ja": "強め",
+    "ko": "강하게"
+  },
+  "显示文字": {
+    "en": "Show text",
+    "ja": "文字を表示",
+    "ko": "텍스트 표시"
+  },
+  "曲库准备": {
+    "en": "Library preparation",
+    "ja": "ライブラリの準備",
+    "ko": "라이브러리 준비"
+  },
+  "导入曲库包": {
+    "en": "Import pack",
+    "ja": "パックを読み込む",
+    "ko": "라이브러리 가져오기"
+  },
+  "导出到 U 盘": {
+    "en": "Export pack",
+    "ja": "パックを書き出す",
+    "ko": "USB로 내보내기"
+  },
+  "当前曲库": {
+    "en": "Active library",
+    "ja": "使用中のライブラリ",
+    "ko": "현재 라이브러리"
+  },
+  "新建曲库": {
+    "en": "New library",
+    "ja": "ライブラリを作成",
+    "ko": "라이브러리 만들기"
+  },
+  "打开文件夹": {
+    "en": "Open folder",
+    "ja": "フォルダーを開く",
+    "ko": "폴더 열기"
+  },
+  "添加音乐": {
+    "en": "Add music",
+    "ja": "楽曲を追加",
+    "ko": "음악 추가"
+  },
+  "添加文件夹": {
+    "en": "Add folder",
+    "ja": "フォルダーを追加",
+    "ko": "폴더 추가"
+  },
+  "搜索曲名或艺人": {
+    "en": "Search tracks or artists",
+    "ja": "曲名・アーティストを検索",
+    "ko": "곡명 또는 아티스트 검색"
+  },
+  "筛选曲目": {
+    "en": "Filter tracks",
+    "ja": "楽曲を絞り込む",
+    "ko": "곡 필터"
+  },
+  "全部曲目": {
+    "en": "All tracks",
+    "ja": "すべての楽曲",
+    "ko": "모든 곡"
+  },
+  "需要确认": {
+    "en": "Needs review",
+    "ja": "要確認",
+    "ko": "확인 필요"
+  },
+  "尚未准备": {
+    "en": "Not prepared",
+    "ja": "未準備",
+    "ko": "준비 전"
+  },
+  "已准备": {
+    "en": "Ready",
+    "ja": "準備完了",
+    "ko": "준비 완료"
+  },
+  "清除选择": {
+    "en": "Clear selection",
+    "ja": "選択を解除",
+    "ko": "선택 해제"
+  },
+  "建议演出前检查“需要确认”。手动指定始终优先，重新分析不会覆盖它。曲库包不包含音乐文件。": {
+    "en": "Review uncertain results before a show. Manual choices survive reanalysis. Library packs do not contain your music files.",
+    "ja": "本番前に「要確認」の結果を確認してください。手動指定は再解析でも保持されます。パックに音楽ファイルは含まれません。",
+    "ko": "공연 전에 '확인 필요' 결과를 검토하세요. 수동 지정은 재분석해도 유지됩니다. 라이브러리 패키지에는 음악 파일이 포함되지 않습니다."
+  },
+  "曲风分析": {
+    "en": "Genre analysis",
+    "ja": "ジャンル解析",
+    "ko": "장르 분석"
+  },
+  "读取文件曲风标签（ID3 / Vorbis 等），结合在线资料和整曲 AI 结果。具体标签优先，冲突结果标记待确认。": {
+    "en": "Reads file genre tags (ID3 / Vorbis etc.) alongside online metadata and whole-track AI. Specific tags take priority; conflicting results are flagged for review.",
+    "ja": "ファイルのジャンルタグ（ID3 / Vorbis など）、オンライン情報、曲全体の AI 解析を使用します。具体的なタグを優先し、矛盾する結果は要確認にします。",
+    "ko": "파일 장르 태그(ID3 / Vorbis 등), 온라인 정보, 곡 전체의 AI 결과를 사용합니다. 구체적인 태그를 우선하고 결과가 충돌하면 확인 필요로 표시합니다."
+  },
+  "在线查询曲风": {
+    "en": "Online genre lookup",
+    "ja": "オンラインのジャンル検索",
+    "ko": "온라인 장르 조회"
+  },
+  "准备时查询匹配版本的曲目资料并缓存。仅发送曲名和艺人，不上传音频。": {
+    "en": "Look up matching track metadata during preparation. Only title and artist are sent; audio stays local.",
+    "ja": "準備時に同じバージョンの楽曲情報を検索して保存します。送信するのは曲名とアーティストのみで、音声は送信しません。",
+    "ko": "준비 중 일치하는 버전의 곡 정보를 조회하고 저장합니다. 곡명과 아티스트만 전송하며 오디오는 업로드하지 않습니다."
+  },
+  "本地 AI 分析": {
+    "en": "Local AI analysis",
+    "ja": "ローカル AI 解析",
+    "ko": "로컬 AI 분석"
+  },
+  "从整首音乐汇总曲风。断网也能准备；结果可随时手动修改。": {
+    "en": "Summarize genre predictions over the whole track, including offline. You can always override the result.",
+    "ja": "曲全体からジャンルを集計します。オフラインでも解析でき、結果はいつでも手動で変更できます。",
+    "ko": "곡 전체의 장르를 종합합니다. 오프라인에서도 분석할 수 있으며 결과는 언제든 수동으로 변경할 수 있습니다."
+  },
+  "界面与待机": {
+    "en": "Interface & standby",
+    "ja": "表示と待機",
+    "ko": "인터페이스 및 대기"
+  },
+  "语言": {
+    "en": "Language",
+    "ja": "言語",
+    "ko": "언어"
+  },
+  "待机视觉": {
+    "en": "Standby visual",
+    "ja": "待機時のビジュアル",
+    "ko": "대기 비주얼"
+  },
+  "尚未确认曲目时使用待机画面。默认不显示曲风；也可自行选择一个视觉。": {
+    "en": "Used until a track is confirmed. The default shows no genre; you can choose a standby visual.",
+    "ja": "楽曲の確定前は待機画面を使用します。標準ではジャンルを表示しません。別のビジュアルも選択できます。",
+    "ko": "곡이 확정되기 전에는 대기 화면을 사용합니다. 기본값은 장르를 표시하지 않으며 다른 비주얼을 선택할 수도 있습니다."
+  },
+  "自定义视觉预设": {
+    "en": "Custom visual presets",
+    "ja": "カスタムプリセット",
+    "ko": "사용자 비주얼 프리셋"
+  },
+  "保存曲风配色，分配给曲目或现场手动使用。": {
+    "en": "Save genre colors for a track or manual live use.",
+    "ja": "ジャンルの配色を保存し、楽曲に割り当てたりライブで手動使用できます。",
+    "ko": "장르 색상을 저장하여 곡에 지정하거나 라이브에서 수동으로 사용합니다."
+  },
+  "创建预设": {
+    "en": "Create preset",
+    "ja": "プリセットを作成",
+    "ko": "프리셋 만들기"
+  },
+  "输出与性能": {
+    "en": "Output & performance",
+    "ja": "出力とパフォーマンス",
+    "ko": "출력 및 성능"
+  },
+  "BeatNet 节拍辅助": {
+    "en": "BeatNet rhythm assistance",
+    "ja": "BeatNet リズム補助",
+    "ko": "BeatNet 박자 보조"
+  },
+  "随现场声音运行，与现有节奏检测共同驱动画面。": {
+    "en": "Follows the live audio alongside the original rhythm detector.",
+    "ja": "ライブ音声を解析し、既存のリズム検出とともに映像を動かします。",
+    "ko": "라이브 오디오를 분석하고 기존 리듬 감지와 함께 화면을 움직입니다."
+  },
+  "强烈冲击效果": {
+    "en": "Strong impact effects",
+    "ja": "強いインパクト効果",
+    "ko": "강한 임팩트 효과"
+  },
+  "默认使用柔和冲击，减少骤亮和跳动。": {
+    "en": "Off by default for gentler flashes and motion.",
+    "ja": "標準ではオフにして、急な閃光や動きを抑えます。",
+    "ko": "기본값은 꺼짐이며 갑작스러운 섬광과 움직임을 줄입니다."
+  },
+  "渲染质量": {
+    "en": "Render quality",
+    "ja": "描画品質",
+    "ko": "렌더링 품질"
+  },
+  "高分辨率显示器卡顿时可适当降低。": {
+    "en": "Lower this if high-resolution output is slow.",
+    "ja": "高解像度の出力が重い場合は下げてください。",
+    "ko": "고해상도 출력이 느리면 낮춰 주세요."
+  },
+  "本地曲风模型的许可信息见随附 THIRD_PARTY_NOTICES。": {
+    "en": "See the included THIRD_PARTY_NOTICES for the local genre model license.",
+    "ja": "ローカルジャンルモデルのライセンスは同梱の THIRD_PARTY_NOTICES をご覧ください。",
+    "ko": "로컬 장르 모델의 라이선스는 포함된 THIRD_PARTY_NOTICES를 참조하세요."
+  },
+  "控制台快捷键": {
+    "en": "Console shortcuts",
+    "ja": "操作ショートカット",
+    "ko": "콘솔 단축키"
+  },
+  "自动": {
+    "en": "Auto",
+    "ja": "自動",
+    "ko": "자동"
+  },
+  "全屏": {
+    "en": "Fullscreen",
+    "ja": "全画面",
+    "ko": "전체 화면"
+  },
+  "收起输出": {
+    "en": "Hide output",
+    "ja": "出力を非表示",
+    "ko": "출력 숨기기"
+  },
+  "监听未启动": {
+    "en": "Not listening",
+    "ja": "入力停止中",
+    "ko": "입력 중지됨"
+  },
+  "正在连接输入": {
+    "en": "Connecting input",
+    "ja": "入力に接続中",
+    "ko": "입력 연결 중"
+  },
+  "等待识别曲目": {
+    "en": "Listening for a track",
+    "ja": "楽曲を識別中",
+    "ko": "곡 인식 대기 중"
+  },
+  "曲目已确认": {
+    "en": "Track confirmed",
+    "ja": "楽曲を確定",
+    "ko": "곡 확정됨"
+  },
+  "设备断开 · 等待恢复": {
+    "en": "Device lost · waiting",
+    "ja": "切断 · 再接続待ち",
+    "ko": "장치 연결 끊김 · 복구 대기"
+  },
+  "静音 · 待机": {
+    "en": "Silence · standby",
+    "ja": "無音 · 待機",
+    "ko": "무음 · 대기"
+  },
+  "暂未识别 · 待机": {
+    "en": "Unknown track · standby",
+    "ja": "未識別 · 待機",
+    "ko": "인식되지 않음 · 대기"
+  },
+  "识曲服务恢复中": {
+    "en": "Recognition reconnecting",
+    "ja": "識別サービスを再起動中",
+    "ko": "인식 서비스 복구 중"
+  },
+  "需要检查输入": {
+    "en": "Check the input",
+    "ja": "入力を確認してください",
+    "ko": "입력을 확인하세요"
+  },
+  "正在监听现场": {
+    "en": "Listening to master",
+    "ja": "ライブ入力中",
+    "ko": "라이브 입력 중"
+  },
+  "未监听": {
+    "en": "Not listening",
+    "ja": "入力停止",
+    "ko": "입력 중지"
+  },
+  "■ 停止监听": {
+    "en": "■ Stop listening",
+    "ja": "■ 入力を停止",
+    "ko": "■ 입력 중지"
+  },
+  "▶ 开始监听": {
+    "en": "▶ Start listening",
+    "ja": "▶ 入力を開始",
+    "ko": "▶ 입력 시작"
+  },
+  "选择 DJ Master 输入后开始监听。": {
+    "en": "Select a DJ Master input to start listening.",
+    "ja": "DJ Master 入力を選択して開始してください。",
+    "ko": "DJ Master 입력을 선택한 후 시작하세요."
+  },
+  "采集所选输入，不播放音频。": {
+    "en": "Captures the selected input without playing it back.",
+    "ja": "選択した入力を取得します。音声は再生しません。",
+    "ko": "선택한 입력을 캡처하며 오디오는 재생하지 않습니다."
+  },
+  "正在输出": {
+    "en": "Output on",
+    "ja": "出力中",
+    "ko": "출력 중"
+  },
+  "仅预览": {
+    "en": "Preview only",
+    "ja": "プレビューのみ",
+    "ko": "미리보기만"
+  },
+  "还原窗口": {
+    "en": "Restore window",
+    "ja": "元のサイズに戻す",
+    "ko": "창 복원"
+  },
+  "等待音乐": {
+    "en": "Waiting for music",
+    "ja": "楽曲待ち",
+    "ko": "음악 대기 중"
+  },
+  "手动锁定": {
+    "en": "Locked",
+    "ja": "手動固定",
+    "ko": "수동 고정"
+  },
+  "暂无候选曲目": {
+    "en": "No candidate track",
+    "ja": "候補なし",
+    "ko": "후보 곡 없음"
+  },
+  "恢复画面": {
+    "en": "Restore output",
+    "ja": "映像を戻す",
+    "ko": "화면 복구"
+  },
+  "自动跟随曲风": {
+    "en": "Follow genre automatically",
+    "ja": "ジャンルに自動追従",
+    "ko": "장르 자동 추적"
+  },
+  "请选择输入设备": {
+    "en": "Select an input device",
+    "ja": "入力デバイスを選択",
+    "ko": "입력 장치 선택"
+  },
+  "自动选择外接屏幕": {
+    "en": "Automatic external display",
+    "ja": "外部画面を自動選択",
+    "ko": "외부 화면 자동 선택"
+  },
+  " · 主屏": {
+    "en": " · primary",
+    "ja": " · メイン",
+    "ko": " · 주 화면"
+  },
+  "中性待机": {
+    "en": "Neutral standby",
+    "ja": "ニュートラルな待機画面",
+    "ko": "중립 대기 화면"
+  },
+  "我的曲库": {
+    "en": "My library",
+    "ja": "マイライブラリ",
+    "ko": "내 라이브러리"
+  },
+  "首已准备": {
+    "en": "prepared tracks",
+    "ja": "曲が準備完了",
+    "ko": "곡 준비 완료"
+  },
+  "曲库曲目": {
+    "en": "Tracks",
+    "ja": "楽曲数",
+    "ko": "곡 수"
+  },
+  "等待分析": {
+    "en": "Not prepared",
+    "ja": "未解析",
+    "ko": "분석 대기"
+  },
+  "读取曲目信息": {
+    "en": "Reading metadata",
+    "ja": "楽曲情報を読み込み中",
+    "ko": "곡 정보 읽는 중"
+  },
+  "解码音频": {
+    "en": "Decoding audio",
+    "ja": "音声をデコード中",
+    "ko": "오디오 디코딩 중"
+  },
+  "生成音乐指纹": {
+    "en": "Creating fingerprints",
+    "ja": "音声指紋を作成中",
+    "ko": "음악 지문 생성 중"
+  },
+  "查询在线资料": {
+    "en": "Looking up metadata",
+    "ja": "オンライン情報を検索中",
+    "ko": "온라인 정보 조회 중"
+  },
+  "汇总整曲 AI 结果": {
+    "en": "Analyzing whole-track genres",
+    "ja": "曲全体を AI 解析中",
+    "ko": "곡 전체 AI 분석 중"
+  },
+  "正在停止": {
+    "en": "Stopping",
+    "ja": "停止中",
+    "ko": "중지 중"
+  },
+  "队列剩余": {
+    "en": "Remaining",
+    "ja": "残り",
+    "ko": "남은 곡"
+  },
+  "停止分析": {
+    "en": "Stop analysis",
+    "ja": "解析を停止",
+    "ko": "분석 중지"
+  },
+  "分析选中": {
+    "en": "Analyze selected",
+    "ja": "選択した曲を解析",
+    "ko": "선택한 곡 분석"
+  },
+  "分析待准备曲目": {
+    "en": "Analyze pending",
+    "ja": "未準備の曲を解析",
+    "ko": "준비 전 곡 분석"
+  },
+  "首已选择": {
+    "en": "selected",
+    "ja": "曲を選択中",
+    "ko": "곡 선택됨"
+  },
+  "首音乐 · 修改结果点击“编辑”": {
+    "en": "tracks · use Edit to review a result",
+    "ja": "曲 ·「編集」で結果を確認",
+    "ko": "곡 · 결과를 검토하려면 '편집' 선택"
+  },
+  "没有匹配的曲目": {
+    "en": "No matching tracks",
+    "ja": "該当する楽曲がありません",
+    "ko": "일치하는 곡이 없습니다"
+  },
+  "曲库为空": {
+    "en": "Library is empty",
+    "ja": "ライブラリは空です",
+    "ko": "라이브러리가 비어 있습니다"
+  },
+  "添加本地曲目或音乐文件夹，在家完成分析。到现场只需导入曲库包并选择音频输入。": {
+    "en": "Add local tracks or a music folder and prepare them at home. At the venue, import your library pack and select the audio input.",
+    "ja": "楽曲や音楽フォルダーを追加し、事前に解析してください。会場ではパックを読み込み、音声入力を選択します。",
+    "ko": "로컬 곡이나 음악 폴더를 추가하여 미리 분석하세요. 현장에서는 라이브러리를 가져오고 오디오 입력을 선택하면 됩니다."
+  },
+  "待分析": {
+    "en": "Pending",
+    "ja": "解析待ち",
+    "ko": "분석 대기"
+  },
+  "分析中": {
+    "en": "Analyzing",
+    "ja": "解析中",
+    "ko": "분석 중"
+  },
+  "分析失败": {
+    "en": "Failed",
+    "ja": "解析失敗",
+    "ko": "분석 실패"
+  },
+  "需要音乐文件": {
+    "en": "Needs source",
+    "ja": "元ファイルが必要",
+    "ko": "음악 파일 필요"
+  },
+  "手动": {
+    "en": "Manual",
+    "ja": "手動",
+    "ko": "수동"
+  },
+  "编辑": {
+    "en": "Edit",
+    "ja": "編集",
+    "ko": "편집"
+  },
+  "选择列表曲目": {
+    "en": "Select displayed tracks",
+    "ja": "表示中の楽曲を選択",
+    "ko": "표시된 곡 선택"
+  },
+  "曲目 / 艺人": {
+    "en": "Track / artist",
+    "ja": "楽曲 / アーティスト",
+    "ko": "곡 / 아티스트"
+  },
+  "曲风": {
+    "en": "Genre",
+    "ja": "ジャンル",
+    "ko": "장르"
+  },
+  "状态": {
+    "en": "Status",
+    "ja": "状態",
+    "ko": "상태"
+  },
+  "时长": {
+    "en": "Length",
+    "ja": "長さ",
+    "ko": "길이"
+  },
+  "文件曲风标签（ID3 / Vorbis 等）": {
+    "en": "File genre tags (ID3 / Vorbis etc.)",
+    "ja": "ファイルのジャンルタグ（ID3 / Vorbis など）",
+    "ko": "파일 장르 태그(ID3 / Vorbis 등)"
+  },
+  "自动建议": {
+    "en": "Suggested genre",
+    "ja": "自動判定",
+    "ko": "자동 제안"
+  },
+  "AI 结果": {
+    "en": "AI result",
+    "ja": "AI の結果",
+    "ko": "AI 결과"
+  },
+  "个分析片段": {
+    "en": "windows",
+    "ja": "区間",
+    "ko": "개 구간"
+  },
+  "在线查询": {
+    "en": "Online lookup",
+    "ja": "オンライン検索",
+    "ko": "온라인 조회"
+  },
+  "文件标签": {
+    "en": "File tags",
+    "ja": "ファイルタグ",
+    "ko": "파일 태그"
+  },
+  "本地 AI": {
+    "en": "Local AI",
+    "ja": "ローカル AI",
+    "ko": "로컬 AI"
+  },
+  "指定曲风": {
+    "en": "Genre override",
+    "ja": "ジャンルを指定",
+    "ko": "장르 지정"
+  },
+  "指定视觉（可与曲风不同）": {
+    "en": "Visual override",
+    "ja": "ビジュアルを指定",
+    "ko": "비주얼 지정"
+  },
+  "我已检查这首歌的结果": {
+    "en": "I have reviewed this result",
+    "ja": "この結果を確認しました",
+    "ko": "이 결과를 검토했습니다"
+  },
+  "重新分析": {
+    "en": "Analyze again",
+    "ja": "再解析",
+    "ko": "다시 분석"
+  },
+  "保存选择": {
+    "en": "Save choices",
+    "ja": "選択を保存",
+    "ko": "선택 저장"
+  },
+  "创建视觉预设": {
+    "en": "Create visual preset",
+    "ja": "ビジュアルプリセットを作成",
+    "ko": "비주얼 프리셋 만들기"
+  },
+  "预设名称": {
+    "en": "Preset name",
+    "ja": "プリセット名",
+    "ko": "프리셋 이름"
+  },
+  "基础曲风": {
+    "en": "Base visual",
+    "ja": "ベースのビジュアル",
+    "ko": "기본 비주얼"
+  },
+  "主色": {
+    "en": "Primary",
+    "ja": "メインカラー",
+    "ko": "주 색상"
+  },
+  "辅色": {
+    "en": "Secondary",
+    "ja": "サブカラー",
+    "ko": "보조 색상"
+  },
+  "高光": {
+    "en": "Highlight",
+    "ja": "ハイライト",
+    "ko": "하이라이트"
+  },
+  "保存预设": {
+    "en": "Save preset",
+    "ja": "プリセットを保存",
+    "ko": "프리셋 저장"
+  },
+  "曲库已导出。": {
+    "en": "Library exported.",
+    "ja": "ライブラリを書き出しました。",
+    "ko": "라이브러리를 내보냈습니다."
+  },
+  "新曲库": {
+    "en": "New library",
+    "ja": "新しいライブラリ",
+    "ko": "새 라이브러리"
+  },
+  "预览视觉": {
+    "en": "Preview visual",
+    "ja": "ビジュアルをプレビュー",
+    "ko": "비주얼 미리보기"
+  },
+  "重新关联音频": {
+    "en": "Relink audio",
+    "ja": "音声ファイルを再指定",
+    "ko": "오디오 다시 연결"
+  },
+  "从曲库移除": {
+    "en": "Remove from library",
+    "ja": "ライブラリから削除",
+    "ko": "라이브러리에서 제거"
+  },
+  "请先停止现场监听，再修改或准备曲库。": {
+    "en": "Stop live input before changing or preparing the library.",
+    "ja": "ライブラリの変更や準備の前にライブ入力を停止してください。",
+    "ko": "라이브러리를 변경하거나 준비하기 전에 라이브 입력을 중지하세요."
+  },
+  "请等待当前分析结束，或先停止分析。": {
+    "en": "Wait for analysis to finish, or stop it first.",
+    "ja": "解析の完了を待つか、先に停止してください。",
+    "ko": "분석이 끝날 때까지 기다리거나 먼저 중지하세요."
+  },
+  "输出进程已重启，画面正在恢复。": {
+    "en": "The output process restarted. Restoring the visual.",
+    "ja": "出力プロセスを再起動しました。映像を復元中です。",
+    "ko": "출력 프로세스를 다시 시작했습니다. 화면을 복구 중입니다."
+  },
+  "节拍辅助不可用，继续使用实时 DSP：": {
+    "en": "Rhythm assistance unavailable; continuing with live DSP: ",
+    "ja": "リズム補助を使用できません。ライブ DSP を継続します：",
+    "ko": "박자 보조를 사용할 수 없어 라이브 DSP를 계속 사용합니다: "
+  },
+  "先停止前置分析，再开始演出。": {
+    "en": "Stop library analysis before starting live input.",
+    "ja": "ライブ入力の前にライブラリ解析を停止してください。",
+    "ko": "라이브 입력을 시작하기 전에 라이브러리 분석을 중지하세요."
+  },
+  "请选择 DJ Master 输入设备。": {
+    "en": "Select a DJ Master input device.",
+    "ja": "DJ Master 入力デバイスを選択してください。",
+    "ko": "DJ Master 입력 장치를 선택하세요."
+  },
+  "所选设备当前未连接。": {
+    "en": "The selected device is not connected.",
+    "ja": "選択したデバイスは接続されていません。",
+    "ko": "선택한 장치가 연결되어 있지 않습니다."
+  },
+  "所选通道超出设备范围，请改选已有通道。": {
+    "en": "The selected channels are unavailable on this device.",
+    "ja": "選択したチャンネルはこのデバイスでは使用できません。",
+    "ko": "이 장치에서 선택한 채널을 사용할 수 없습니다."
+  },
+  "选择音乐文件夹": {
+    "en": "Choose a music folder",
+    "ja": "音楽フォルダーを選択",
+    "ko": "음악 폴더 선택"
+  },
+  "添加本地音乐": {
+    "en": "Add local music",
+    "ja": "ローカルの楽曲を追加",
+    "ko": "로컬 음악 추가"
+  },
+  "现场运行中不能开始前置分析。": {
+    "en": "Stop live input before starting library analysis.",
+    "ja": "ライブラリ解析の前にライブ入力を停止してください。",
+    "ko": "라이브러리 분석을 시작하기 전에 라이브 입력을 중지하세요."
+  },
+  "停止现场监听后可预览曲目视觉。": {
+    "en": "Stop live input before previewing a track.",
+    "ja": "楽曲のプレビュー前にライブ入力を停止してください。",
+    "ko": "곡을 미리 보려면 라이브 입력을 중지하세요."
+  },
+  "重新关联这首歌的本地音频": {
+    "en": "Relink this track to a local audio file",
+    "ja": "この楽曲の音声ファイルを再指定",
+    "ko": "이 곡의 로컬 오디오 다시 연결"
+  },
+  "选择导出位置（可选 U 盘）": {
+    "en": "Choose an export location (for example, a USB drive)",
+    "ja": "書き出し先を選択（USB ドライブなど）",
+    "ko": "내보낼 위치 선택(예: USB 드라이브)"
+  },
+  "选择 AutoVJ-Library 文件夹": {
+    "en": "Choose an AutoVJ-Library folder",
+    "ja": "AutoVJ-Library フォルダーを選択",
+    "ko": "AutoVJ-Library 폴더 선택"
+  },
+  "画面：": {
+    "en": "Visual: ",
+    "ja": "映像：",
+    "ko": "화면: "
+  },
+  "显示器配置改变，输出已返回预览。": {
+    "en": "Display configuration changed. Output returned to preview.",
+    "ja": "画面構成が変更されたため、プレビューに戻りました。",
+    "ko": "디스플레이 구성이 변경되어 미리보기로 돌아갔습니다."
+  },
+  "未知视觉": {
+    "en": "Unknown visual",
+    "ja": "不明なビジュアル",
+    "ko": "알 수 없는 비주얼"
+  },
+  "曲目不存在": {
+    "en": "Unknown track",
+    "ja": "楽曲が見つかりません",
+    "ko": "곡을 찾을 수 없습니다"
+  },
+  "曲库不存在": {
+    "en": "Unknown library",
+    "ja": "ライブラリが見つかりません",
+    "ko": "라이브러리를 찾을 수 없습니다"
+  },
+  "已匹配": {
+    "en": "Matched",
+    "ja": "一致あり",
+    "ko": "일치함"
+  },
+  "未找到匹配": {
+    "en": "No match",
+    "ja": "一致なし",
+    "ko": "일치 결과 없음"
+  },
+  "缺少曲目信息": {
+    "en": "Missing track metadata",
+    "ja": "楽曲情報なし",
+    "ko": "곡 정보 없음"
+  },
+  "未启用": {
+    "en": "Disabled",
+    "ja": "無効",
+    "ko": "사용 안 함"
+  },
+  "查询失败": {
+    "en": "Lookup failed",
+    "ja": "検索失敗",
+    "ko": "조회 실패"
+  },
+  "跟随系统": {
+    "en": "Follow system",
+    "ja": "システムに合わせる",
+    "ko": "시스템 설정 따르기"
+  },
+  "默认可视化": {
+    "en": "Default visual",
+    "ja": "標準ビジュアル",
+    "ko": "기본 비주얼"
+  },
+  "等待音乐时播放默认可视化，并显示 STANDBY。也可选择其他待机视觉。": {
+    "en": "Shows the default visual with STANDBY while waiting for music. You can choose another standby visual.",
+    "ja": "楽曲を待つ間は標準ビジュアルに STANDBY と表示します。別の待機ビジュアルも選べます。",
+    "ko": "음악을 기다리는 동안 기본 비주얼과 STANDBY를 표시합니다. 다른 대기 비주얼도 선택할 수 있습니다."
+  },
+  "英文窄体": {
+    "en": "Condensed English",
+    "ja": "英字を細幅に",
+    "ko": "영문 좁은 글꼴"
+  },
+  "切换曲名和艺人的英文字体": {
+    "en": "Change the English font for track titles and artists",
+    "ja": "曲名とアーティスト名の英字フォントを切り替えます",
+    "ko": "곡명과 아티스트명의 영문 글꼴을 변경합니다"
+  },
+  "帧率上限": {
+    "en": "Frame rate limit",
+    "ja": "フレームレート上限",
+    "ko": "프레임 속도 제한"
+  },
+  "默认 60 FPS；跟随显示器可利用更高刷新率。": {
+    "en": "Defaults to 60 FPS. Match display allows higher refresh rates.",
+    "ja": "既定は 60 FPS。ディスプレイに合わせると高リフレッシュレートを利用できます。",
+    "ko": "기본값은 60 FPS입니다. 디스플레이에 맞추면 높은 주사율을 활용합니다."
+  },
+  "跟随显示器": {
+    "en": "Match display",
+    "ja": "ディスプレイに合わせる",
+    "ko": "디스플레이에 맞춤"
+  },
+  "待机与监测": {
+    "en": "Standby & monitoring",
+    "ja": "待機・モニタリング",
+    "ko": "대기 및 모니터링"
+  },
+  "待机时降低帧率": {
+    "en": "Limit standby frame rate",
+    "ja": "待機時のフレームレート制限",
+    "ko": "대기 시 프레임 속도 제한"
+  },
+  "未启动监听的待机画面限制为 30 FPS。": {
+    "en": "Limit standby to 30 FPS while listening is stopped.",
+    "ja": "入力の監視を停止している待機画面を 30 FPS に制限します。",
+    "ko": "입력 모니터링이 중지된 대기 화면을 30 FPS로 제한합니다."
+  },
+  "控制台显示帧率": {
+    "en": "Show FPS in console",
+    "ja": "コンソールに FPS を表示",
+    "ko": "콘솔에 FPS 표시"
+  },
+  "在预览栏显示舞台实际帧率，观众画面不显示。": {
+    "en": "Show the actual stage frame rate above the preview, outside the audience output.",
+    "ja": "プレビュー上部にステージの実際の FPS を表示します。観客向け画面には表示しません。",
+    "ko": "미리보기 위에 실제 무대 프레임 속도를 표시합니다. 관객 화면에는 표시하지 않습니다."
+  },
+  "输出": {
+    "en": "Output",
+    "ja": "出力",
+    "ko": "출력"
+  },
+  "预览": {
+    "en": "Preview",
+    "ja": "プレビュー",
+    "ko": "미리보기"
+  },
+  "输出与预览分别计数；预览最高 15 FPS，不影响输出帧率上限。": {
+    "en": "Output and preview are measured separately. Preview is limited to 15 FPS without changing the output frame cap.",
+    "ja": "出力とプレビューの FPS は別々に計測します。プレビューは最大 15 FPS で、出力の上限には影響しません。",
+    "ko": "출력과 미리보기 FPS를 각각 측정합니다. 미리보기는 최대 15 FPS이며 출력 프레임 제한은 변경하지 않습니다."
+  },
+  "舞台实际帧率": {
+    "en": "Actual stage frame rate",
+    "ja": "ステージの実測 FPS",
+    "ko": "실제 무대 프레임 속도"
+  },
+  "显示 DJ 名字": {
+    "en": "Show DJ name",
+    "ja": "DJ名を表示",
+    "ko": "DJ 이름 표시"
+  },
+  "DJ 名字": {
+    "en": "DJ name",
+    "ja": "DJ名",
+    "ko": "DJ 이름"
+  },
+  "整套曲库使用的 DJ 名字": {
+    "en": "One DJ name for this library",
+    "ja": "このライブラリで使用するDJ名",
+    "ko": "이 라이브러리에서 사용할 DJ 이름"
+  },
+  "自动保存到当前曲库，导出曲库时一起携带。": {
+    "en": "Saved automatically to this library and included in its export.",
+    "ja": "現在のライブラリに自動保存され、エクスポートにも含まれます。",
+    "ko": "현재 라이브러리에 자동 저장되며 내보내기에도 포함됩니다."
+  },
+  "用曲库中的 DJ 名字替换曲风大标题，保留当前曲风视觉；留空则显示曲风名。": {
+    "en": "Use the library DJ name as the heading and keep the genre visual. An empty name keeps the genre heading.",
+    "ja": "ジャンルの見た目を保ったまま、見出しをライブラリのDJ名に変更します。未入力の場合はジャンル名を表示します。",
+    "ko": "장르 시각 효과를 유지하면서 큰 제목을 라이브러리의 DJ 이름으로 바꿉니다. 이름이 비어 있으면 장르명을 표시합니다."
+  },
+  "根据网络地区自动调整查询：中国大陆优先 Apple 中国区，并跳过 Deezer。": {
+    "en": "Lookup adapts to the network region: in mainland China, prefer Apple China and skip Deezer.",
+    "ja": "ネットワークの地域に応じて検索先を調整します。中国本土ではApple中国を優先し、Deezerをスキップします。",
+    "ko": "네트워크 지역에 따라 조회를 조정합니다. 중국 본토에서는 Apple 중국을 우선하고 Deezer를 건너뜁니다."
+  },
+  "画面与文字": {
+    "en": "Visuals & text",
+    "ja": "映像とテキスト",
+    "ko": "화면 및 텍스트"
+  },
+  "用 DJ 名字替换曲风大标题；名字在「准备音乐」中按曲库填写。": {
+    "en": "Replace the genre heading with your DJ name. Set a name for each library in Prepare.",
+    "ja": "ジャンルの見出しをDJ名に変更します。名前は「楽曲準備」でライブラリごとに設定できます。",
+    "ko": "장르 제목을 DJ 이름으로 바꿉니다. 이름은 음악 준비에서 라이브러리별로 입력하세요."
+  },
+  "候选复核中 · 保持当前画面": {
+    "en": "Checking candidate · holding current visual",
+    "ja": "候補を確認中 · 現在の映像を維持",
+    "ko": "후보 확인 중 · 현재 화면 유지"
+  },
+  "正在复核候选曲目": {
+    "en": "Verifying candidate track",
+    "ja": "候補曲を確認中",
+    "ko": "후보 곡 확인 중"
+  },
+  "识别过程": {
+    "en": "Recognition",
+    "ja": "楽曲認識",
+    "ko": "곡 인식"
+  },
+  "当前曲目": {
+    "en": "Current track",
+    "ja": "現在の曲",
+    "ko": "현재 곡"
+  },
+  "候选曲目": {
+    "en": "Candidate track",
+    "ja": "候補曲",
+    "ko": "후보 곡"
+  },
+  "当前曲目匹配证据": {
+    "en": "Current track match evidence",
+    "ja": "現在の曲の一致証拠",
+    "ko": "현재 곡 일치 근거"
+  },
+  "候选曲目匹配证据": {
+    "en": "Candidate track match evidence",
+    "ja": "候補曲の一致証拠",
+    "ko": "후보 곡 일치 근거"
+  },
+  "积累匹配证据并复核，确认后才切换。": {
+    "en": "Accumulate and verify matches before switching.",
+    "ja": "一致する証拠を蓄積して確認し、確定後に切り替えます。",
+    "ko": "일치 근거를 모아 검증한 후에 전환합니다."
+  },
+  "匹配证据暂时减弱，继续保持当前画面。": {
+    "en": "Match evidence has weakened; keeping the current visual.",
+    "ja": "一致する証拠が一時的に弱まっています。現在の映像を維持します。",
+    "ko": "일치 근거가 일시적으로 약해져 현재 화면을 유지합니다."
+  },
+  "电量条表示指纹匹配证据，不是曲风置信度。": {
+    "en": "Bars show fingerprint evidence, not genre confidence.",
+    "ja": "バーは音声指紋の一致証拠を示します。ジャンルの確信度ではありません。",
+    "ko": "막대는 오디오 지문 일치 근거이며 장르 신뢰도가 아닙니다."
+  },
+  "曲风依据": {
+    "en": "Genre evidence",
+    "ja": "ジャンルの根拠",
+    "ko": "장르 근거"
+  },
+  "详情": {
+    "en": "Details",
+    "ja": "詳細",
+    "ko": "자세히"
+  },
+  "识别曲目后显示已保存的分析依据。": {
+    "en": "Saved analysis appears after a track is identified.",
+    "ja": "曲を認識すると、保存済みの分析根拠が表示されます。",
+    "ko": "곡을 인식하면 저장된 분석 근거를 표시합니다."
+  },
+  "手动指定": {
+    "en": "Manual override",
+    "ja": "手動指定",
+    "ko": "수동 지정"
+  },
+  "整曲 AI": {
+    "en": "Whole-track AI",
+    "ja": "楽曲全体のAI分析",
+    "ko": "전체 곡 AI"
+  },
+  "Apple 曲目资料": {
+    "en": "Apple track metadata",
+    "ja": "Appleの曲情報",
+    "ko": "Apple 곡 정보"
+  },
+  "Deezer 专辑资料": {
+    "en": "Deezer album metadata",
+    "ja": "Deezerのアルバム情報",
+    "ko": "Deezer 앨범 정보"
+  },
+  "暂无有效依据": {
+    "en": "No usable evidence",
+    "ja": "有効な根拠なし",
+    "ko": "유효한 근거 없음"
+  },
+  "曲目曲风": {
+    "en": "Track genre",
+    "ja": "曲のジャンル",
+    "ko": "곡 장르"
+  },
+  "判定来源": {
+    "en": "Decision source",
+    "ja": "判定元",
+    "ko": "판정 출처"
+  },
+  "人工指定优先于自动分析。": {
+    "en": "Manual choice takes priority over analysis.",
+    "ja": "手動指定が自動分析より優先されます。",
+    "ko": "수동 지정이 자동 분석보다 우선합니다."
+  },
+  "已人工复核": {
+    "en": "Reviewed manually",
+    "ja": "手動で確認済み",
+    "ko": "수동 검토 완료"
+  },
+  "来源结果有冲突，建议复核。": {
+    "en": "Sources disagree; review is recommended.",
+    "ja": "情報源によって結果が異なります。確認をお勧めします。",
+    "ko": "출처별 결과가 다릅니다. 검토를 권장합니다."
+  },
+  "结果待确认": {
+    "en": "Result needs review",
+    "ja": "結果の確認が必要",
+    "ko": "결과 검토 필요"
+  },
+  "删除曲库": {
+    "en": "Delete library",
+    "ja": "ライブラリを削除",
+    "ko": "라이브러리 삭제"
+  },
+  "移除所选曲目": {
+    "en": "Remove selected tracks",
+    "ja": "選択した曲を削除",
+    "ko": "선택한 곡 제거"
+  },
+  "正在更新曲库，请稍候。": {
+    "en": "Updating library. Please wait.",
+    "ja": "ライブラリを更新中です。お待ちください。",
+    "ko": "라이브러리를 업데이트하는 중입니다. 잠시 기다려 주세요."
+  },
+  "曲库已切换，请重新选择。": {
+    "en": "The library changed. Please select again.",
+    "ja": "ライブラリが切り替わりました。選択し直してください。",
+    "ko": "라이브러리가 변경되었습니다. 다시 선택해 주세요."
+  },
+  "首音乐": {
+    "en": "tracks",
+    "ja": "曲",
+    "ko": "곡"
+  },
+  "此曲库及其指纹、分析和缓存将移至系统回收站。原音乐文件和已导出的曲库包不会删除。": {
+    "en": "This library, its fingerprints, analysis and cache will be moved to the system recycle bin. Original music files and exported packs will be kept.",
+    "ja": "このライブラリと指紋・分析・キャッシュをシステムのごみ箱へ移動します。元の音楽ファイルと書き出したパックは削除されません。",
+    "ko": "이 라이브러리와 지문, 분석 및 캐시를 시스템 휴지통으로 이동합니다. 원본 음악 파일과 내보낸 라이브러리 패키지는 유지됩니다."
+  },
+  "将从当前曲库移除所选曲目及其识别指纹，包括筛选后隐藏的已选曲目。原音乐文件不会删除。": {
+    "en": "Remove the selected tracks and their fingerprints, including selected tracks hidden by filters. Original music files will be kept.",
+    "ja": "フィルターで非表示の選択曲も含め、選択した曲と指紋を現在のライブラリから削除します。元の音楽ファイルは削除されません。",
+    "ko": "필터로 숨겨진 선택 항목을 포함하여 선택한 곡과 지문을 현재 라이브러리에서 제거합니다. 원본 음악 파일은 유지됩니다."
+  },
+  "删除后切换到另一个曲库。": {
+    "en": "Switch to another library after deletion.",
+    "ja": "削除後は別のライブラリに切り替わります。",
+    "ko": "삭제 후 다른 라이브러리로 전환합니다."
+  },
+  "这是最后一个曲库，删除后会自动新建空曲库。": {
+    "en": "This is the last library. An empty library will be created after deletion.",
+    "ja": "最後のライブラリです。削除後に空のライブラリを作成します。",
+    "ko": "마지막 라이브러리입니다. 삭제 후 빈 라이브러리를 생성합니다."
+  },
+  "其余所选曲目": {
+    "en": "Other selected tracks",
+    "ja": "その他の選択曲",
+    "ko": "그 외 선택한 곡"
+  },
+  "确认移除": {
+    "en": "Confirm removal",
+    "ja": "削除する",
+    "ko": "제거 확인"
+  },
+  "曲库已移至回收站。原音乐文件已保留。": {
+    "en": "Library moved to the recycle bin. Original music files were kept.",
+    "ja": "ライブラリをごみ箱へ移動しました。元の音楽ファイルは保持されています。",
+    "ko": "라이브러리를 휴지통으로 이동했습니다. 원본 음악 파일은 유지됩니다."
+  },
+  "已移除曲目": {
+    "en": "Tracks removed",
+    "ja": "削除した曲",
+    "ko": "제거된 곡"
+  },
+  "取消": {
+    "en": "Cancel",
+    "ja": "キャンセル",
+    "ko": "취소"
+  },
+  "曲目选择无效，请重新选择。": {
+    "en": "Invalid track selection",
+    "ja": "曲の選択が無効です",
+    "ko": "곡 선택이 잘못되었습니다"
+  },
+  "曲目列表已改变，请重新选择。": {
+    "en": "Track selection is out of date",
+    "ja": "曲の選択が古くなっています。選択し直してください",
+    "ko": "곡 목록이 변경되었습니다. 다시 선택해 주세요"
+  },
+  "重命名": {
+    "en": "Rename",
+    "ja": "名前を変更",
+    "ko": "이름 변경"
+  },
+  "重命名曲库": {
+    "en": "Rename library",
+    "ja": "ライブラリ名を変更",
+    "ko": "라이브러리 이름 변경"
+  },
+  "曲库名称": {
+    "en": "Library name",
+    "ja": "ライブラリ名",
+    "ko": "라이브러리 이름"
+  },
+  "请输入 1–80 个字符的曲库名称。": {
+    "en": "Enter a library name of 1–80 characters.",
+    "ja": "ライブラリ名を1～80文字で入力してください。",
+    "ko": "라이브러리 이름을 1~80자로 입력해 주세요."
+  },
+  "曲库已重命名。": {
+    "en": "Library renamed.",
+    "ja": "ライブラリ名を変更しました。",
+    "ko": "라이브러리 이름이 변경되었습니다."
+  },
+  "保存": {
+    "en": "Save",
+    "ja": "保存",
+    "ko": "저장"
+  },
+  "导出曲库包": {
+    "en": "Export library pack",
+    "ja": "ライブラリパックを書き出す",
+    "ko": "라이브러리 팩 내보내기"
+  },
+  "管理曲库": {
+    "en": "Manage library",
+    "ja": "ライブラリを管理",
+    "ko": "라이브러리 관리"
+  },
+  "曲库包包含分析数据，不含音乐文件。音乐需另行携带。": {
+    "en": "Library packs contain analysis data, not music. Bring your audio files separately.",
+    "ja": "ライブラリパックには解析データのみが含まれます。音楽ファイルは別途お持ちください。",
+    "ko": "라이브러리 팩에는 분석 데이터만 포함됩니다. 음악 파일은 별도로 준비하세요."
+  },
+  "替换曲风标题。DJ 名字在「准备音乐」中填写。": {
+    "en": "Replace the genre heading. Enter your DJ name in Prepare.",
+    "ja": "ジャンル見出しを置き換えます。DJ 名は「楽曲準備」で入力します。",
+    "ko": "장르 제목을 대체합니다. DJ 이름은 음악 준비에서 입력하세요."
+  },
+  "用于曲名和艺人的英文文字。": {
+    "en": "For English track titles and artist names.",
+    "ja": "曲名とアーティスト名の英字に使用します。",
+    "ko": "곡명과 아티스트 이름의 영문에 적용합니다."
+  },
+  "输出卡顿时可降低。": {
+    "en": "Lower this if the output stutters.",
+    "ja": "出力がカクつく場合は下げてください。",
+    "ko": "출력 화면이 끊기면 낮추세요."
+  },
+  "增强骤亮和画面跳动。": {
+    "en": "Adds stronger flashes and motion.",
+    "ja": "閃光と画面の動きを強めます。",
+    "ko": "번쩍임과 화면 움직임을 강화합니다."
+  },
+  "辅助画面跟随现场节奏。": {
+    "en": "Helps visuals follow the live rhythm.",
+    "ja": "ライブのリズムに映像を合わせる補助をします。",
+    "ko": "화면이 현장 리듬을 따라가도록 돕습니다."
+  },
+  "待机与帧率监测": {
+    "en": "Standby & frame rate monitoring",
+    "ja": "待機とフレームレート表示",
+    "ko": "대기 및 프레임 레이트 표시"
+  },
+  "分别显示输出和预览帧率，观众画面不显示。": {
+    "en": "Show output and preview FPS in the console only.",
+    "ja": "出力とプレビューの FPS を操作画面にのみ表示します。",
+    "ko": "출력과 미리보기 FPS를 제어 화면에만 표시합니다."
+  },
+  "准备时查询并缓存。仅发送曲名和艺人，不上传音频。": {
+    "en": "Look up and cache during preparation. Only title and artist are sent, never audio.",
+    "ja": "準備時に検索して保存します。曲名とアーティスト名のみ送信し、音声は送信しません。",
+    "ko": "준비 중 조회하여 저장합니다. 곡명과 아티스트만 전송하며 오디오는 업로드하지 않습니다."
+  },
+  "汇总整首音乐的曲风，支持离线准备。": {
+    "en": "Analyze genre across the whole track, including offline.",
+    "ja": "曲全体からジャンルを解析します。オフラインでも準備できます。",
+    "ko": "곡 전체의 장르를 분석하며 오프라인으로도 준비할 수 있습니다."
+  },
+  "判定规则与网络策略": {
+    "en": "Decision rules & network policy",
+    "ja": "判定ルールとネットワーク方針",
+    "ko": "판정 규칙 및 네트워크 정책"
+  },
+  "手动指定始终优先，重新分析不会覆盖它。": {
+    "en": "Manual choices take priority and survive reanalysis.",
+    "ja": "手動指定が優先され、再解析しても上書きされません。",
+    "ko": "수동 지정이 우선되며 재분석해도 유지됩니다."
+  },
+  "正在监听。停止监听后可切换、整理和分析曲库。": {
+    "en": "Listening is active. Stop listening to switch, organize or analyze libraries.",
+    "ja": "入力を聴取中です。停止するとライブラリの切り替え・整理・解析ができます。",
+    "ko": "입력을 듣는 중입니다. 중지하면 라이브러리를 전환, 정리하거나 분석할 수 있습니다."
+  },
+  "曲库正在更新，完成后可继续管理。": {
+    "en": "The library is being updated. Management will be available when it finishes.",
+    "ja": "ライブラリの更新が完了すると管理を再開できます。",
+    "ko": "라이브러리를 업데이트 중입니다. 완료 후 관리할 수 있습니다."
+  },
+  "试试其他关键词，或清除搜索与筛选。": {
+    "en": "Try another keyword, or clear the search and filter.",
+    "ja": "別のキーワードを試すか、検索と絞り込みを解除してください。",
+    "ko": "다른 검색어를 사용하거나 검색과 필터를 초기화하세요."
+  },
+  "添加本地音乐，或导入已准备的曲库包。": {
+    "en": "Add local music or import a prepared library pack.",
+    "ja": "ローカルの音楽を追加するか、準備済みのライブラリパックを読み込んでください。",
+    "ko": "로컬 음악을 추가하거나 준비된 라이브러리 팩을 가져오세요."
+  },
+  "清除搜索与筛选": {
+    "en": "Clear search & filter",
+    "ja": "検索と絞り込みを解除",
+    "ko": "검색 및 필터 초기화"
+  },
+  "分析结果需要确认，请检查后保存。": {
+    "en": "This result needs review. Check it before saving.",
+    "ja": "解析結果の確認が必要です。確認してから保存してください。",
+    "ko": "분석 결과를 확인한 후 저장하세요."
+  },
+  "分析依据": {
+    "en": "Analysis evidence",
+    "ja": "解析の根拠",
+    "ko": "분석 근거"
+  },
+  "请输入预设名称。": {
+    "en": "Enter a preset name.",
+    "ja": "プリセット名を入力してください。",
+    "ko": "프리셋 이름을 입력하세요."
+  },
+  "待准备": {
+    "en": "Not prepared",
+    "ja": "未準備",
+    "ko": "준비 필요"
+  },
+  "等待音乐时使用的画面。": {
+    "en": "Visual used while waiting for music.",
+    "ja": "音楽の待機中に使用する映像。",
+    "ko": "음악을 기다리는 동안 사용할 화면입니다."
+  },
+  "自动（推荐）": {
+    "en": "Auto (recommended)",
+    "ja": "自動（推奨）",
+    "ko": "자동 (권장)"
+  },
+  "自动调节动画分辨率，文字保持清晰；也可固定画质。": {
+    "en": "Automatically adjust animation resolution while keeping text sharp, or choose a fixed quality.",
+    "ja": "文字の鮮明さを保ちながらアニメーションの解像度を自動調整します。画質の固定も可能です。",
+    "ko": "텍스트는 선명하게 유지하면서 애니메이션 해상도를 자동 조정합니다. 화질을 고정할 수도 있습니다."
+  },
+  "打开曲库数据文件夹": {
+    "en": "Open library data folder",
+    "ja": "ライブラリのデータフォルダを開く",
+    "ko": "라이브러리 데이터 폴더 열기"
+  },
+  "曲库数据文件夹不存在，请检查是否被移动或删除。": {
+    "en": "Library data folder is missing. Check whether it was moved or deleted.",
+    "ja": "ライブラリのデータフォルダが見つかりません。移動または削除されていないか確認してください。",
+    "ko": "라이브러리 데이터 폴더를 찾을 수 없습니다. 이동하거나 삭제했는지 확인하세요."
+  },
+  "无法打开曲库数据文件夹，请检查文件夹访问权限。": {
+    "en": "Cannot open the library data folder. Check folder permissions.",
+    "ja": "ライブラリのデータフォルダを開けません。アクセス権限を確認してください。",
+    "ko": "라이브러리 데이터 폴더를 열 수 없습니다. 접근 권한을 확인하세요."
+  },
+  "演出保护与诊断": {
+    "en": "Show protection & diagnostics",
+    "ja": "公演中の保護と診断",
+    "ko": "공연 보호 및 진단"
+  },
+  "演出时保持屏幕唤醒": {
+    "en": "Keep screen awake during shows",
+    "ja": "公演中は画面をスリープさせない",
+    "ko": "공연 중 화면 켜짐 유지"
+  },
+  "监听或输出期间阻止空闲休眠，结束后恢复。": {
+    "en": "Prevent idle sleep while listening or outputting; release when finished.",
+    "ja": "入力の監視中や映像出力中の自動スリープを防ぎ、終了後に解除します。",
+    "ko": "입력 감지 또는 영상 출력 중 자동 절전을 방지하고 종료 후 해제합니다."
+  },
+  "音频设备、通道和输出屏幕保存在本机，切换曲库时保留。": {
+    "en": "Audio routing and output display stay on this computer when switching libraries.",
+    "ja": "音声デバイス、チャンネル、出力画面はこのPCに保存され、ライブラリを切り替えても維持されます。",
+    "ko": "오디오 장치, 채널, 출력 화면은 이 컴퓨터에 저장되며 라이브러리를 전환해도 유지됩니다."
+  },
+  "重新启动画面": {
+    "en": "Restart visuals",
+    "ja": "映像を再起動",
+    "ko": "영상 다시 시작"
+  },
+  "导出诊断报告": {
+    "en": "Export diagnostics",
+    "ja": "診断レポートを書き出す",
+    "ko": "진단 보고서 내보내기"
+  },
+  "仅导出本次运行的状态与事件，不含音频、曲名和文件路径。": {
+    "en": "Export session status and events only, without audio, track titles or file paths.",
+    "ja": "今回の実行状態とイベントのみを書き出します。音声、曲名、ファイルパスは含みません。",
+    "ko": "현재 실행 상태와 이벤트만 내보냅니다. 오디오, 곡명, 파일 경로는 포함하지 않습니다."
+  },
+  "诊断报告已导出。": {
+    "en": "Diagnostics exported.",
+    "ja": "診断レポートを書き出しました。",
+    "ko": "진단 보고서를 내보냈습니다."
+  },
+  "画面连续恢复失败，请点击重新启动画面。": {
+    "en": "Visual recovery failed repeatedly. Choose Restart visuals.",
+    "ja": "映像の復旧が繰り返し失敗しました。「映像を再起動」を選んでください。",
+    "ko": "영상 복구가 반복해서 실패했습니다. 영상 다시 시작을 선택하세요."
+  },
+  "设备已断开，正在等待重新连接。": {
+    "en": "Device disconnected. Waiting for reconnection.",
+    "ja": "デバイスが切断されました。再接続を待っています。",
+    "ko": "장치 연결이 끊겼습니다. 다시 연결되기를 기다리는 중입니다."
+  },
+  "输入接近过载，请降低声卡或混音器输出增益。": {
+    "en": "Input is near clipping. Lower the interface or mixer output gain.",
+    "ja": "入力がクリッピングに近づいています。オーディオ機器やミキサーの出力ゲインを下げてください。",
+    "ko": "입력이 클리핑에 가깝습니다. 오디오 장치나 믹서의 출력 게인을 낮추세요."
+  },
+  "持续无输入，请检查 Master 路由和所选通道。": {
+    "en": "No signal. Check the Master routing and selected channels.",
+    "ja": "信号がありません。Masterのルーティングと選択したチャンネルを確認してください。",
+    "ko": "신호가 없습니다. Master 라우팅과 선택한 채널을 확인하세요."
+  },
+  "未收到音频数据，请检查设备连接。": {
+    "en": "No audio data received. Check the device connection.",
+    "ja": "音声データを受信していません。デバイスの接続を確認してください。",
+    "ko": "오디오 데이터를 받지 못했습니다. 장치 연결을 확인하세요."
+  },
+  "所选设备未连接，请连接设备或重新选择。": {
+    "en": "Selected device is disconnected. Connect it or choose another.",
+    "ja": "選択したデバイスが未接続です。接続するか別のデバイスを選んでください。",
+    "ko": "선택한 장치가 연결되지 않았습니다. 연결하거나 다른 장치를 선택하세요."
+  },
+  "混合全部通道可能包含耳机预听，建议选择 Master 通道对。": {
+    "en": "Mixing all channels may include headphone cue. Prefer the Master channel pair.",
+    "ja": "全チャンネルのミックスにはヘッドホンのキュー音が含まれる場合があります。Masterのチャンネルペアを推奨します。",
+    "ko": "모든 채널을 믹스하면 헤드폰 큐가 포함될 수 있습니다. Master 채널 쌍을 권장합니다."
+  },
+  "所选设备未连接": {
+    "en": "Selected device disconnected",
+    "ja": "選択したデバイスは未接続",
+    "ko": "선택한 장치 연결 안 됨"
+  },
+  "通道不可用": {
+    "en": "Channel unavailable",
+    "ja": "チャンネルを利用できません",
+    "ko": "채널 사용 불가"
+  },
+  " · 单声道": {
+    "en": " · mono",
+    "ja": " · モノラル",
+    "ko": " · 모노"
+  },
+  "撤销移除": {
+    "en": "Undo removal",
+    "ja": "削除を取り消す",
+    "ko": "제거 실행 취소"
+  },
+  "已移除 {count} 首曲目，可撤销上次移除。": {
+    "en": "Removed {count} tracks. The last removal can be undone.",
+    "ja": "{count}曲を削除しました。直前の削除を取り消せます。",
+    "ko": "곡 {count}개를 제거했습니다. 마지막 제거를 취소할 수 있습니다."
+  },
+  "曲库曲目已改变，无法撤销上次移除。": {
+    "en": "Library tracks have changed. The last removal can no longer be undone.",
+    "ja": "ライブラリの曲が変更されたため、直前の削除を取り消せません。",
+    "ko": "라이브러리 곡이 변경되어 마지막 제거를 취소할 수 없습니다."
+  },
+  "曲目已恢复。": {
+    "en": "Tracks restored.",
+    "ja": "曲を復元しました。",
+    "ko": "곡을 복원했습니다."
+  },
+  "先选择设备": {
+    "en": "Select device first",
+    "ja": "先にデバイスを選択",
+    "ko": "먼저 장치를 선택하세요"
+  },
+  "所选通道不可用，请重新选择。": {
+    "en": "Selected channels are unavailable. Choose another pair.",
+    "ja": "選択したチャンネルは利用できません。選び直してください。",
+    "ko": "선택한 채널을 사용할 수 없습니다. 다른 채널을 선택하세요."
+  },
+  "准备下一首…": {
+    "en": "Preparing the next track…",
+    "ja": "次の曲を準備中…",
+    "ko": "다음 곡 준비 중…"
+  },
+  "曲目分析进度": {
+    "en": "Track analysis progress",
+    "ja": "楽曲解析の進行状況",
+    "ko": "곡 분석 진행 상황"
+  },
+  "本曲 AI 分析进度": {
+    "en": "AI analysis progress for this track",
+    "ja": "この曲の AI 解析の進行状況",
+    "ko": "현재 곡의 AI 분석 진행 상황"
+  },
+  "已处理 {done} / {total} 首": {
+    "en": "Processed {done} / {total} tracks",
+    "ja": "処理済み {done} / {total} 曲",
+    "ko": "처리됨 {done} / {total}곡"
+  },
+  "整批分析进度": {
+    "en": "Batch analysis progress",
+    "ja": "一括解析の進行状況",
+    "ko": "일괄 분석 진행 상황"
+  },
+  "已停止分析": {
+    "en": "Analysis stopped",
+    "ja": "解析を停止しました",
+    "ko": "분석 중지됨"
+  },
+  "分析完成": {
+    "en": "Analysis complete",
+    "ja": "解析完了",
+    "ko": "분석 완료"
+  },
+  "成功 {count} 首": {
+    "en": "{count} succeeded",
+    "ja": "成功 {count} 曲",
+    "ko": "성공 {count}곡"
+  },
+  "失败 {count} 首": {
+    "en": "{count} failed",
+    "ja": "失敗 {count} 曲",
+    "ko": "실패 {count}곡"
+  },
+  "视频发送": {
+    "en": "Video senders",
+    "ja": "映像送信",
+    "ko": "영상 송신"
+  },
+  "Spout 发送": {
+    "en": "Spout sender",
+    "ja": "Spout 送信",
+    "ko": "Spout 송신"
+  },
+  "NDI 发送": {
+    "en": "NDI sender",
+    "ja": "NDI 送信",
+    "ko": "NDI 송신"
+  },
+  "发送设置": {
+    "en": "Sender settings",
+    "ja": "送信設定",
+    "ko": "송신 설정"
+  },
+  "重新连接": {
+    "en": "Reconnect",
+    "ja": "再接続",
+    "ko": "다시 연결"
+  },
+  "输出源名称": {
+    "en": "Source name",
+    "ja": "ソース名",
+    "ko": "소스 이름"
+  },
+  "发送分辨率": {
+    "en": "Send resolution",
+    "ja": "送信解像度",
+    "ko": "송신 해상도"
+  },
+  "发送帧率": {
+    "en": "Send frame rate",
+    "ja": "送信フレームレート",
+    "ko": "송신 프레임률"
+  },
+  "仅发送画面。音频由调音台或播控软件另行路由。": {
+    "en": "Video only. Route audio separately through your mixer or production software.",
+    "ja": "映像のみを送信します。音声はミキサーや配信ソフトで別途ルーティングしてください。",
+    "ko": "영상만 송신합니다. 오디오는 믹서나 방송 소프트웨어에서 별도로 라우팅하세요."
+  },
+  "收起只隐藏本地窗口，发送继续；切黑作用于所有输出。": {
+    "en": "Hide closes the local view while sending continues. Blackout affects every output.",
+    "ja": "「隠す」はローカルウィンドウのみを非表示にし、送信は継続します。ブラックアウトはすべての出力に適用されます。",
+    "ko": "숨기기는 로컬 창만 숨기며 송신은 계속됩니다. 블랙아웃은 모든 출력에 적용됩니다."
+  },
+  "已关闭": {
+    "en": "Off",
+    "ja": "オフ",
+    "ko": "꺼짐"
+  },
+  "正在连接…": {
+    "en": "Connecting…",
+    "ja": "接続中…",
+    "ko": "연결 중…"
+  },
+  "发送失败": {
+    "en": "Send failed",
+    "ja": "送信エラー",
+    "ko": "송신 실패"
+  },
+  "画面中断 · 已切黑": {
+    "en": "Visual interrupted · Black",
+    "ja": "映像中断 · ブラックアウト",
+    "ko": "영상 중단 · 블랙아웃"
+  },
+  "切黑中": {
+    "en": "Blackout",
+    "ja": "ブラックアウト中",
+    "ko": "블랙아웃 중"
+  },
+  "等待接收": {
+    "en": "Waiting for receiver",
+    "ja": "受信待機中",
+    "ko": "수신 대기 중"
+  },
+  "发送中": {
+    "en": "Sending",
+    "ja": "送信中",
+    "ko": "송신 중"
+  },
+  "接收端": {
+    "en": "Receivers",
+    "ja": "受信先",
+    "ko": "수신기"
+  },
+  "发送期间锁定格式。关闭 Spout 和 NDI 后可修改。": {
+    "en": "Format is locked while sending. Turn off Spout and NDI to change it.",
+    "ja": "送信中は形式が固定されます。Spout と NDI をオフにすると変更できます。",
+    "ko": "송신 중에는 형식이 잠깁니다. Spout와 NDI를 끄면 변경할 수 있습니다."
+  },
+  "发送时使用固定格式；待机降帧和本地帧率上限不会降低发送帧率。": {
+    "en": "Senders use a fixed format. Standby throttling and the local frame cap do not lower the send frame rate.",
+    "ja": "送信には固定形式を使用します。待機時の制限やローカルの上限は送信フレームレートに影響しません。",
+    "ko": "송신에는 고정 형식을 사용합니다. 대기 모드와 로컬 프레임 제한은 송신 프레임률을 낮추지 않습니다."
+  },
+  "先关闭 Spout 和 NDI，再修改输出格式。": {
+    "en": "Turn off Spout and NDI before changing the output format.",
+    "ja": "出力形式を変更する前に Spout と NDI をオフにしてください。",
+    "ko": "출력 형식을 변경하기 전에 Spout와 NDI를 끄세요."
+  },
+  "输出与预览分别计数；GPU 预览最高 30 FPS，不影响发送帧率。": {
+    "en": "Output and preview are measured separately. GPU preview is limited to 30 FPS without changing the send frame rate.",
+    "ja": "出力とプレビューは別々に計測します。GPU プレビューは最大 30 FPS で、送信フレームレートに影響しません。",
+    "ko": "출력과 미리보기는 별도로 측정합니다. GPU 미리보기는 최대 30 FPS이며 송신 프레임률에 영향을 주지 않습니다."
+  },
+  "收起窗口": {
+    "en": "Hide window",
+    "ja": "ウィンドウを隠す",
+    "ko": "창 숨기기"
+  },
+  "本地帧率上限": {
+    "en": "Local frame rate limit",
+    "ja": "ローカルのフレームレート上限",
+    "ko": "로컬 프레임률 제한"
+  },
+  "发送期间由发送帧率决定画面节奏。": {
+    "en": "While sending, the send frame rate sets the visual cadence.",
+    "ja": "送信中は送信フレームレートに合わせて描画します。",
+    "ko": "송신 중에는 송신 프레임률에 맞춰 화면을 렌더링합니다."
+  },
+  "低负载模式": {
+    "en": "Low-load mode",
+    "ja": "低負荷モード",
+    "ko": "저부하 모드"
+  },
+  "降低预览与动画开销，文字和发送格式保持不变。仅保存在本机。": {
+    "en": "Reduce preview and animation work while preserving text and the send format. Saved on this computer.",
+    "ja": "プレビューとアニメーションの負荷を軽減します。文字と送信形式は維持し、このパソコンに保存します。",
+    "ko": "미리보기와 애니메이션 부하를 줄입니다. 텍스트와 전송 형식은 유지하며 이 컴퓨터에 저장됩니다."
+  },
+  "音乐电量": {
+    "en": "Music charge",
+    "ja": "音楽チャージ",
+    "ko": "음악 충전량"
+  },
+  "输入或选择曲风": {
+    "en": "Type or choose a genre",
+    "ja": "ジャンルを入力または選択",
+    "ko": "장르 입력 또는 선택"
+  },
+  "未找到曲风": {
+    "en": "No matching genres",
+    "ja": "一致するジャンルがありません",
+    "ko": "일치하는 장르가 없습니다"
+  },
+  "软件更新": {
+    "en": "Software update",
+    "ja": "ソフトウェア更新",
+    "ko": "소프트웨어 업데이트"
+  },
+  "当前版本": {
+    "en": "Current version",
+    "ja": "現在のバージョン",
+    "ko": "현재 버전"
+  },
+  "检查更新": {
+    "en": "Check for updates",
+    "ja": "更新を確認",
+    "ko": "업데이트 확인"
+  },
+  "查看更新": {
+    "en": "View update",
+    "ja": "更新を見る",
+    "ko": "업데이트 보기"
+  },
+  "正在检查更新…": {
+    "en": "Checking for updates…",
+    "ja": "更新を確認しています…",
+    "ko": "업데이트 확인 중…"
+  },
+  "已经是最新版本": {
+    "en": "Up to date",
+    "ja": "最新バージョンです",
+    "ko": "최신 버전입니다"
+  },
+  "发现新版本": {
+    "en": "Update available",
+    "ja": "新しいバージョンがあります",
+    "ko": "새 버전이 있습니다"
+  },
+  "新版本已可下载。": {
+    "en": "A new version is ready to download.",
+    "ja": "新しいバージョンをダウンロードできます。",
+    "ko": "새 버전을 다운로드할 수 있습니다."
+  },
+  "无法检查更新，请稍后重试。": {
+    "en": "Unable to check for updates. Try again later.",
+    "ja": "更新を確認できません。しばらくしてからもう一度お試しください。",
+    "ko": "업데이트를 확인할 수 없습니다. 잠시 후 다시 시도하세요."
+  },
+  "暂不提醒": {
+    "en": "Not now",
+    "ja": "今回はしない",
+    "ko": "나중에"
+  }
+}

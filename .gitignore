@@ -1,0 +1,11 @@
+node_modules/
+dist/
+releases/
+native/build/
+native/bin/
+.qa/
+*.log
+*.partial
+.playwright-cli/
+output/
+.upstream-staging/

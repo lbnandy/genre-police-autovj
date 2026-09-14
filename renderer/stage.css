@@ -1,0 +1,78 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: none;
+  margin: 0;
+}
+body {
+  transition: none !important;
+}
+/* A black veil controls brightness without rasterizing the scaled text layer. */
+body::after { content: ""; position: fixed; inset: 0; background: #000; opacity: calc(1 - var(--output-brightness, .85)); pointer-events: none; z-index: 99998; }
+#blackout {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 99999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms linear;
+}
+body.blackout #blackout {
+  opacity: 1;
+}
+#hud {
+  pointer-events: none;
+}
+.themed-backdrop {
+  transition: none !important;
+}
+html:lang(ja) { --reading-font: "DM Sans Variable", "Noto Sans JP Variable", "Noto Sans SC Variable", "Noto Sans KR Variable", sans-serif; }
+html:lang(ko) { --reading-font: "DM Sans Variable", "Noto Sans KR Variable", "Noto Sans SC Variable", "Noto Sans JP Variable", sans-serif; }
+body[data-stage-output="true"] #app { height: var(--stage-design-height, 400px); }
+body[data-stage-output="true"][data-fullscreen-layout="stacked"] #app { --visual-center-y: var(--stage-stack-y, 100px); }
+body[data-stage-output="true"][data-fullscreen-layout="stacked"] #hud { top: var(--stage-hud-top, 200px); }
+body[data-stage-output="true"][data-stage-output-text="false"] #app { --visual-center-y: var(--stage-center-y, 200px); }
+/* Use the same overscan as the canvas. A fixed 96px inset leaves portrait and
+   very wide screens with large undecorated areas beyond the composition. */
+body[data-stage-output="true"] #app .themed-backdrop {
+  inset: auto !important;
+  left: var(--stage-visual-left) !important;
+  top: var(--stage-visual-top) !important;
+  width: var(--stage-visual-width) !important;
+  height: var(--stage-visual-height) !important;
+  --backdrop-focus-x: calc(var(--visual-center-x) - var(--stage-visual-left));
+  --backdrop-focus-y: calc(var(--visual-center-y) - var(--stage-visual-top));
+  --backdrop-secondary-x: calc(var(--visual-center-x) - var(--stage-visual-left) + 394px);
+  --backdrop-secondary-y: calc(var(--visual-center-y) - var(--stage-visual-top));
+}
+body[data-stage-output="true"][data-fullscreen-layout="stacked"] #app .themed-backdrop {
+  --backdrop-secondary-x: calc(var(--visual-center-x) - var(--stage-visual-left));
+  --backdrop-secondary-y: calc(var(--visual-center-y) - var(--stage-visual-top) + 192px);
+}
+
+/* The same DM Sans / Noto families as the desktop app. Changing the Latin
+   family leaves the CJK glyph families intact, including mixed-script titles. */
+body { --stage-latin: "DM Sans Variable"; --stage-cjk: "Noto Sans SC Variable", "Noto Sans JP Variable", "Noto Sans KR Variable"; }
+body:lang(ja) { --stage-cjk: "Noto Sans JP Variable", "Noto Sans SC Variable", "Noto Sans KR Variable"; }
+body:lang(ko) { --stage-cjk: "Noto Sans KR Variable", "Noto Sans SC Variable", "Noto Sans JP Variable"; }
+body[data-fullscreen-english="condensed"] { --stage-latin: "Barlow Condensed"; }
+body[data-stage-output="true"] :is(#title, #artist) { --reading-font: var(--stage-latin), "DM Sans Variable", var(--stage-cjk), sans-serif; }
+:is(#title, #artist):lang(zh-CN) { --stage-cjk: "Noto Sans SC Variable", "Noto Sans JP Variable", "Noto Sans KR Variable"; }
+:is(#title, #artist):lang(ja) { --stage-cjk: "Noto Sans JP Variable", "Noto Sans SC Variable", "Noto Sans KR Variable"; }
+:is(#title, #artist):lang(ko) { --stage-cjk: "Noto Sans KR Variable", "Noto Sans SC Variable", "Noto Sans JP Variable"; }
+body[data-neutral-standby="true"] #genre-face {
+  /* The upstream motion helper writes an inline filter every frame. */
+  filter: none !important; background: none; -webkit-text-fill-color: currentColor; color: #e9f5fc;
+  text-shadow: 0 0 12px #89cde933; will-change: auto;
+}
+body[data-neutral-standby="true"] #genre::before, body[data-neutral-standby="true"] #genre::after { content: none; }
+body[data-standby="true"] #title .title-scroll-text { text-shadow: none; will-change: auto; transform: none; }
+/* A DJ heading retains its genre treatment, with regional CJK fallbacks. */
+body[data-heading-kind="dj"] #genre { text-transform: none; font-family: var(--genre-font), "DM Sans Variable", var(--stage-cjk), sans-serif; }
+body[data-heading-kind="dj"] #genre:lang(zh-CN) { --stage-cjk: "Noto Sans SC Variable", "Noto Sans JP Variable", "Noto Sans KR Variable"; }
+body[data-heading-kind="dj"] #genre:lang(ja) { --stage-cjk: "Noto Sans JP Variable", "Noto Sans SC Variable", "Noto Sans KR Variable"; }
+body[data-heading-kind="dj"] #genre:lang(ko) { --stage-cjk: "Noto Sans KR Variable", "Noto Sans SC Variable", "Noto Sans JP Variable"; }
+body.render-paused *, body.render-paused *::before, body.render-paused *::after { animation-play-state: paused !important; }

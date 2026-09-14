@@ -1,0 +1,104 @@
+{
+  "name": "genre-police-autovj",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Automatic genre-aware VJ. Genre Police visuals and VJVision recognition.",
+  "main": "app/main.cjs",
+  "author": "LBN",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test tests/*.test.cjs",
+    "build:native": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-native.ps1",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win portable && node scripts/write-release-metadata.cjs",
+    "verify:upstream": "node scripts/verify-upstream.cjs",
+    "prepare:video": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/prepare-video.ps1"
+  },
+  "dependencies": {
+    "@fontsource-variable/dm-sans": "^5.3.0",
+    "@fontsource-variable/noto-sans-jp": "^5.3.0",
+    "@fontsource-variable/noto-sans-kr": "^5.3.0",
+    "@fontsource-variable/noto-sans-sc": "^5.3.0",
+    "@fontsource/audiowide": "^5.2.7",
+    "@fontsource/barlow-condensed": "^5.2.8",
+    "@fontsource/bebas-neue": "^5.3.0",
+    "@fontsource/biz-udpgothic": "^5.3.0",
+    "@fontsource/black-ops-one": "^5.2.7",
+    "@fontsource/bungee": "^5.3.0",
+    "@fontsource/chakra-petch": "^5.3.0",
+    "@fontsource/fredoka": "^5.3.0",
+    "@fontsource/gothic-a1": "^5.3.0",
+    "@fontsource/metal-mania": "^5.2.7",
+    "@fontsource/orbitron": "^5.2.7",
+    "@fontsource/oxanium": "^5.2.7",
+    "@fontsource/righteous": "^5.3.0",
+    "@fontsource/roboto-condensed": "^5.2.8",
+    "@fontsource/russo-one": "^5.2.7",
+    "@fontsource/space-grotesk": "^5.2.7",
+    "@fontsource/teko": "^5.2.7",
+    "music-metadata": "11.15.0",
+    "onnxruntime-node": "^1.29.0"
+  },
+  "devDependencies": {
+    "electron": "43.4.1",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.genrepolice.autovj",
+    "productName": "Genre Police AutoVJ",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "app/**/*",
+      "renderer/**/*",
+      "packages/**/*",
+      "vendor/genre-police/**/*",
+      "vendor/vjvision/LICENSE",
+      "vendor/vjvision/src/engine/charge_engine.h",
+      "vendor/vjvision/third_party/pffft/*",
+      "vendor/vjvision/third_party/dr_libs/*",
+      "docs/**/*",
+      "!node_modules/onnxruntime-node/bin/napi-v6/linux/**/*",
+      "!node_modules/onnxruntime-node/bin/napi-v6/darwin/**/*",
+      "!node_modules/onnxruntime-node/bin/napi-v6/win32/arm64/**/*",
+      "native/bin/*",
+      "upstream.lock.json",
+      "package.json",
+      "LICENSE",
+      "CHANGELOG.md",
+      "SECURITY.md",
+      "THIRD_PARTY_NOTICES.md",
+      "README.md",
+      "assets/**/*",
+      "vendor/spout/LICENSE"
+    ],
+    "compression": "normal",
+    "asarUnpack": [
+      "native/bin/*",
+      "vendor/genre-police/assets/models/**/*",
+      "node_modules/onnxruntime-node/bin/**/*"
+    ],
+    "extraFiles": [
+      {
+        "from": "README.md",
+        "to": "README-AutoVJ.md"
+      },
+      {
+        "from": "THIRD_PARTY_NOTICES.md",
+        "to": "THIRD_PARTY_NOTICES-AutoVJ.md"
+      },
+      {
+        "from": "assets/licenses",
+        "to": "licenses"
+      }
+    ],
+    "win": {
+      "target": "portable",
+      "icon": "assets/icon.png",
+      "artifactName": "Genre-Police-AutoVJ-${version}-portable.exe"
+    }
+  }
+}

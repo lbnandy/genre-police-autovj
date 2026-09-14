@@ -1,0 +1,4 @@
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;cursor:none}
+#output-frame{display:block;width:100%;height:100%;object-fit:contain}
+#output-blackout{position:fixed;inset:0;background:#000}
+[hidden]{display:none!important}

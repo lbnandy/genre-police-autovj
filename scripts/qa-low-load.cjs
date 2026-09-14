@@ -1,0 +1,68 @@
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+const {_electron}=require(process.env.AUTOVJ_PLAYWRIGHT||'playwright');
+const {Library,atomicJson}=require('../packages/library.cjs');
+const ROOT=path.resolve(__dirname,'..'),OUT=path.join(ROOT,'output/playwright/low-load');
+(async()=>{
+ fs.mkdirSync(OUT,{recursive:true});const data=path.join(ROOT,'.qa','low-load-'+crypto.randomUUID());
+ const lib=new Library(path.join(data,'libraries',crypto.randomUUID()));
+ lib.data.tracks=Array.from({length:10000},(_,i)=>({id:crypto.randomUUID(),title:`QA Track ${String(i).padStart(5,'0')}`,artist:i%2?'Artist A':'Artist B',status:'ready',confirmed:true,manualGenre:'techno',durationMs:240000}));lib.save();
+ atomicJson(path.join(data,'app.json'),{activeLibrary:lib.data.libraryId,language:'zh'});
+ const env={...process.env,AUTOVJ_DATA_DIR:data};delete env.ELECTRON_RUN_AS_NODE;
+ const launch=()=>_electron.launch({executablePath:path.join(ROOT,'node_modules/electron/dist/electron.exe'),args:[ROOT],env});
+ let app=await launch(),report={};const errors=[];
+ try{
+  let p=app.windows().find(w=>w.url().includes('console.html'))||await app.waitForEvent('window',{predicate:w=>w.url().includes('console.html')});
+  await p.waitForSelector('#live-toggle');p.on('pageerror',e=>errors.push(e.message));
+  const call=(name,value)=>p.evaluate(([n,v])=>window.autovj.call(n,v),[name,value]);
+  const source=app.windows().find(w=>w.url().includes('stage.html'));
+  const painting=()=>app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows().find(w=>w.webContents.getURL().includes('stage.html')).webContents.isPainting());
+  await p.waitForFunction(()=>document.querySelector('#preview').dataset.ready==='true');
+  report.previewStandard=await p.locator('#preview').evaluate(c=>[c.width,c.height]);assert.deepEqual(report.previewStandard,[1280,720]);
+  await p.locator('[data-tab=library]').click();
+  const rows=()=>p.locator('tbody tr:not(.virtual-spacer)').count();assert.ok(await rows()<60);report.renderedRows=await rows();
+  assert.equal(await p.locator('table').getAttribute('aria-rowcount'),'10001');
+  await source.waitForFunction(()=>document.body.classList.contains('render-paused'));assert.equal(await painting(),false);
+  await p.locator('#select-all').check();assert.match(await p.locator('#selection-info').textContent(),/10000/);
+  assert.equal(await p.locator('#select-all').evaluate(e=>e===document.activeElement),true);
+  await p.locator('#tracks').evaluate(el=>el.scrollTop=el.scrollHeight);
+  await p.waitForSelector(`[data-track-select="${lib.data.tracks.at(-1).id}"]`);assert.ok(await rows()<60);
+  await p.locator(`[data-track-select="${lib.data.tracks.at(-1).id}"]`).uncheck();assert.match(await p.locator('#selection-info').textContent(),/9999/);
+  await p.locator('input[type=search]').fill('Artist A');
+  await p.waitForFunction(()=>document.querySelector('table')?.getAttribute('aria-rowcount')==='5001');
+  await p.locator('#select-all').check();await p.locator('#select-all').uncheck();assert.match(await p.locator('#selection-info').textContent(),/5000/);
+  await p.locator('input[type=search]').fill('QA Track 09999');await p.waitForFunction(()=>document.querySelectorAll('tbody tr').length===1);
+  assert.equal(await p.locator('tbody b').textContent(),'QA Track 09999');
+  await p.locator('input[type=search]').fill('');await p.screenshot({path:path.join(OUT,'large-library.png'),fullPage:true});
+  // Settings updates invalidate the cache; meter-only broadcasts must not.
+  await p.evaluate(()=>{window.deltas=[];window.autovj.onState(s=>window.deltas.push({library:'library' in s,libraries:'libraries' in s}));});
+  await call('rename-library',{libraryId:lib.data.libraryId,name:'QA Renamed'});
+  const renamed=await call('state');assert.equal(renamed.libraries.find(x=>x.id===lib.data.libraryId).name,'QA Renamed');
+  await p.locator('[data-tab=settings]').click();await p.locator('#low-load').check();
+  assert.equal((await call('state')).settings.performanceMode,'low');
+  assert.equal(JSON.parse(fs.readFileSync(lib.file)).settings.performanceMode,undefined);
+  await p.screenshot({path:path.join(OUT,'settings.png'),fullPage:true});
+  await call('new-library','QA Second');assert.equal((await call('state')).settings.performanceMode,'low');
+  await call('library',lib.data.libraryId);assert.equal((await call('state')).settings.performanceMode,'low');
+  await p.locator('[data-tab=live]').click();await source.waitForFunction(()=>!document.body.classList.contains('render-paused'));
+  await p.waitForFunction(()=>document.querySelector('#preview').width===960);report.previewLow=await p.locator('#preview').evaluate(c=>[c.width,c.height]);assert.deepEqual(report.previewLow,[960,540]);
+  await p.evaluate(()=>{window.frames=0;window.addEventListener('autovj-video-frame',()=>window.frames++);window.deltas=[];});
+  await p.waitForTimeout(2500);report.previewLowFps=(await p.evaluate(()=>window.frames))/2.5;assert.ok(report.previewLowFps>9&&report.previewLowFps<=16,JSON.stringify(report));
+  // Fixed external output dimensions and DOM text survive the reduced preview.
+  await call('video-settings',{name:'QA low-load '+Date.now(),resolution:'3840x2160',fps:30});
+  await call('video-route',{route:'ndi',enabled:true});await p.waitForFunction(()=>window.autovj.call('state').then(s=>s.video.sourceFps>20));
+  await p.evaluate(()=>window.deltas=[]);await p.waitForTimeout(1500);report.deltas=await p.evaluate(()=>window.deltas);
+  assert.ok(report.deltas.length>0);assert.ok(report.deltas.every(d=>!d.library&&!d.libraries));
+  report.video=(await call('state')).video;assert.equal(report.video.width,3840);assert.equal(report.video.height,2160);assert.equal(report.video.ndiReceivers,0);assert.equal(report.video.ndiReadbackFps,0);
+  await call('output','window');const local=app.windows().find(w=>w.url().includes('output.html'));
+  await local.waitForFunction(()=>document.querySelector('#output-frame').width===3840);
+  report.output=await local.locator('#output-frame').evaluate(c=>[c.width,c.height]);assert.deepEqual(report.output,[3840,2160]);
+  await call('output','hide');await p.locator('[data-tab=library]').click();await p.waitForTimeout(150);assert.equal(await painting(),true);
+  await call('video-route',{route:'ndi',enabled:false});await source.waitForFunction(()=>document.body.classList.contains('render-paused'));assert.equal(await painting(),false);
+  await p.locator('[data-tab=live]').click();await source.waitForFunction(()=>!document.body.classList.contains('render-paused'));assert.equal(await painting(),true);
+  await call('settings',{performanceMode:'standard'});await p.waitForFunction(()=>document.querySelector('#preview').width===1280);
+  await call('settings',{performanceMode:'low'});await app.close();app=await launch();
+  p=app.windows().find(w=>w.url().includes('console.html'))||await app.waitForEvent('window',{predicate:w=>w.url().includes('console.html')});await p.waitForSelector('#live-toggle');
+  assert.equal((await call('state')).settings.performanceMode,'low');assert.equal((await call('state')).version,'0.1.0');
+  assert.deepEqual(errors,[]);report.passed=true;console.log(JSON.stringify(report));
+ }finally{fs.writeFileSync(path.join(OUT,'report.json'),JSON.stringify({...report,errors},null,2));await app.close();}
+})().catch(e=>{console.error(e);process.exitCode=1;});

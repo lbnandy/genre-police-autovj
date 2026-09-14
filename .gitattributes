@@ -1,0 +1,6 @@
+# Preserve byte-exact upstream snapshots so SHA-256 verification survives checkout.
+* text=auto eol=lf
+vendor/** -text
+*.onnx binary
+*.png binary
+*.woff2 binary

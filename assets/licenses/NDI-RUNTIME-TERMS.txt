@@ -1,0 +1,35 @@
+NDI RUNTIME END-USER TERMS
+
+These terms apply specifically to the bundled proprietary NDI runtime
+(Processing.NDI.Lib.x64.dll), its technology and protocols. They do not change
+the MIT license on Genre Police AutoVJ's own source code.
+
+Copyright (C) 2023-2026 Vizrt NDI AB. All rights reserved.
+NDI® is a registered trademark of Vizrt NDI AB. https://ndi.video/
+
+Use of the NDI runtime is subject to the NDI SDK License Agreement supplied as
+NDI-SDK-License-Agreement.pdf, including the following end-user conditions:
+
+- Do not modify the SDK, Specific SDK, NDI Products or any part of them.
+- Do not reverse engineer, disassemble, decompile, recompile, or attempt to
+  derive their source code, algorithms or protocols, whether those protocols
+  operate internally, externally or over a network, except as permitted by
+  applicable law or the NDI agreement.
+- Do not circumvent technical limitations or remove, obscure or alter any
+  proprietary notices or labels on the NDI components.
+- NDI and its licensors provide these components AS IS, WITHOUT WARRANTIES
+  of any kind, including merchantability, fitness for a particular purpose,
+  non-infringement, title or quiet enjoyment.
+- To the extent permitted by applicable law, NDI and its licensors disclaim
+  liability for damages, whether direct, indirect, incidental or consequential,
+  arising from use of the Product or Bundled Products.
+- Comply with all relevant United States export laws and regulations so that
+  the Bundled Products are not exported directly or indirectly in violation
+  of United States law.
+- Third-party developers using this Product to develop Third Party Products
+  must comply with the NDI SDK license, maintain current and complete NDI
+  compatibility, and include the conditions in section 3(d) of the NDI SDK
+  License Agreement in their own end-user license agreement.
+
+See Processing.NDI.Lib.Licenses.txt for the runtime's third-party notices.
+NDI is not the author or sponsor of Genre Police AutoVJ.

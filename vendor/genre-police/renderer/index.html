@@ -1,0 +1,1040 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self' https://itunes.apple.com https://musicbrainz.org https://ws.audioscrobbler.com; media-src 'self' blob:;" />
+    <title>Genre Police Visualizer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-family="unknown" data-playback="idle" data-layout="side" data-poster-english="condensed">
+    <main id="app" aria-live="polite">
+      <div id="themed-backdrop-previous" class="themed-backdrop" aria-hidden="true">
+        <i class="synth-starfield synth-starfield--far"></i>
+        <i class="synth-starfield synth-starfield--near"></i>
+      </div>
+      <div id="poster-backdrop" class="themed-backdrop" aria-hidden="true">
+        <i class="synth-starfield synth-starfield--far"></i>
+        <i class="synth-starfield synth-starfield--near"></i>
+      </div>
+      <canvas id="visualizer"></canvas>
+
+      <div id="core-art" aria-hidden="true">
+        <img id="artwork" alt="" />
+        <div id="monogram">GP</div>
+      </div>
+      <canvas id="riff-strings" aria-hidden="true"></canvas>
+
+      <div id="tanoc-face" aria-hidden="true">
+        <svg viewBox="0 0 100 100" role="presentation">
+          <g class="tanoc-ring tanoc-ring-normal" transform="scale(1.285347)">
+            <path fill-rule="evenodd" d="M75.6 36.7c-.6 0-1.1.2-1.5.6s-.6.9-.6 1.5c0 9.5-3.9 18.2-10.1 24.4-6.3 6.3-14.9 10.1-24.4 10.1s-18.2-3.9-24.4-10.1C8.2 57.1 4.4 48.5 4.4 38.9c0-9.5 3.9-18.2 10.1-24.4C20.7 8.2 29.4 4.4 38.9 4.4c.6 0 1.1-.2 1.5-.6s.6-.9.6-1.5c0-1.2-1-2.2-2.2-2.2C17.4 0 0 17.4 0 38.9s17.4 38.9 38.9 38.9 38.9-17.4 38.9-38.9c0-1.2-1-2.2-2.2-2.2Z" />
+          </g>
+          <g class="tanoc-ring tanoc-ring-hard" transform="matrix(.646287 0 0 .646287 -44.5098 0)">
+            <path d="M222.89 72.25 222.66 77.62 221.66 75.91 220.78 77.85 220 73.71 219.41 77.71 218.36 74.46 218 76.38 217.12 73.1 216.39 77.62 215 72.07 215 77.62a68.3 68.3 0 1 1-69.23-69l6.89.05-3.3-1.27 3.79-.49-2.87-1.24 2.46-.49-2.67-.76 3.72-.8L150 2.68l2.5-.73-2.94-.5L152.36.37a39.76 39.76 0 0 0-6.6-.36A76.89 76.89 0 1 0 223.6 77.62a24.48 24.48 0 0 0-.71-5.37Z" />
+          </g>
+          <g class="tanoc-normal-face">
+            <g class="tanoc-eyes">
+              <g transform="scale(1.285347)">
+                <path fill-rule="evenodd" d="M57.1 31.4c2.9 0 5.3-2.4 5.3-5.3 0-.2 0-.3-.1-.5-.2-2.5-2.2-4.5-4.7-4.7-.2 0-.3-.1-.5-.1-2.9 0-5.3 2.4-5.3 5.3s2.4 5.3 5.3 5.3Zm-1.2-9.5c1.3 0 2.4 1.1 2.4 2.4 0 1.4-1.1 2.4-2.4 2.4s-2.5-1.1-2.5-2.4c.1-1.3 1.2-2.4 2.5-2.4Z" />
+                <path fill-rule="evenodd" d="M15.4 26.1c0 2.9 2.4 5.3 5.3 5.3s5.3-2.4 5.3-5.3-2.4-5.3-5.3-5.3-5.3 2.4-5.3 5.3Zm6.6-1.8c0 1.4-1.1 2.4-2.4 2.4-1.4 0-2.5-1.1-2.5-2.4s1.1-2.4 2.5-2.4c1.3 0 2.4 1.1 2.4 2.4Z" />
+              </g>
+            </g>
+            <g transform="scale(1.285347)">
+              <path class="tanoc-mouth tanoc-normal-mouth" fill-rule="evenodd" d="M30.5 27.1 28.6 61.3l3.1.1s0-.8.2-2.7h14c.1 2 .2 2.7.2 2.7l3.1-.1-1.9-34.2c0-.6-.6-1.2-1.2-1.2H31.7c-.7.1-1.2.6-1.2 1.2Zm2.4.8H45c.1 1.6.4 19.2.9 28.3H32c.4-9.1.8-26.7.9-28.3Z" />
+            </g>
+          </g>
+          <g class="tanoc-hard-face">
+            <g class="tanoc-eyes tanoc-hard-eyes">
+              <g transform="matrix(.646287 0 0 .646287 -44.5098 0)">
+                <path d="M189.5 43.81 172.14 51.51v0a10.47 10.47 0 0 0 20.93 0c0-.32-.1-.65-.1-1a10.52 10.52 0 0 0-3.47-6.7Z" />
+                <path d="M103.29 44.32a10.42 10.42 0 1 0 17.88 7.93Z" />
+              </g>
+            </g>
+            <g class="tanoc-mouth tanoc-hard-mouth" transform="matrix(.646287 0 0 .646287 -44.5098 0)">
+              <polygon points="134.53 51.23 129.66 51.23 124.52 121.28 131.25 121.28 134.53 51.23" />
+              <polygon points="159.17 51.23 164.04 51.23 169.17 121.28 162.45 121.28 159.17 51.23" />
+              <rect x="129.65" y="51.23" width="33.62" height="3.59" />
+              <rect x="131.57" y="110.96" width="30.79" height="5.24" />
+              <rect x="139.34" y="53.59" width="4.73" height="59.8" />
+              <rect x="149.43" y="53.59" width="4.72" height="59.8" />
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div id="kawaii-face" aria-hidden="true">
+        <svg viewBox="0 0 100 100" role="presentation">
+          <g class="kawaii-normal-brows kawaii-fine-stroke">
+            <path d="M17 29.5 C25 25.5 34 25.5 42 29.5" />
+            <path d="M58 29.5 C66 25.5 75 25.5 83 29.5" />
+          </g>
+          <g class="kawaii-normal-eyes">
+            <rect x="17" y="41" width="25" height="8" transform="rotate(-7 29.5 45)" />
+            <rect x="58" y="41" width="25" height="8" transform="rotate(7 70.5 45)" />
+          </g>
+          <g class="kawaii-excited-brows kawaii-excited-brow-stroke">
+            <path d="M17 21 L42 32" />
+            <path d="M83 21 L58 32" />
+          </g>
+          <g class="kawaii-excited-eyes kawaii-excited-eye-stroke">
+            <path d="M17 37 L42 43 L42 47 L17 53 L17 48 L34.5 45 L17 42 Z" />
+            <path d="M83 37 L58 43 L58 47 L83 53 L83 48 L65.5 45 L83 42 Z" />
+          </g>
+          <g class="kawaii-normal-mouth kawaii-face-stroke kawaii-mouth-line">
+            <path d="M39 60 C38 67 43 71 49 68 C49.5 67.5 50 67 50 66 C50 67 50.5 67.5 51 68 C57 71 62 67 61 60" />
+          </g>
+          <circle class="kawaii-beauty-mark" cx="78" cy="57" r="1.55" />
+          <g class="kawaii-open-mouth">
+            <path class="kawaii-mouth-cavity" d="M37.4 61.2 C42.8 61.4 47.4 54.8 50 54.8 C52.6 54.8 57.2 61.4 62.6 61.2 A13.25 12.25 0 1 1 37.4 61.2 Z" />
+            <path class="kawaii-open-omega" d="M33 57 C33.8 59.1 35 60.6 37.4 61.2 C42.8 61.4 47.4 54.8 50 54.8 C52.6 54.8 57.2 61.4 62.6 61.2 C65 60.6 66.2 59.1 67 57" />
+          </g>
+        </svg>
+      </div>
+
+      <section id="hud">
+        <div class="jurisdiction">
+          <span class="unit-mark"></span>
+          <span>GENRE POLICE</span>
+          <span id="case-id">STANDBY</span>
+        </div>
+        <div id="parent-genre"></div>
+        <h1 id="genre" data-text="NO SIGNAL" role="button" tabindex="-1" aria-disabled="true" aria-haspopup="dialog"><span id="genre-face">NO SIGNAL</span></h1>
+        <div id="genre-note" hidden></div>
+        <div class="track-details">
+          <div class="track-rule">
+            <span class="track-rule-fill"></span>
+          </div>
+          <div id="title"><span class="title-scroll-text">WAITING FOR MUSIC</span></div>
+          <div id="artist">Play something to begin classification</div>
+          <div id="synced-lyrics" hidden data-sweep="on" aria-label="同步歌词" data-i18n-aria="lyrics.synced">
+            <div id="lyric-current">
+              <span id="lyric-current-base"></span>
+              <span id="lyric-current-fill" aria-hidden="true"><span id="lyric-current-fill-content"></span></span>
+            </div>
+            <div id="lyric-translation" lang="zh-CN" hidden>
+              <span id="lyric-translation-base"></span>
+              <span id="lyric-translation-fill" aria-hidden="true"><span id="lyric-translation-fill-content"></span></span>
+            </div>
+          </div>
+        </div>
+        <div class="telemetry" hidden aria-hidden="true">
+          <span id="play-state" class="signal-dot">SCANNING</span>
+          <span id="genre-source">LOCAL</span>
+        </div>
+      </section>
+
+      <section id="genre-quick-panel" role="dialog" aria-labelledby="genre-quick-title" hidden>
+        <header class="genre-quick-head">
+          <div>
+            <strong id="genre-quick-title" data-i18n="genreQuick.title">选择当前视觉</strong>
+            <span id="genre-quick-track"></span>
+          </div>
+          <button id="genre-quick-close" class="ui-icon-button" type="button" title="关闭" aria-label="关闭" data-i18n-title="actions.close" data-i18n-aria="actions.close">
+            <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+              <path class="icon-fill" d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z" />
+            </svg>
+          </button>
+        </header>
+        <div id="genre-quick-candidates" role="listbox" aria-label="候选曲风" data-i18n-aria="genreQuick.candidates"></div>
+        <small id="genre-quick-state" role="status" aria-live="polite"></small>
+        <footer class="genre-quick-actions">
+          <button id="genre-quick-more" type="button" data-i18n="genreQuick.more">更多曲风</button>
+          <button id="genre-quick-unlock" type="button" data-i18n="genreQuick.unlock" hidden>解除锁定</button>
+          <button id="genre-quick-use" type="button" data-i18n="genreQuick.useOnce">仅本次使用</button>
+          <button id="genre-quick-remember" type="button" data-i18n="genreQuick.remember">记住这首歌</button>
+        </footer>
+      </section>
+
+      <div id="netease-smtc-toast" role="status" aria-live="polite" hidden>
+        <div class="netease-smtc-toast-copy">
+          <strong data-i18n="hud.neteaseSmtcNoticeTitle">网易云音乐无法识别当前播放内容</strong>
+          <span data-i18n="hud.neteaseSmtcHint">请打开网易云音乐「设置 → 系统」，勾选「开启SMTC」。</span>
+        </div>
+        <button id="netease-smtc-toast-close" type="button" title="关闭" aria-label="关闭" data-i18n-title="actions.close" data-i18n-aria="actions.close">
+          <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+            <path class="icon-fill" d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z" />
+          </svg>
+        </button>
+      </div>
+
+      <div id="recording-toast" role="status" aria-live="polite" hidden>
+        <span class="recording-toast-dot" aria-hidden="true"></span>
+        <span id="recording-toast-text"></span>
+        <button id="recording-toast-close" type="button" title="关闭" aria-label="关闭" data-i18n-title="actions.close" data-i18n-aria="actions.close">
+          <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+            <path class="icon-fill" d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z" />
+          </svg>
+        </button>
+      </div>
+
+      <div id="local-ai-runtime-toast" role="status" aria-live="polite" hidden>
+        <span class="local-ai-runtime-toast-dot" aria-hidden="true"></span>
+        <div class="update-toast-copy">
+          <strong id="local-ai-failure-title">本地 AI 暂不可用</strong>
+          <span id="local-ai-failure-message">其他功能不受影响。请安装或修复 Microsoft Visual C++ x64 运行库，然后重启软件。</span>
+        </div>
+        <div class="update-toast-actions">
+          <button id="local-ai-runtime-dismiss" type="button" data-i18n="actions.close">关闭</button>
+          <button id="local-ai-runtime-action" type="button">安装运行库</button>
+        </div>
+      </div>
+
+      <div id="update-toast" role="status" aria-live="polite" hidden>
+        <span class="update-toast-dot" aria-hidden="true"></span>
+        <div class="update-toast-copy">
+          <strong data-i18n="updates.availableTitle">发现新版本</strong>
+          <span id="update-toast-message"></span>
+        </div>
+        <div class="update-toast-actions">
+          <button id="update-toast-dismiss" type="button" data-i18n="actions.notNow">暂不提醒</button>
+          <button id="update-toast-view" type="button" data-i18n="actions.viewUpdate">查看更新</button>
+        </div>
+      </div>
+
+      <output id="fps-counter" aria-label="帧率" data-i18n-aria="settings.showFps" hidden>
+        <span id="fps-counter-value">--</span> FPS
+      </output>
+
+      <div id="transport" aria-label="音乐控制" data-i18n-aria="controls.music">
+        <button id="previous-track" class="ui-icon-button" title="上一首" aria-label="上一首" data-i18n-title="controls.previous" data-i18n-aria="controls.previous">
+          <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+            <path class="icon-fill" d="M220-280v-400q0-17 11.5-28.5T260-720q17 0 28.5 11.5T300-680v400q0 17-11.5 28.5T260-240q-17 0-28.5-11.5T220-280Zm458-1L430-447q-9-6-13.5-14.5T412-480q0-10 4.5-18.5T430-513l248-166q5-4 11-5t11-1q16 0 28 11t12 29v330q0 18-12 29t-28 11q-5 0-11-1t-11-5Zm-18-109v-180l-136 90 136 90Z" />
+          </svg>
+        </button>
+        <button id="play-pause" class="ui-icon-button primary-control" title="播放或暂停" aria-label="播放或暂停">
+          <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+            <path class="play-shape icon-fill" d="M320-273v-414q0-17 12-28.5t28-11.5q5 0 10.5 1.5T381-721l326 207q9 6 13.5 15t4.5 19q0 10-4.5 19T707-446L381-239q-5 3-10.5 4.5T360-233q-16 0-28-11.5T320-273Zm80-73 210-134-210-134v268Z" />
+            <path class="pause-shape icon-fill" d="M600-200q-33 0-56.5-23.5T520-280v-400q0-33 23.5-56.5T600-760h80q33 0 56.5 23.5T760-680v400q0 33-23.5 56.5T680-200h-80Zm-320 0q-33 0-56.5-23.5T200-280v-400q0-33 23.5-56.5T280-760h80q33 0 56.5 23.5T440-680v400q0 33-23.5 56.5T360-200h-80Zm320-80h80v-400h-80v400Zm-320 0h80v-400h-80v400Z" />
+          </svg>
+        </button>
+        <button id="next-track" class="ui-icon-button" title="下一首" aria-label="下一首" data-i18n-title="controls.next" data-i18n-aria="controls.next">
+          <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+            <path class="icon-fill" d="M660-280v-400q0-17 11.5-28.5T700-720q17 0 28.5 11.5T740-680v400q0 17-11.5 28.5T700-240q-17 0-28.5-11.5T660-280Zm-440-35v-330q0-18 12-29t28-11q5 0 11 1t11 5l248 166q9 6 13.5 14.5T548-480q0 10-4.5 18.5T530-447L282-281q-5 4-11 5t-11 1q-16 0-28-11t-12-29Zm80-75 136-90-136-90v180Z" />
+          </svg>
+        </button>
+      </div>
+
+      <div id="controls" aria-label="窗口控制" data-i18n-aria="controls.window">
+        <button id="snapshot-quick-button" class="ui-icon-button" type="button" title="保存当前画面" aria-label="保存当前画面" data-i18n-title="actions.saveSnapshot" data-i18n-aria="actions.saveSnapshot" hidden>
+          <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+            <path class="icon-fill" d="M600-320h160v-160h-60v100H600v60ZM200-560h60v-100h100v-60H200v160Zm120 440v-80H160q-33 0-56.5-23.5T80-280v-480q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v480q0 33-23.5 56.5T800-200H640v80H320ZM160-280h640v-480H160v480Zm0 0v-480 480Z" />
+          </svg>
+        </button>
+        <button id="recording-quick-button" class="ui-icon-button recording-control-button" type="button" title="开始录制" aria-label="开始录制" data-i18n-title="actions.startRecording" data-i18n-aria="actions.startRecording" hidden>
+          <svg class="control-icon recording-control-icon" viewBox="0 -960 960 960" aria-hidden="true">
+            <path class="recording-icon-record icon-fill" d="M158-242q-37-50-57.5-110.5T80-480q0-67 20-127t57-110l58 57q-26 38-40.5 83.5T160-480q0 51 14.5 97t40.5 84l-57 57ZM480-80q-67 0-127-20t-110-57l57-58q38 26 83.5 40.5T480-160q51 0 96.5-14.5T660-215l57 58q-50 37-110 57T480-80Zm322-162-57-57q26-38 40.5-84t14.5-97q0-51-14.5-96.5T745-660l58-57q37 50 57 110t20 127q0 67-20.5 127.5T802-242ZM299-745l-57-57q50-37 110.5-57.5T480-880q68 0 128 20.5T718-802l-57 57q-38-26-84-40.5T480-800q-51 0-97 14.5T299-745Zm181 465q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280Z" />
+            <rect class="recording-icon-stop icon-fill" x="280" y="-680" width="400" height="400" rx="60" />
+          </svg>
+        </button>
+        <button id="layout-toggle-button" class="ui-icon-button" title="切换到海报" aria-label="切换到海报">
+          <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+            <path class="layout-icon-poster icon-fill" d="M720-80H240q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h480q33 0 56.5 23.5T800-800v640q0 33-23.5 56.5T720-80Zm-480-80h480v-640H240v640Zm0 0v-640 640Z" />
+            <path class="layout-icon-capsule icon-fill" d="M320-200q-117 0-198.5-81.5T40-480q0-117 81.5-198.5T320-760h320q117 0 198.5 81.5T920-480q0 117-81.5 198.5T640-200H320Zm0-80h320q83 0 141.5-58.5T840-480q0-83-58.5-141.5T640-680H320q-83 0-141.5 58.5T120-480q0 83 58.5 141.5T320-280Z" />
+          </svg>
+        </button>
+        <button id="fullscreen-quick-button" class="ui-icon-button" type="button" title="全屏模式" aria-label="全屏模式" data-i18n-title="controls.enterFullscreen" data-i18n-aria="controls.enterFullscreen">
+          <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+            <path class="icon-fill" d="M120-120v-200h80v120h120v80H120Zm520 0v-80h120v-120h80v200H640ZM120-640v-200h200v80H200v120h-80Zm640 0v-120H640v-80h200v200h-80Z" />
+          </svg>
+        </button>
+        <button id="settings-button" class="ui-icon-button" title="设置" aria-label="设置" aria-controls="settings" aria-expanded="false" data-i18n-title="controls.settings" data-i18n-aria="controls.settings">
+          <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+            <path class="icon-fill" d="M433-80q-27 0-46.5-18T363-142l-9-66q-13-5-24.5-12T307-235l-62 26q-25 11-50 2t-39-32l-47-82q-14-23-8-49t27-43l53-40q-1-7-1-13.5v-27q0-6.5 1-13.5l-53-40q-21-17-27-43t8-49l47-82q14-23 39-32t50 2l62 26q11-8 23-15t24-12l9-66q4-26 23.5-44t46.5-18h94q27 0 46.5 18t23.5 44l9 66q13 5 24.5 12t22.5 15l62-26q25-11 50-2t39 32l47 82q14 23 8 49t-27 43l-53 40q1 7 1 13.5v27q0 6.5-2 13.5l53 40q21 17 27 43t-8 49l-48 82q-14 23-39 32t-50-2l-60-26q-11 8-23 15t-24 12l-9 66q-4 26-23.5 44T527-80h-94Zm7-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Z" />
+          </svg>
+        </button>
+        <button id="close-button" class="ui-icon-button" title="退出" aria-label="退出" data-i18n-title="controls.quit" data-i18n-aria="controls.quit">
+          <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+            <path class="icon-fill" d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z" />
+          </svg>
+        </button>
+      </div>
+
+      <aside id="settings" hidden>
+        <div class="settings-head">
+          <button id="settings-close" class="ui-icon-button" aria-label="关闭设置" data-i18n-aria="controls.closeSettings">
+            <svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true">
+              <path class="icon-stroke window-stroke" d="m12.6 4.9-5.1 5.1 5.1 5.1" />
+            </svg>
+          </button>
+          <strong class="settings-title" data-i18n="settings.title">GENRE POLICE SETTINGS</strong>
+        </div>
+        <nav class="settings-tabs" role="tablist" aria-label="设置分类" data-i18n-aria="settings.categories">
+          <button id="settings-tab-appearance" class="settings-tab" type="button" role="tab" aria-selected="true" aria-controls="settings-pane-appearance" data-settings-pane="appearance" data-i18n="settings.tabAppearance">界面</button>
+          <button id="settings-tab-playback" class="settings-tab" type="button" role="tab" aria-selected="false" aria-controls="settings-pane-playback" tabindex="-1" data-settings-pane="playback" data-i18n="settings.tabPlayback">播放</button>
+          <button id="settings-tab-lyrics" class="settings-tab" type="button" role="tab" aria-selected="false" aria-controls="settings-pane-lyrics" tabindex="-1" data-settings-pane="lyrics" data-i18n="settings.tabLyrics">歌词</button>
+          <button id="settings-tab-genre" class="settings-tab" type="button" role="tab" aria-selected="false" aria-controls="settings-pane-genre" tabindex="-1" data-settings-pane="genre" data-i18n="settings.tabGenre">曲风</button>
+          <button id="settings-tab-app" class="settings-tab" type="button" role="tab" aria-selected="false" aria-controls="settings-pane-app" tabindex="-1" data-settings-pane="app" data-i18n="settings.tabApp">应用</button>
+        </nav>
+        <div class="settings-body">
+        <div class="settings-scroll">
+        <section id="settings-pane-appearance" class="settings-pane" role="tabpanel" aria-labelledby="settings-tab-appearance" data-settings-pane="appearance">
+        <div class="settings-group-title" data-i18n="settings.groupAppearance">界面</div>
+        <div id="appearance-general-section" class="settings-section">
+        <div class="settings-section-title" role="heading" aria-level="3" data-i18n="settings.sectionGeneral">基本</div>
+        <div class="settings-scale-row settings-language-row">
+          <span id="language-label" class="settings-label" data-i18n="settings.language">界面语言</span>
+          <div class="ui-scale-picker language-picker">
+            <button id="language-button" type="button" aria-labelledby="language-label language-value" aria-haspopup="listbox" aria-expanded="false">
+              <span id="language-value">简体中文</span>
+              <svg class="scale-chevron" viewBox="0 0 12 12" aria-hidden="true">
+                <path d="m3 4.5 3 3 3-3" />
+              </svg>
+            </button>
+            <div id="language-menu" role="listbox" aria-labelledby="language-label" hidden>
+              <button class="language-option" type="button" role="option" data-language="zh-CN">简体中文</button>
+              <button class="language-option" type="button" role="option" data-language="en">English</button>
+              <button class="language-option" type="button" role="option" data-language="ja">日本語</button>
+              <button class="language-option" type="button" role="option" data-language="ko">한국어</button>
+            </div>
+          </div>
+        </div>
+        <div id="ui-scale-setting" class="settings-scale-row">
+          <span id="ui-scale-label" class="settings-label" data-i18n="settings.scale">界面大小</span>
+          <div class="ui-scale-picker">
+            <button id="ui-scale-button" type="button" aria-labelledby="ui-scale-label ui-scale-value" aria-haspopup="listbox" aria-expanded="false">
+              <span id="ui-scale-value">100%</span>
+              <svg class="scale-chevron" viewBox="0 0 12 12" aria-hidden="true">
+                <path d="m3 4.5 3 3 3-3" />
+              </svg>
+            </button>
+            <div id="ui-scale-menu" role="listbox" aria-labelledby="ui-scale-label" hidden>
+              <button class="ui-scale-option" type="button" role="option" data-scale="0.6">50%</button>
+              <button class="ui-scale-option" type="button" role="option" data-scale="0.72">60%</button>
+              <button class="ui-scale-option" type="button" role="option" data-scale="0.84">70%</button>
+              <button class="ui-scale-option" type="button" role="option" data-scale="0.96">80%</button>
+              <button class="ui-scale-option" type="button" role="option" data-scale="1.08">90%</button>
+              <button class="ui-scale-option" type="button" role="option" data-scale="1.2">100%</button>
+              <button class="ui-scale-option" type="button" role="option" data-scale="1.32">110%</button>
+              <button class="ui-scale-option" type="button" role="option" data-scale="1.44">120%</button>
+              <button class="ui-scale-option" type="button" role="option" data-scale="1.56">130%</button>
+              <button class="ui-scale-option" type="button" role="option" data-scale="1.68">140%</button>
+              <button class="ui-scale-option" type="button" role="option" data-scale="1.8">150%</button>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div id="appearance-layout-section" class="settings-section">
+        <div class="settings-section-title" role="heading" aria-level="3" data-i18n="settings.sectionLayout">布局</div>
+        <div id="layout-mode-setting" class="settings-layout-row">
+          <div class="settings-toggle-copy">
+            <span id="layout-mode-label" class="settings-label" data-i18n="settings.layout">界面布局</span>
+            <small data-i18n="settings.layoutHelp">胶囊适合桌面常驻；海报适合竖向展示。</small>
+          </div>
+          <div id="layout-mode-group" class="layout-segment" role="radiogroup" aria-labelledby="layout-mode-label">
+            <button class="layout-mode-option" type="button" role="radio" aria-checked="true" data-layout-mode="side" data-i18n="settings.layoutSide">胶囊</button>
+            <button class="layout-mode-option" type="button" role="radio" aria-checked="false" data-layout-mode="poster" data-i18n="settings.layoutPoster">海报</button>
+          </div>
+        </div>
+        <div id="capsule-background-setting" class="settings-toggle-row">
+          <div class="settings-toggle-copy">
+            <span id="capsule-themed-background-label" class="settings-label" data-i18n="settings.capsuleThemedBackground">胶囊曲风背景</span>
+            <small data-i18n="settings.capsuleThemedBackgroundHelp">显示随曲风变化的动态背景。</small>
+          </div>
+          <button id="capsule-themed-background-toggle" class="settings-switch" type="button" role="switch" aria-checked="true" aria-labelledby="capsule-themed-background-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div id="poster-background-setting" class="settings-toggle-row" hidden>
+          <div class="settings-toggle-copy">
+            <span id="poster-themed-background-label" class="settings-label" data-i18n="settings.posterThemedBackground">海报曲风背景</span>
+            <small data-i18n="settings.posterThemedBackgroundHelp">显示随曲风变化的动态海报背景。</small>
+          </div>
+          <button id="poster-themed-background-toggle" class="settings-switch" type="button" role="switch" aria-checked="true" aria-labelledby="poster-themed-background-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div id="poster-english-font-setting" class="settings-toggle-row settings-poster-font-row" hidden>
+          <div class="settings-toggle-copy">
+            <span id="poster-english-font-label" class="settings-label" data-i18n="settings.posterCondensedEnglish">海报英文窄体</span>
+            <small data-i18n="settings.posterCondensedEnglishHelp">使用更紧凑的英文字体；中日韩字体不变。</small>
+          </div>
+          <button id="poster-english-font-toggle" class="settings-switch" type="button" role="switch" aria-checked="true" aria-labelledby="poster-english-font-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div id="capsule-english-font-setting" class="settings-toggle-row">
+          <div class="settings-toggle-copy">
+            <span id="capsule-english-font-label" class="settings-label" data-i18n="settings.capsuleCondensedEnglish">胶囊英文窄体</span>
+            <small data-i18n="settings.capsuleCondensedEnglishHelp">使用更紧凑的英文字体；中日韩字体不变。</small>
+          </div>
+          <button id="capsule-english-font-toggle" class="settings-switch" type="button" role="switch" aria-checked="false" aria-labelledby="capsule-english-font-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        </div>
+        <div id="appearance-motion-section" class="settings-section">
+        <div class="settings-section-title" role="heading" aria-level="3" data-i18n="settings.sectionMotion">动态</div>
+        <div class="settings-layout-row">
+          <div class="settings-toggle-copy">
+            <span id="motion-mode-label" class="settings-label" data-i18n="settings.motionMode">动态效果</span>
+            <small data-i18n="settings.motionModeHelp">柔和会减弱闪光、故障和冲击；标准保留完整效果。</small>
+          </div>
+          <div id="motion-mode-group" class="layout-segment settings-two-segment" role="radiogroup" aria-labelledby="motion-mode-label">
+            <button class="motion-mode-option" type="button" role="radio" aria-checked="false" data-motion-mode="gentle" data-i18n="settings.motionGentle">柔和</button>
+            <button class="motion-mode-option" type="button" role="radio" aria-checked="true" data-motion-mode="standard" data-i18n="settings.motionStandard">标准</button>
+          </div>
+        </div>
+        </div>
+        <div id="appearance-controls-section" class="settings-section">
+        <div class="settings-section-title" role="heading" aria-level="3" data-i18n="settings.sectionQuickControls">快捷按钮</div>
+        <div id="snapshot-quick-button-setting" class="settings-toggle-row">
+          <div class="settings-toggle-copy">
+            <span id="snapshot-quick-button-label" class="settings-label" data-i18n="settings.snapshotQuickButton">显示保存画面按钮</span>
+            <small data-i18n="settings.snapshotQuickButtonHelp">在普通界面和全屏快捷栏中显示。</small>
+          </div>
+          <button id="snapshot-quick-button-toggle" class="settings-switch" type="button" role="switch" aria-checked="true" aria-labelledby="snapshot-quick-button-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div id="recording-quick-button-setting" class="settings-toggle-row">
+          <div class="settings-toggle-copy">
+            <span id="recording-quick-button-label" class="settings-label" data-i18n="settings.recordingQuickButton">显示录制按钮</span>
+            <small data-i18n="settings.recordingQuickButtonHelp">在普通界面和全屏快捷栏中显示。</small>
+          </div>
+          <button id="recording-quick-button-toggle" class="settings-switch" type="button" role="switch" aria-checked="true" aria-labelledby="recording-quick-button-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        </div>
+        <div id="appearance-fullscreen-section" class="settings-section">
+        <div class="settings-section-title" role="heading" aria-level="3" data-i18n="settings.sectionFullscreen">全屏</div>
+        <div id="stage-output-text-setting" class="settings-toggle-row" hidden>
+          <div class="settings-toggle-copy">
+            <span id="stage-output-text-label" class="settings-label" data-i18n="settings.stageOutputText">全屏显示文字</span>
+            <small data-i18n="settings.stageOutputTextHelp">显示曲风、曲名、艺术家、歌词和播放进度。</small>
+          </div>
+          <button id="stage-output-text-toggle" class="settings-switch" type="button" role="switch" aria-checked="true" aria-labelledby="stage-output-text-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div id="fullscreen-english-font-setting" class="settings-toggle-row" hidden>
+          <div class="settings-toggle-copy">
+            <span id="fullscreen-english-font-label" class="settings-label" data-i18n="settings.fullscreenCondensedEnglish">全屏英文窄体</span>
+            <small data-i18n="settings.fullscreenCondensedEnglishHelp">使用更紧凑的英文字体；中日韩字体不变。</small>
+          </div>
+          <button id="fullscreen-english-font-toggle" class="settings-switch" type="button" role="switch" aria-checked="false" aria-labelledby="fullscreen-english-font-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div id="stage-output-entry-setting" class="recording-settings-row stage-output-settings-row">
+          <div class="settings-toggle-copy">
+            <span class="settings-label" data-i18n="settings.stageOutput">全屏模式</span>
+            <small data-i18n="settings.stageOutputHelp">将当前画面铺满屏幕；按 Esc 退出。</small>
+          </div>
+          <button id="stage-output-start-stop" class="settings-action-button" type="button" data-i18n="actions.startStageOutput">全屏模式</button>
+          <small id="stage-output-state" role="status" aria-live="polite"></small>
+        </div>
+        </div>
+        </section>
+        <section id="settings-pane-lyrics" class="settings-pane" role="tabpanel" aria-labelledby="settings-tab-lyrics" data-settings-pane="lyrics" hidden>
+        <div class="settings-group-title" data-i18n="settings.groupLyrics">歌词</div>
+        <div class="settings-toggle-row">
+          <div class="settings-toggle-copy">
+            <span id="lyrics-enabled-label" class="settings-label" data-i18n="settings.lyricsEnabled">显示同步歌词</span>
+            <small data-i18n="settings.lyricsEnabledHelp">显示与播放进度同步的歌词，并在需要时在线查询。</small>
+          </div>
+          <button id="lyrics-enabled-toggle" class="settings-switch" type="button" role="switch" aria-checked="true" aria-labelledby="lyrics-enabled-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div id="lyric-translation-setting" class="settings-toggle-row settings-dependent-row">
+          <div class="settings-toggle-copy">
+            <span id="lyric-translation-label" class="settings-label" data-i18n="settings.lyricTranslation">显示歌词翻译</span>
+            <small data-i18n="settings.lyricTranslationHelp">有中文翻译时显示在原文下方。</small>
+          </div>
+          <button id="lyric-translation-toggle" class="settings-switch" type="button" role="switch" aria-checked="true" aria-labelledby="lyric-translation-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div id="lyric-sweep-setting" class="settings-toggle-row settings-dependent-row">
+          <div class="settings-toggle-copy">
+            <span id="lyric-sweep-label" class="settings-label" data-i18n="settings.lyricSweep">逐字高亮</span>
+            <small data-i18n="settings.lyricSweepHelp">随播放进度逐词或逐字高亮。</small>
+          </div>
+          <button id="lyric-sweep-toggle" class="settings-switch" type="button" role="switch" aria-checked="true" aria-labelledby="lyric-sweep-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div id="lyric-delay-setting" class="settings-lyric-delay-row settings-dependent-row">
+          <div class="settings-lyric-delay-head">
+            <div class="settings-toggle-copy">
+              <label id="lyric-delay-label" class="settings-label" for="lyric-delay" data-i18n="settings.lyricDelay">歌词延迟</label>
+              <small data-i18n="settings.lyricDelayHelp">正值延后，负值提前。</small>
+            </div>
+            <div class="lyric-delay-value-group">
+              <output id="lyric-delay-value" for="lyric-delay">0 ms</output>
+              <button id="lyric-delay-reset" type="button" data-i18n="actions.reset">归零</button>
+            </div>
+          </div>
+          <div class="lyric-delay-slider-wrap">
+            <input id="lyric-delay" type="range" min="-2000" max="2000" step="50" value="0" aria-labelledby="lyric-delay-label lyric-delay-value" />
+          </div>
+        </div>
+        </section>
+        <section id="settings-pane-playback" class="settings-pane" role="tabpanel" aria-labelledby="settings-tab-playback" data-settings-pane="playback" hidden>
+        <div class="settings-group-title" data-i18n="settings.groupPlayback">播放</div>
+        <div class="settings-section">
+        <div class="settings-section-title" role="heading" aria-level="3" data-i18n="settings.sectionAudio">音频</div>
+        <div class="audio-source-settings">
+          <span id="audio-source-label" class="settings-label" data-i18n="settings.audioSource">音频来源</span>
+          <div class="audio-source-picker">
+            <button id="audio-source-button" type="button" aria-labelledby="audio-source-label audio-source-value" aria-describedby="audio-source-help" aria-haspopup="listbox" aria-expanded="false">
+              <span id="audio-source-value">系统声音（推荐）</span>
+              <svg class="scale-chevron" viewBox="0 0 12 12" aria-hidden="true">
+                <path d="m3 4.5 3 3 3-3" />
+              </svg>
+            </button>
+            <div id="audio-source-menu" role="listbox" aria-labelledby="audio-source-label" hidden></div>
+          </div>
+          <small id="audio-source-help" data-i18n="settings.audioSourceHelp">默认使用 Windows 系统声音；需要从音频输入或麦克风取声时再切换。</small>
+        </div>
+        <div class="settings-layout-row settings-response-row">
+          <div class="settings-toggle-copy">
+            <span id="visual-response-label" class="settings-label" data-i18n="settings.visualResponse">画面响应</span>
+            <small data-i18n="settings.visualResponseHelp">控制画面对音乐起伏的反应强度。</small>
+          </div>
+          <div id="visual-response-group" class="layout-segment settings-three-segment" role="radiogroup" aria-labelledby="visual-response-label">
+            <button class="visual-response-option" type="button" role="radio" aria-checked="false" data-visual-response="gentle" data-i18n="settings.responseGentle">柔和</button>
+            <button class="visual-response-option" type="button" role="radio" aria-checked="true" data-visual-response="standard" data-i18n="settings.responseStandard">标准</button>
+            <button class="visual-response-option" type="button" role="radio" aria-checked="false" data-visual-response="strong" data-i18n="settings.responseStrong">强烈</button>
+          </div>
+        </div>
+        <div class="settings-toggle-row">
+          <div class="settings-toggle-copy">
+            <span id="rhythm-model-label" class="settings-label" data-i18n="settings.rhythmModel">增强节拍识别</span>
+            <small data-i18n="settings.rhythmModelHelp">使用本地模型辅助识别节拍；音频不会离开设备。</small>
+          </div>
+          <button id="rhythm-model-toggle" class="settings-switch" type="button" role="switch" aria-checked="true" aria-labelledby="rhythm-model-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        </div>
+        <div class="settings-section">
+        <div class="settings-section-title" role="heading" aria-level="3" data-i18n="settings.sectionTrackInfo">曲目信息</div>
+        <div class="media-source-settings">
+          <span id="media-source-label" class="settings-label" data-i18n="settings.mediaSource">曲目信息来源</span>
+          <div class="media-source-picker">
+            <button id="media-source-button" type="button" aria-labelledby="media-source-label media-source-value" aria-describedby="media-source-help" aria-haspopup="listbox" aria-expanded="false">
+              <span id="media-source-value">自动选择</span>
+              <svg class="scale-chevron" viewBox="0 0 12 12" aria-hidden="true">
+                <path d="m3 4.5 3 3 3-3" />
+              </svg>
+            </button>
+            <div id="media-source-menu" role="listbox" aria-labelledby="media-source-label" hidden></div>
+          </div>
+          <small id="media-source-help" data-i18n="settings.mediaSourceHelp">选择读取曲名、艺术家和播放状态的播放器；自动模式会跟随最近播放的来源。</small>
+          <div id="netease-smtc-hint" class="settings-notice" role="status" hidden>
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <circle cx="10" cy="10" r="8" />
+              <path d="M10 8.5v5M10 6.2v.2" />
+            </svg>
+            <span data-i18n="settings.neteaseSmtcHint">检测到网易云音乐，但尚未开启系统媒体控制。请前往网易云音乐「设置 → 系统」，勾选「开启SMTC」。</span>
+          </div>
+          <div class="media-source-ignore-head">
+            <span data-i18n="settings.ignoredPlayers">忽略的播放器</span>
+            <small data-i18n="settings.ignoredPlayersHelp">被忽略的来源不会被自动选择。</small>
+          </div>
+          <div id="media-source-ignore-list" class="media-source-ignore-list"></div>
+        </div>
+        </div>
+        <div class="settings-section">
+        <div class="settings-section-title" role="heading" aria-level="3" data-i18n="settings.sectionIdle">无音乐时</div>
+        <div class="settings-layout-row settings-idle-row">
+          <div class="settings-toggle-copy">
+            <span id="idle-behavior-label" class="settings-label" data-i18n="settings.idleBehavior">无音乐时</span>
+            <small data-i18n="settings.idleBehaviorHelp">播放停止后保持、变暗，或在 30 秒后隐藏画面。</small>
+          </div>
+          <div id="idle-behavior-group" class="layout-segment settings-three-segment" role="radiogroup" aria-labelledby="idle-behavior-label">
+            <button class="idle-behavior-option" type="button" role="radio" aria-checked="true" data-idle-behavior="keep" data-i18n="settings.idleKeep">保持</button>
+            <button class="idle-behavior-option" type="button" role="radio" aria-checked="false" data-idle-behavior="dim" data-i18n="settings.idleDim">变暗</button>
+            <button class="idle-behavior-option" type="button" role="radio" aria-checked="false" data-idle-behavior="hide" data-i18n="settings.idleHide">隐藏</button>
+          </div>
+        </div>
+        <div class="settings-toggle-row">
+          <div class="settings-toggle-copy">
+            <span id="idle-frame-limit-label" class="settings-label" data-i18n="settings.idleFrameLimit">空闲时降低帧率</span>
+            <small data-i18n="settings.idleFrameLimitHelp">无音乐时限制为 30 FPS，降低资源占用。</small>
+          </div>
+          <button id="idle-frame-limit-toggle" class="settings-switch" type="button" role="switch" aria-checked="true" aria-labelledby="idle-frame-limit-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        </div>
+        <div class="settings-section">
+        <div class="settings-section-title" role="heading" aria-level="3" data-i18n="settings.sectionPerformance">帧率</div>
+        <div class="settings-layout-row settings-frame-rate-row">
+          <div class="settings-toggle-copy">
+            <span id="frame-rate-limit-label" class="settings-label" data-i18n="settings.frameRateLimit">帧率上限</span>
+            <small id="frame-rate-limit-help" data-i18n="settings.frameRateLimitHelp">限制播放时的渲染帧率；跟随显示器最流畅。</small>
+          </div>
+          <div class="frame-rate-picker">
+            <button id="frame-rate-button" type="button" aria-labelledby="frame-rate-limit-label frame-rate-value" aria-describedby="frame-rate-limit-help" aria-haspopup="listbox" aria-expanded="false">
+              <span id="frame-rate-value">跟随显示器</span>
+              <svg class="scale-chevron" viewBox="0 0 12 12" aria-hidden="true">
+                <path d="m3 4.5 3 3 3-3" />
+              </svg>
+            </button>
+            <div id="frame-rate-menu" role="listbox" aria-labelledby="frame-rate-limit-label" hidden>
+              <button class="frame-rate-option" type="button" role="option" data-frame-rate="display" data-i18n="settings.frameRateDisplay">跟随显示器</button>
+              <button class="frame-rate-option" type="button" role="option" data-frame-rate="120">120 FPS</button>
+              <button class="frame-rate-option" type="button" role="option" data-frame-rate="90">90 FPS</button>
+              <button class="frame-rate-option" type="button" role="option" data-frame-rate="60">60 FPS</button>
+              <button class="frame-rate-option" type="button" role="option" data-frame-rate="30">30 FPS</button>
+            </div>
+          </div>
+        </div>
+        </div>
+        </section>
+        <section id="settings-pane-genre" class="settings-pane" role="tabpanel" aria-labelledby="settings-tab-genre" data-settings-pane="genre" hidden>
+        <div class="settings-group-title" data-i18n="settings.groupGenre">曲风识别</div>
+        <div class="settings-section">
+        <div class="settings-section-title" role="heading" aria-level="3" data-i18n="settings.sectionRecognition">识别方式</div>
+        <div class="settings-toggle-row">
+          <div class="settings-toggle-copy">
+            <span id="online-lookup-label" class="settings-label" data-i18n="settings.onlineLookup">在线查询曲风</span>
+            <small data-i18n="settings.onlineLookupHelp">使用曲名、艺术家和专辑在线查询曲风；不会上传音频。</small>
+          </div>
+          <button id="online-lookup-toggle" class="settings-switch" type="button" role="switch" aria-checked="true" aria-labelledby="online-lookup-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div id="local-genre-model-setting" class="settings-toggle-row">
+          <div class="settings-toggle-copy">
+            <span id="local-genre-model-label" class="settings-label" data-i18n="settings.localGenreModel">本地 AI 曲风识别</span>
+            <small data-i18n="settings.localGenreModelHelp">在本机分析音频，补充未知或过于宽泛的结果；音频不会上传。</small>
+          </div>
+          <button id="local-genre-model-toggle" class="settings-switch" type="button" role="switch" aria-checked="true" aria-labelledby="local-genre-model-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div id="local-genre-runtime-hint" class="settings-notice settings-runtime-notice" role="status" hidden>
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <circle cx="10" cy="10" r="8" />
+            <path d="M10 8.5v5M10 6.2v.2" />
+          </svg>
+          <span id="local-genre-runtime-message">本地 AI 运行库未能加载，其他功能不受影响。</span>
+          <button id="local-genre-runtime-action" type="button">安装运行库</button>
+        </div>
+        <div id="audio-genre-memory-setting" class="settings-toggle-row settings-dependent-row" hidden>
+          <div class="settings-toggle-copy">
+            <span id="audio-genre-memory-label" class="settings-label" data-i18n="settings.audioGenreMemory">记住 AI 识别结果</span>
+            <small data-i18n="settings.audioGenreMemoryHelp">完整播放后保存在本机，供同一首歌下次识别参考；不会保存音频。</small>
+          </div>
+          <button id="audio-genre-memory-toggle" class="settings-switch" type="button" role="switch" aria-checked="true" aria-labelledby="audio-genre-memory-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div id="audio-genre-memory-actions" class="audio-genre-memory-actions settings-dependent-row" hidden>
+          <span id="audio-genre-memory-state" role="status"></span>
+          <button id="audio-genre-memory-clear" class="settings-action-button" type="button">清除 AI 识别记录</button>
+        </div>
+        <div class="settings-toggle-row">
+          <div class="settings-toggle-copy">
+            <span id="artist-genre-reference-label" class="settings-label" data-i18n="settings.artistGenreReference">使用艺术家曲风参考</span>
+            <small data-i18n="settings.artistGenreReferenceHelp">其他信息不足时，使用艺术家映射辅助判断曲风。</small>
+          </div>
+          <button id="artist-genre-reference-toggle" class="settings-switch" type="button" role="switch" aria-checked="true" aria-labelledby="artist-genre-reference-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div id="dynamic-genre-detection-setting" class="settings-toggle-row settings-dependent-row" hidden>
+          <div class="settings-toggle-copy">
+            <span id="dynamic-genre-detection-label" class="settings-label" data-i18n="settings.dynamicGenreDetection">检测播放中的曲风变化</span>
+            <small data-i18n="settings.dynamicGenreDetectionHelp">持续分析音频，仅在检测到明确且持续的曲风变化时切换视觉。</small>
+          </div>
+          <button id="dynamic-genre-detection-toggle" class="settings-switch" type="button" role="switch" aria-checked="false" aria-labelledby="dynamic-genre-detection-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <details id="settings-sources-panel" class="settings-disclosure settings-sources-disclosure">
+          <summary>
+            <span class="settings-disclosure-copy">
+              <span class="settings-label" data-i18n="settings.advancedSources">高级在线数据源</span>
+              <small data-i18n="settings.advancedSourcesHelp">可选。使用自己的密钥提高冷门子曲风匹配率。</small>
+            </span>
+            <svg class="settings-disclosure-chevron" viewBox="0 0 12 12" aria-hidden="true">
+              <path d="m3 4.5 3 3 3-3" />
+            </svg>
+          </summary>
+          <div class="settings-disclosure-content">
+        <div class="lastfm-settings">
+          <label for="lastfm-key" data-i18n="settings.lastfmLabel">Last.fm API Key（可选）</label>
+          <div class="settings-row">
+            <input id="lastfm-key" type="password" autocomplete="off" placeholder="留空也可使用其他来源" data-i18n-placeholder="settings.lastfmPlaceholder" />
+          </div>
+          <small data-i18n="settings.lastfmHelp">提高子曲风匹配率；密钥仅保存在本机。在线查询不上传音频。</small>
+        </div>
+        <div class="discogs-settings">
+          <label for="discogs-token" data-i18n="settings.discogsLabel">Discogs Token（可选）</label>
+          <div class="settings-row">
+            <input id="discogs-token" type="password" autocomplete="off" placeholder="查询发行物和 Style" data-i18n-placeholder="settings.discogsPlaceholder" />
+          </div>
+          <small data-i18n="settings.discogsHelp">用于严格匹配发行物和子曲风；令牌仅保存在本机。</small>
+        </div>
+        <div class="settings-inline-action-row">
+          <button id="credentials-save" class="settings-action-button" type="button" data-i18n="actions.applyKeys">应用密钥</button>
+          <span id="credentials-state" role="status"></span>
+        </div>
+          </div>
+        </details>
+        </div>
+        <div class="settings-section">
+        <div class="settings-section-title" role="heading" aria-level="3" data-i18n="settings.sectionCorrections">修正与自定义</div>
+        <div class="genre-correction-settings">
+          <label for="genre-correction-input" data-i18n="settings.genreCorrectionLabel">修正当前曲风</label>
+          <div class="genre-correction-track-row">
+            <span id="genre-correction-track" data-i18n="settings.noCurrentTrack">当前没有可修正的曲目</span>
+            <span id="genre-correction-state"></span>
+          </div>
+          <div class="settings-row genre-correction-row">
+            <div class="genre-correction-picker">
+              <input id="genre-correction-input" type="text" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="genre-correction-suggestions" placeholder="输入或选择曲风" data-i18n-placeholder="settings.genreCorrectionPlaceholder" />
+              <div id="genre-correction-suggestions" role="listbox" hidden></div>
+            </div>
+            <button id="genre-correction-save" type="button" data-i18n="actions.remember">保存</button>
+            <button id="genre-correction-clear" type="button" data-i18n="actions.clear">清除</button>
+          </div>
+          <small data-i18n="settings.genreCorrectionHelp">保存在本机；同一曲目下次播放时会优先使用这项修正。</small>
+        </div>
+        <details id="genre-artist-panel" class="settings-disclosure">
+          <summary>
+            <span class="settings-disclosure-copy">
+              <span class="settings-label" data-i18n="settings.genreArtistRules">补充艺术家</span>
+              <small data-i18n="settings.genreArtistRulesHelp">当其他信息不足时，用艺术家名称补充已有曲风的判断。</small>
+            </span>
+            <svg class="settings-disclosure-chevron" viewBox="0 0 12 12" aria-hidden="true">
+              <path d="m3 4.5 3 3 3-3" />
+            </svg>
+          </summary>
+          <div class="genre-artist-settings">
+            <div class="genre-artist-form">
+              <div class="genre-artist-field">
+                <span id="genre-artist-genre-label" class="genre-artist-field-label" data-i18n="settings.genreArtistGenre">曲风</span>
+                <div class="genre-artist-genre-picker">
+                  <button id="genre-artist-genre" type="button" aria-labelledby="genre-artist-genre-label genre-artist-genre-value" aria-haspopup="listbox" aria-expanded="false">
+                    <span id="genre-artist-genre-value" data-i18n="settings.genreArtistChooseGenre">选择曲风</span>
+                    <svg class="scale-chevron" viewBox="0 0 12 12" aria-hidden="true">
+                      <path d="m3 4.5 3 3 3-3" />
+                    </svg>
+                  </button>
+                  <div id="genre-artist-genre-menu" role="listbox" aria-labelledby="genre-artist-genre-label" hidden></div>
+                </div>
+              </div>
+              <label>
+                <span class="genre-artist-field-label" data-i18n="settings.genreArtistName">艺术家</span>
+                <input id="genre-artist-name" type="text" maxlength="120" autocomplete="off" spellcheck="false" placeholder="输入艺术家名称" data-i18n-placeholder="settings.genreArtistNamePlaceholder" />
+              </label>
+              <button id="genre-artist-add" class="settings-action-button" type="button" data-i18n="actions.addGenreArtist">添加</button>
+            </div>
+            <small id="genre-artist-state" role="status"></small>
+            <div id="genre-artist-list" class="genre-artist-list"></div>
+          </div>
+        </details>
+        <details id="custom-genre-panel" class="settings-disclosure">
+          <summary>
+            <span class="settings-disclosure-copy">
+              <span class="settings-label" data-i18n="settings.customGenres">自定义曲风</span>
+              <small data-i18n="settings.customGenresHelp">用标签或艺术家匹配未收录曲风，并继承一种现有视觉效果或自定义配色。</small>
+            </span>
+            <svg class="settings-disclosure-chevron" viewBox="0 0 12 12" aria-hidden="true">
+              <path d="m3 4.5 3 3 3-3" />
+            </svg>
+          </summary>
+        <div class="custom-genre-settings">
+          <div class="custom-genre-form">
+            <div class="custom-genre-field-grid">
+              <label>
+                <span class="custom-genre-field-label" data-i18n="settings.customGenreName">显示名称</span>
+                <input id="custom-genre-name" type="text" maxlength="38" autocomplete="off" spellcheck="false" placeholder="例如：Liquid Riddim" data-i18n-placeholder="settings.customGenreNamePlaceholder" />
+              </label>
+              <div class="custom-genre-field">
+                <span id="custom-genre-visual-label" class="custom-genre-field-label" data-i18n="settings.customGenreVisual">视觉效果</span>
+                <div class="custom-genre-visual-picker">
+                  <button id="custom-genre-visual" type="button" aria-labelledby="custom-genre-visual-label custom-genre-visual-value" aria-haspopup="listbox" aria-expanded="false">
+                    <span id="custom-genre-visual-value"></span>
+                    <svg class="scale-chevron" viewBox="0 0 12 12" aria-hidden="true">
+                      <path d="m3 4.5 3 3 3-3" />
+                    </svg>
+                  </button>
+                  <div id="custom-genre-visual-menu" role="listbox" aria-labelledby="custom-genre-visual-label" hidden></div>
+                </div>
+              </div>
+            </div>
+            <div class="custom-genre-color-settings">
+              <div class="custom-genre-color-head">
+                <div>
+                  <span id="custom-genre-colors-label" class="custom-genre-field-label" data-i18n="settings.customGenreColors">自定义主题色</span>
+                  <small data-i18n="settings.customGenreColorsHelp">覆盖所选视觉效果的三种基础颜色。</small>
+                </div>
+                <button id="custom-genre-colors-toggle" class="settings-switch" type="button" role="switch" aria-checked="false" aria-labelledby="custom-genre-colors-label" aria-controls="custom-genre-color-palette">
+                  <span class="settings-switch-knob" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div id="custom-genre-color-palette" class="custom-genre-color-palette" hidden>
+                <div class="custom-genre-color-control">
+                  <span data-i18n="settings.customGenrePrimaryColor">主色</span>
+                  <button id="custom-genre-accent" class="custom-genre-color-value" type="button" value="#67f7ff" data-label-key="settings.customGenrePrimaryColor" aria-haspopup="dialog" aria-expanded="false">
+                    <span class="custom-genre-color-swatch" style="--swatch-color: #67f7ff" aria-hidden="true"></span>
+                    <output id="custom-genre-accent-value" for="custom-genre-accent">#67f7ff</output>
+                  </button>
+                </div>
+                <div class="custom-genre-color-control">
+                  <span data-i18n="settings.customGenreSecondaryColor">辅助色</span>
+                  <button id="custom-genre-accent-2" class="custom-genre-color-value" type="button" value="#8d76ff" data-label-key="settings.customGenreSecondaryColor" aria-haspopup="dialog" aria-expanded="false">
+                    <span class="custom-genre-color-swatch" style="--swatch-color: #8d76ff" aria-hidden="true"></span>
+                    <output id="custom-genre-accent-2-value" for="custom-genre-accent-2">#8d76ff</output>
+                  </button>
+                </div>
+                <div class="custom-genre-color-control">
+                  <span data-i18n="settings.customGenreHotColor">高亮色</span>
+                  <button id="custom-genre-hot" class="custom-genre-color-value" type="button" value="#ffffff" data-label-key="settings.customGenreHotColor" aria-haspopup="dialog" aria-expanded="false">
+                    <span class="custom-genre-color-swatch" style="--swatch-color: #ffffff" aria-hidden="true"></span>
+                    <output id="custom-genre-hot-value" for="custom-genre-hot">#ffffff</output>
+                  </button>
+                </div>
+                <div id="custom-genre-color-editor" class="custom-genre-color-editor" role="dialog" aria-labelledby="custom-genre-color-editor-title" hidden>
+                  <div class="custom-genre-color-editor-head">
+                    <span id="custom-genre-color-editor-title">主色</span>
+                    <button id="custom-genre-color-editor-close" type="button" data-i18n-aria="actions.close" aria-label="关闭">
+                      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8" /></svg>
+                    </button>
+                  </div>
+                  <div id="custom-genre-color-field" class="custom-genre-color-field" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" data-i18n-aria="settings.customColorField" aria-label="饱和度和亮度">
+                    <span id="custom-genre-color-field-thumb" aria-hidden="true"></span>
+                  </div>
+                  <label class="custom-genre-hue-row">
+                    <span data-i18n="settings.customColorHue">色相</span>
+                    <input id="custom-genre-color-hue" type="range" min="0" max="359" step="1" value="180" />
+                  </label>
+                  <label class="custom-genre-hex-row">
+                    <span>HEX</span>
+                    <input id="custom-genre-color-hex" type="text" maxlength="7" autocomplete="off" spellcheck="false" value="#67f7ff" />
+                  </label>
+                </div>
+                <button id="custom-genre-colors-reset" type="button" data-i18n="actions.restoreThemeColors">恢复默认</button>
+              </div>
+            </div>
+            <label>
+              <span class="custom-genre-field-label" data-i18n="settings.customGenreAliases">识别别名</span>
+              <input id="custom-genre-aliases" type="text" autocomplete="off" spellcheck="false" placeholder="多个别名用逗号分隔" data-i18n-placeholder="settings.customGenreAliasesPlaceholder" />
+            </label>
+            <label>
+              <span class="custom-genre-field-label" data-i18n="settings.customGenreArtists">艺术家（可选）</span>
+              <input id="custom-genre-artists" type="text" autocomplete="off" spellcheck="false" placeholder="多个艺术家用逗号分隔" data-i18n-placeholder="settings.customGenreArtistsPlaceholder" />
+            </label>
+            <div class="custom-genre-actions">
+              <button id="custom-genre-save" class="settings-action-button" type="button" data-i18n="actions.addCustomGenre">添加</button>
+              <button id="custom-genre-cancel" type="button" data-i18n="actions.cancel" hidden>取消</button>
+              <span id="custom-genre-state" role="status"></span>
+            </div>
+          </div>
+          <div id="custom-genre-list" class="custom-genre-list"></div>
+        </div>
+        </details>
+        </div>
+        <div class="settings-section">
+        <div class="settings-section-title" role="heading" aria-level="3" data-i18n="settings.sectionData">数据</div>
+        <div class="genre-data-settings">
+          <div class="genre-data-head">
+            <div class="genre-data-copy">
+              <span class="settings-label" data-i18n="settings.genreData">曲风数据</span>
+              <small data-i18n="settings.genreDataHelp">备份或迁移手动修正、补充艺术家和自定义曲风；导入会合并现有数据。</small>
+            </div>
+            <div class="genre-data-actions">
+              <button id="genre-data-export" class="settings-action-button" type="button" data-i18n="actions.exportGenreData">导出数据</button>
+              <button id="genre-data-import" class="settings-action-button" type="button" data-i18n="actions.importGenreData">导入数据</button>
+            </div>
+          </div>
+          <small id="genre-data-state" role="status"></small>
+        </div>
+        </div>
+        </section>
+        <section id="settings-pane-app" class="settings-pane" role="tabpanel" aria-labelledby="settings-tab-app" data-settings-pane="app" hidden>
+        <div class="settings-group-title" data-i18n="settings.groupApp">应用</div>
+        <div class="settings-section">
+        <div class="settings-section-title" role="heading" aria-level="3" data-i18n="settings.sectionWindow">窗口与启动</div>
+        <div class="settings-toggle-row">
+          <div class="settings-toggle-copy">
+            <span id="always-on-top-label" class="settings-label" data-i18n="settings.alwaysOnTop">始终置顶</span>
+            <small data-i18n="settings.alwaysOnTopHelp">让可视化保持在其他窗口上方。</small>
+          </div>
+          <button id="always-on-top-toggle" class="settings-switch" type="button" role="switch" aria-checked="false" aria-labelledby="always-on-top-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="settings-toggle-row">
+          <div class="settings-toggle-copy">
+            <span id="desktop-layer-label" class="settings-label" data-i18n="settings.desktopLayer">桌面层模式</span>
+            <small data-i18n="settings.desktopLayerHelp">使用“显示桌面”时仍保持可见，普通窗口会覆盖它。</small>
+          </div>
+          <button id="desktop-layer-toggle" class="settings-switch" type="button" role="switch" aria-checked="false" aria-labelledby="desktop-layer-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="settings-toggle-row">
+          <div class="settings-toggle-copy">
+            <span id="mouse-passthrough-label" class="settings-label" data-i18n="settings.mousePassthrough">鼠标穿透</span>
+            <small data-i18n="settings.mousePassthroughHelp">让鼠标操作穿过可视化；开启后可按 Ctrl+Shift+G 关闭。</small>
+          </div>
+          <button id="mouse-passthrough-toggle" class="settings-switch" type="button" role="switch" aria-checked="false" aria-labelledby="mouse-passthrough-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="settings-toggle-row">
+          <div class="settings-toggle-copy">
+            <span id="launch-at-login-label" class="settings-label" data-i18n="settings.launchAtLogin">开机自启</span>
+            <small data-i18n="settings.launchAtLoginHelp">登录 Windows 后自动启动。移动便携版后需重新开启。</small>
+          </div>
+          <button id="launch-at-login-toggle" class="settings-switch" type="button" role="switch" aria-checked="false" aria-labelledby="launch-at-login-label">
+            <span class="settings-switch-knob" aria-hidden="true"></span>
+          </button>
+        </div>
+        </div>
+        <div class="settings-section">
+        <div class="settings-section-title" role="heading" aria-level="3" data-i18n="settings.sectionCapture">录制与保存</div>
+        <div class="recording-settings-row snapshot-settings-row">
+          <div class="settings-toggle-copy">
+            <span class="settings-label" data-i18n="settings.snapshot">保存当前画面</span>
+            <small data-i18n="settings.snapshotHelp">将当前可视化保存为透明背景 PNG。</small>
+          </div>
+          <button id="snapshot-save-button" class="settings-action-button" type="button" data-i18n="actions.saveSnapshot">保存画面</button>
+          <small id="snapshot-state" role="status" aria-live="polite"></small>
+        </div>
+        <div class="recording-settings-row">
+          <div class="settings-toggle-copy">
+            <span class="settings-label" data-i18n="settings.videoRecording">视频录制</span>
+            <small data-i18n="settings.videoRecordingHelp">把当前可视化和系统声音保存为视频。</small>
+          </div>
+          <button id="recording-start-stop" class="settings-action-button" type="button" data-i18n="actions.startRecording">开始录制</button>
+          <small id="recording-state" role="status" aria-live="polite"></small>
+        </div>
+        </div>
+        <div class="settings-section">
+        <div class="settings-section-title" role="heading" aria-level="3" data-i18n="settings.sectionMaintenance">更新与诊断</div>
+        <div class="settings-update-row">
+          <div class="settings-update-copy">
+            <span class="settings-label" data-i18n="settings.softwareUpdate">软件更新</span>
+            <small><span data-i18n="settings.currentVersion">当前版本</span> <strong id="app-version">0.3.2</strong></small>
+            <small id="update-check-state" role="status" aria-live="polite"></small>
+          </div>
+          <div class="settings-update-actions">
+            <button id="update-check-button" class="settings-action-button" type="button" data-i18n="actions.checkForUpdates">检查更新</button>
+            <button id="update-view-button" class="settings-action-button" type="button" data-i18n="actions.viewUpdate" hidden>查看更新</button>
+          </div>
+        </div>
+        <details id="diagnostics-panel" class="settings-diagnostics settings-disclosure">
+          <summary>
+            <span class="settings-disclosure-copy">
+              <span class="settings-label" data-i18n="settings.diagnostics">状态与诊断</span>
+            </span>
+            <svg class="settings-disclosure-chevron" viewBox="0 0 12 12" aria-hidden="true">
+              <path d="m3 4.5 3 3 3-3" />
+            </svg>
+          </summary>
+          <div class="diagnostics-content">
+            <div class="settings-toggle-row diagnostics-fps-setting">
+              <div class="settings-toggle-copy">
+                <span id="show-fps-label" class="settings-label" data-i18n="settings.showFps">显示帧率</span>
+                <small data-i18n="settings.showFpsHelp">在可视化左下角显示实际渲染帧率，仅供调试。</small>
+              </div>
+              <button id="show-fps-toggle" class="settings-switch" type="button" role="switch" aria-checked="false" aria-labelledby="show-fps-label">
+                <span class="settings-switch-knob" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="diagnostics-row"><span data-i18n="settings.diagnosticsPlayer">播放器</span><strong id="diagnostics-player">—</strong></div>
+            <div class="diagnostics-row"><span data-i18n="settings.diagnosticsAudio">音频捕获</span><strong id="diagnostics-audio">—</strong></div>
+            <div class="diagnostics-row"><span data-i18n="settings.diagnosticsRhythm">本地节拍模型</span><strong id="diagnostics-rhythm">—</strong></div>
+            <div class="diagnostics-row"><span data-i18n="settings.diagnosticsGenreModel">本地曲风模型</span><strong id="diagnostics-genre-model">—</strong></div>
+            <div class="diagnostics-row"><span data-i18n="settings.diagnosticsGenre">识别依据</span><strong id="diagnostics-genre">—</strong></div>
+            <div class="diagnostics-row"><span data-i18n="settings.diagnosticsLyrics">歌词来源</span><strong id="diagnostics-lyrics">—</strong></div>
+            <div class="diagnostics-actions">
+              <button id="diagnostics-recapture" class="settings-action-button" type="button" data-i18n="actions.recaptureAudio">重新捕获音频</button>
+              <button id="diagnostics-export" class="settings-action-button" type="button" data-i18n="actions.exportDiagnostics">导出诊断</button>
+            </div>
+            <small id="diagnostics-state" role="status"></small>
+          </div>
+        </details>
+        </div>
+        <div class="settings-save-row">
+          <button id="settings-save" data-i18n="actions.close">关闭</button>
+        </div>
+        <div class="settings-credit" aria-label="A visualizer by LBN">
+          <span>A VISUALIZER BY</span>
+          <strong>LBN</strong>
+        </div>
+        </section>
+        </div>
+        <div id="settings-scrollbar" aria-hidden="true" hidden>
+          <span id="settings-scrollbar-thumb"></span>
+        </div>
+        </div>
+      </aside>
+    </main>
+    <div id="fullscreen-controls" aria-label="全屏控制" data-i18n-aria="controls.fullscreenControls">
+      <button id="fullscreen-snapshot-button" class="fullscreen-control-button" type="button" title="保存当前画面" aria-label="保存当前画面" data-i18n-title="actions.saveSnapshot" data-i18n-aria="actions.saveSnapshot">
+        <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+          <path class="icon-fill" d="M600-320h160v-160h-60v100H600v60ZM200-560h60v-100h100v-60H200v160Zm120 440v-80H160q-33 0-56.5-23.5T80-280v-480q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v480q0 33-23.5 56.5T800-200H640v80H320ZM160-280h640v-480H160v480Zm0 0v-480 480Z" />
+        </svg>
+      </button>
+      <button id="fullscreen-recording-button" class="fullscreen-control-button recording-control-button" type="button" title="开始录制" aria-label="开始录制" data-i18n-title="actions.startRecording" data-i18n-aria="actions.startRecording">
+        <svg class="control-icon recording-control-icon" viewBox="0 -960 960 960" aria-hidden="true">
+          <path class="recording-icon-record icon-fill" d="M158-242q-37-50-57.5-110.5T80-480q0-67 20-127t57-110l58 57q-26 38-40.5 83.5T160-480q0 51 14.5 97t40.5 84l-57 57ZM480-80q-67 0-127-20t-110-57l57-58q38 26 83.5 40.5T480-160q51 0 96.5-14.5T660-215l57 58q-50 37-110 57T480-80Zm322-162-57-57q26-38 40.5-84t14.5-97q0-51-14.5-96.5T745-660l58-57q37 50 57 110t20 127q0 67-20.5 127.5T802-242ZM299-745l-57-57q50-37 110.5-57.5T480-880q68 0 128 20.5T718-802l-57 57q-38-26-84-40.5T480-800q-51 0-97 14.5T299-745Zm181 465q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280Z" />
+          <rect class="recording-icon-stop icon-fill" x="280" y="-680" width="400" height="400" rx="60" />
+        </svg>
+      </button>
+      <button id="fullscreen-layout-button" class="fullscreen-control-button" type="button" title="切换到上下结构" aria-label="切换到上下结构">
+        <svg class="control-icon fullscreen-layout-icon" viewBox="0 -960 960 960" aria-hidden="true">
+          <g class="fullscreen-layout-symbol">
+            <path class="icon-fill" d="M200-520q-33 0-56.5-23.5T120-600v-160q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v160q0 33-23.5 56.5T760-520H200Zm0-80h560v-160H200v160Zm0 480q-33 0-56.5-23.5T120-200v-160q0-33 23.5-56.5T200-440h560q33 0 56.5 23.5T840-360v160q0 33-23.5 56.5T760-120H200Zm0-80h560v-160H200v160Zm0-400v-160 160Zm0 400v-160 160Z" />
+          </g>
+        </svg>
+      </button>
+      <button id="fullscreen-text-button" class="fullscreen-control-button" type="button" title="隐藏文字" aria-label="隐藏文字" aria-pressed="true">
+        <svg class="control-icon material-symbol fullscreen-text-icon" viewBox="0 -960 960 960" aria-hidden="true">
+          <defs>
+            <mask id="fullscreen-text-off-mask" maskUnits="userSpaceOnUse" x="0" y="-960" width="960" height="960">
+              <rect x="0" y="-960" width="960" height="960" fill="white" />
+              <path d="M84-820 820-84" fill="none" stroke="black" stroke-width="140" />
+            </mask>
+          </defs>
+          <path class="fullscreen-text-glyph-normal icon-fill" d="M420-160v-520H200v-120h560v120H540v520H420Z" />
+          <g class="fullscreen-text-glyph-off">
+            <path class="icon-fill" mask="url(#fullscreen-text-off-mask)" d="M420-160v-520H200v-120h560v120H540v520H420Z" />
+            <path class="fullscreen-text-off-mark" d="M84-820 820-84" />
+          </g>
+        </svg>
+      </button>
+      <button id="fullscreen-settings-button" class="fullscreen-control-button" type="button" title="设置" aria-label="设置" data-i18n-title="controls.settings" data-i18n-aria="controls.settings">
+        <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+          <path class="icon-fill" d="M433-80q-27 0-46.5-18T363-142l-9-66q-13-5-24.5-12T307-235l-62 26q-25 11-50 2t-39-32l-47-82q-14-23-8-49t27-43l53-40q-1-7-1-13.5v-27q0-6.5 1-13.5l-53-40q-21-17-27-43t8-49l47-82q14-23 39-32t50 2l62 26q11-8 23-15t24-12l9-66q4-26 23.5-44t46.5-18h94q27 0 46.5 18t23.5 44l9 66q13 5 24.5 12t22.5 15l62-26q25-11 50-2t39 32l47 82q14 23 8 49t-27 43l-53 40q1 7 1 13.5v27q0 6.5-2 13.5l53 40q21 17 27 43t-8 49l-48 82q-14 23-39 32t-50-2l-60-26q-11 8-23 15t-24 12l-9 66q-4 26-23.5 44T527-80h-94Zm7-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Z" />
+        </svg>
+      </button>
+      <button id="fullscreen-exit-button" class="fullscreen-control-button fullscreen-exit-button" type="button" title="退出全屏" aria-label="退出全屏" data-i18n-title="controls.exitFullscreen" data-i18n-aria="controls.exitFullscreen">
+        <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+          <path class="icon-fill" d="M240-120v-120H120v-80h200v200h-80Zm400 0v-200h200v80H720v120h-80ZM120-640v-80h120v-120h80v200H120Zm520 0v-200h80v120h120v80H640Z" />
+        </svg>
+      </button>
+    </div>
+    <div id="fullscreen-transport" aria-label="音乐控制" data-i18n-aria="controls.music">
+      <button id="fullscreen-previous-track" class="fullscreen-control-button" type="button" title="上一首" aria-label="上一首" data-i18n-title="controls.previous" data-i18n-aria="controls.previous">
+        <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+          <path class="icon-fill" d="M220-280v-400q0-17 11.5-28.5T260-720q17 0 28.5 11.5T300-680v400q0 17-11.5 28.5T260-240q-17 0-28.5-11.5T220-280Zm458-1L430-447q-9-6-13.5-14.5T412-480q0-10 4.5-18.5T430-513l248-166q5-4 11-5t11-1q16 0 28 11t12 29v330q0 18-12 29t-28 11q-5 0-11-1t-11-5Zm-18-109v-180l-136 90 136 90Z" />
+        </svg>
+      </button>
+      <button id="fullscreen-play-pause" class="fullscreen-control-button primary-control" type="button" title="播放或暂停" aria-label="播放或暂停">
+        <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+          <path class="play-shape icon-fill" d="M320-273v-414q0-17 12-28.5t28-11.5q5 0 10.5 1.5T381-721l326 207q9 6 13.5 15t4.5 19q0 10-4.5 19T707-446L381-239q-5 3-10.5 4.5T360-233q-16 0-28-11.5T320-273Zm80-73 210-134-210-134v268Z" />
+          <path class="pause-shape icon-fill" d="M600-200q-33 0-56.5-23.5T520-280v-400q0-33 23.5-56.5T600-760h80q33 0 56.5 23.5T760-680v400q0 33-23.5 56.5T680-200h-80Zm-320 0q-33 0-56.5-23.5T200-280v-400q0-33 23.5-56.5T280-760h80q33 0 56.5 23.5T440-680v400q0 33-23.5 56.5T360-200h-80Zm320-80h80v-400h-80v400Zm-320 0h80v-400h-80v400Z" />
+        </svg>
+      </button>
+      <button id="fullscreen-next-track" class="fullscreen-control-button" type="button" title="下一首" aria-label="下一首" data-i18n-title="controls.next" data-i18n-aria="controls.next">
+        <svg class="control-icon material-symbol" viewBox="0 -960 960 960" aria-hidden="true">
+          <path class="icon-fill" d="M660-280v-400q0-17 11.5-28.5T700-720q17 0 28.5 11.5T740-680v400q0 17-11.5 28.5T700-240q-17 0-28.5-11.5T660-280Zm-440-35v-330q0-18 12-29t28-11q5 0 11 1t11 5l248 166q9 6 13.5 14.5T548-480q0 10-4.5 18.5T530-447L282-281q-5 4-11 5t-11 1q-16 0-28-11t-12-29Zm80-75 136-90-136-90v180Z" />
+        </svg>
+      </button>
+    </div>
+    <script src="../src/i18n.js"></script>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
