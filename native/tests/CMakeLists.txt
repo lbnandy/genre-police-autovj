@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.10)
+project(AutoVJLinkTests LANGUAGES CXX)
+include("${LINK_SOURCE_DIR}/AbletonLinkConfig.cmake")
+add_executable(link-peer link-peer.cpp)
+target_link_libraries(link-peer PRIVATE Ableton::Link)
+add_executable(link-udp-recovery link-udp-recovery.cpp)
+target_link_libraries(link-udp-recovery PRIVATE Ableton::Link)

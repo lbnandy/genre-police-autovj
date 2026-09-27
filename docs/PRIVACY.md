@@ -24,6 +24,12 @@ The app checks this project's public GitHub Releases list after startup and at m
 
 软件会在启动后检查本项目公开的 GitHub Releases，且每 24 小时最多自动检查一次。请求不包含曲目元数据、音频、曲库内容或设置；联网失败时不会打扰用户。
 
+## Ableton Link (optional) / Ableton Link（可选）
+
+Auto (the default) or Ableton Link automatically starts the bundled Carabiner component and connects over 127.0.0.1:17000 (or uses a component already running locally). The component uses the local network for Link discovery and timing synchronization. AutoVJ requests timing status only; it does not send audio, track metadata or library contents through Link or change the shared tempo or transport. Switching to audio detection stops AutoVJ timing queries. Once started, the component continues Link discovery until AutoVJ exits, allowing reliable source switching; AutoVJ then closes the component process it started.
+
+默认的自动模式或选择 Ableton Link 后，软件自动启动内置的 Carabiner 组件，通过 127.0.0.1:17000 连接，也可使用本机已经运行的组件。组件在局域网中发现 Link 参与者并同步节奏。AutoVJ 只请求时序状态，不通过此连接发送音频、曲目信息或曲库内容，也不改变共享速度或播放状态。切回音频识别时，AutoVJ 停止读取同步信息。已启动的组件会继续参与 Link 发现，供后续切换复用；退出 AutoVJ 时会关闭由它启动的组件进程。
+
 ## Local files / 本地文件
 
 The default data directory is `%APPDATA%/Genre Police AutoVJ`. Set `AUTOVJ_DATA_DIR` only when an isolated local data directory is needed for development or testing. Removing the application-data directory removes local settings, libraries and caches.

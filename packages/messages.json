@@ -1793,5 +1793,375 @@
     "en": "Not now",
     "ja": "今回はしない",
     "ko": "나중에"
+  },
+  "显示文字与 Logo": {
+    "en": "Show text & logo",
+    "ja": "文字と Logo を表示",
+    "ko": "텍스트 및 Logo 표시"
+  },
+  "标题内容": {
+    "en": "Heading",
+    "ja": "見出し",
+    "ko": "제목 표시"
+  },
+  "DJ 名字和 Logo 在准备音乐中设置。": {
+    "en": "Set your DJ name and logo in Prepare.",
+    "ja": "DJ 名と Logo は「準備」で設定します。",
+    "ko": "DJ 이름과 Logo는 준비 화면에서 설정합니다."
+  },
+  "隐藏": {
+    "en": "Hidden",
+    "ja": "非表示",
+    "ko": "숨김"
+  },
+  "显示曲目信息": {
+    "en": "Show track information",
+    "ja": "曲情報を表示",
+    "ko": "곡 정보 표시"
+  },
+  "曲名、艺人和分隔线。关闭后主体自动居中。": {
+    "en": "Title, artist and divider. The composition centers when hidden.",
+    "ja": "曲名、アーティスト、区切り線。非表示にすると全体を中央に配置します。",
+    "ko": "곡명, 아티스트 및 구분선. 숨기면 구성이 중앙에 배치됩니다."
+  },
+  "显示品牌标识": {
+    "en": "Show branding",
+    "ja": "ブランド表記を表示",
+    "ko": "브랜드 표시"
+  },
+  "显示封面": {
+    "en": "Show artwork",
+    "ja": "アートワークを表示",
+    "ko": "커버 표시"
+  },
+  "选择 DJ Logo": {
+    "en": "Choose DJ logo",
+    "ja": "DJ Logo を選択",
+    "ko": "DJ Logo 선택"
+  },
+  "移除": {
+    "en": "Remove",
+    "ja": "削除",
+    "ko": "제거"
+  },
+  "Logo 大小": {
+    "en": "Logo size",
+    "ja": "Logo サイズ",
+    "ko": "Logo 크기"
+  },
+  "随曲库保存；推荐透明 PNG，自动去除透明边距并等比适配。": {
+    "en": "Saved with this library. Transparent PNG recommended; padding is trimmed and proportions preserved.",
+    "ja": "ライブラリに保存。透過 PNG を推奨。透明な余白を除き、縦横比を保って調整します。",
+    "ko": "라이브러리와 함께 저장됩니다. 투명 PNG를 권장하며 투명 여백 제거 후 비율을 유지합니다."
+  },
+  "Logo 图片不能超过 16 MB。": {
+    "en": "Logo images must be 16 MB or smaller.",
+    "ja": "Logo 画像は 16 MB 以下にしてください。",
+    "ko": "Logo 이미지는 16 MB 이하여야 합니다."
+  },
+  "无法读取 Logo 图片。": {
+    "en": "Cannot read the logo image.",
+    "ja": "Logo 画像を読み込めません。",
+    "ko": "Logo 이미지를 읽을 수 없습니다."
+  },
+  "DJ 标识": {
+    "en": "DJ identity",
+    "ja": "DJ プロフィール",
+    "ko": "DJ 프로필"
+  },
+  "自定义封面": {
+    "en": "Custom cover",
+    "ja": "カスタムカバー",
+    "ko": "사용자 지정 커버"
+  },
+  "替换整套曲库的封面；移除后恢复曲目封面。": {
+    "en": "Overrides artwork for this library. Remove to restore track artwork.",
+    "ja": "ライブラリ全体のカバーを置き換えます。削除すると曲のカバーに戻ります。",
+    "ko": "라이브러리 전체의 커버를 대체합니다. 제거하면 곡의 커버로 돌아갑니다."
+  },
+  "裁剪封面": {
+    "en": "Crop cover",
+    "ja": "カバーを切り抜く",
+    "ko": "커버 자르기"
+  },
+  "拖动图片调整位置，使用滑块缩放。": {
+    "en": "Drag to reposition; use the slider to zoom.",
+    "ja": "画像をドラッグして位置を調整し、スライダーで拡大します。",
+    "ko": "이미지를 끌어 위치를 조정하고 슬라이더로 확대하세요."
+  },
+  "缩放": {
+    "en": "Zoom",
+    "ja": "拡大率",
+    "ko": "확대"
+  },
+  "图片不能超过 16 MB。": {
+    "en": "Image must be under 16 MB.",
+    "ja": "画像は16 MB以下にしてください。",
+    "ko": "이미지는 16 MB 이하여야 합니다."
+  },
+  "无法读取图片。": {
+    "en": "Unable to read image.",
+    "ja": "画像を読み込めません。",
+    "ko": "이미지를 읽을 수 없습니다."
+  },
+  "节奏与冲击": {
+    "en": "Rhythm & impact",
+    "ja": "リズムとインパクト",
+    "ko": "리듬 및 충격"
+  },
+  "节拍来源": {
+    "en": "Beat source",
+    "ja": "ビートソース",
+    "ko": "비트 소스"
+  },
+  "音频识别": {
+    "en": "Audio detection",
+    "ja": "音声検出",
+    "ko": "오디오 감지"
+  },
+  "同步偏移（毫秒）": {
+    "en": "Sync offset (ms)",
+    "ja": "同期オフセット（ms）",
+    "ko": "동기화 오프셋(ms)"
+  },
+  "正值延后画面，负值提前。仅保存在本机。": {
+    "en": "Positive delays visuals; negative advances them. Saved on this computer.",
+    "ja": "正の値で映像を遅らせ、負の値で早めます。このPCに保存されます。",
+    "ko": "양수는 화면을 늦추고 음수는 앞당깁니다. 이 컴퓨터에 저장됩니다."
+  },
+  "冲击模式": {
+    "en": "Impact mode",
+    "ja": "インパクトモード",
+    "ko": "충격 모드"
+  },
+  "音乐响应保留强弱变化；仅节拍每拍使用相同强度。静音时停止冲击。": {
+    "en": "Music response follows dynamics; beat only uses equal strength on every beat. Impacts stop during silence.",
+    "ja": "音楽応答は強弱を反映し、ビートのみでは各拍が同じ強さになります。無音時は停止します。",
+    "ko": "음악 반응은 강약을 반영하고 비트 전용은 매 박자에 같은 강도를 사용합니다. 무음일 때 멈춥니다."
+  },
+  "音乐响应": {
+    "en": "Music response",
+    "ja": "音楽応答",
+    "ko": "음악 반응"
+  },
+  "仅节拍": {
+    "en": "Beat only",
+    "ja": "ビートのみ",
+    "ko": "비트 전용"
+  },
+  "BeatNet 启动中": {
+    "en": "Starting BeatNet",
+    "ja": "BeatNetを起動中",
+    "ko": "BeatNet 시작 중"
+  },
+  "个参与者": {
+    "en": "peers",
+    "ja": "ピア",
+    "ko": "피어"
+  },
+  "等待 Link 参与者": {
+    "en": "Waiting for Link peers",
+    "ja": "Linkピアを待機中",
+    "ko": "Link 피어 대기 중"
+  },
+  "正在连接 Link": {
+    "en": "Connecting to Link",
+    "ja": "Linkに接続中",
+    "ko": "Link 연결 중"
+  },
+  "Link 组件未连接": {
+    "en": "Link component disconnected",
+    "ja": "Linkコンポーネント未接続",
+    "ko": "Link 구성 요소 연결 끊김"
+  },
+  "使用音频识别回退": {
+    "en": "Falling back to audio detection",
+    "ja": "音声検出にフォールバック",
+    "ko": "오디오 감지로 대체"
+  },
+  "辅助音频识别；Link 同步期间暂停，仅节拍模式自动启用。": {
+    "en": "Assists audio detection; paused during Link sync and enabled automatically for beat-only audio.",
+    "ja": "音声検出を補助します。Link同期中は休止し、音声のビートのみモードでは自動有効になります。",
+    "ko": "오디오 감지를 보조합니다. Link 동기화 중 일시 중지되고 오디오 비트 전용 모드에서 자동 활성화됩니다."
+  },
+  "连接说明": {
+    "en": "Connection guide",
+    "ja": "接続ガイド",
+    "ko": "연결 안내"
+  },
+  "在 rekordbox 中开启全局和 Deck 的 LINK，并连接同一局域网。同步组件自动启动，AutoVJ 只跟随，不改变速度。": {
+    "en": "Enable global and deck LINK in rekordbox and join the same local network. The sync component starts automatically; AutoVJ follows without changing tempo.",
+    "ja": "rekordboxのグローバルとデッキのLINKを有効にし、同じLANに接続してください。同期コンポーネントは自動起動します。AutoVJはテンポを変更しません。",
+    "ko": "rekordbox의 전역 및 데크 LINK를 켜고 같은 로컬 네트워크에 연결하세요. 동기화 구성 요소는 자동으로 시작되며 AutoVJ는 템포를 변경하지 않습니다."
+  },
+  "节拍驱动": {
+    "en": "Beat-driven",
+    "ja": "ビート駆動",
+    "ko": "비트 기반"
+  },
+  "冲击强度": {
+    "en": "Impact strength",
+    "ja": "インパクトの強さ",
+    "ko": "임팩트 강도"
+  },
+  "固定强度": {
+    "en": "Fixed",
+    "ja": "一定",
+    "ko": "고정"
+  },
+  "随音乐变化": {
+    "en": "Follow music",
+    "ja": "音楽に合わせる",
+    "ko": "음악에 따라 변경"
+  },
+  "每拍都会触发；随音乐变化只改变强弱。": {
+    "en": "Every beat triggers; music only changes its strength.",
+    "ja": "各拍で発生し、音楽に応じて強さだけが変わります。",
+    "ko": "매 비트마다 발생하며 음악은 강도만 조절합니다."
+  },
+  "音乐响应跟随音乐事件；节拍驱动仅在拍点冲击。静音时停止冲击。": {
+    "en": "Music response follows musical events; beat-driven impacts occur only on beats. Impacts stop during silence.",
+    "ja": "音楽応答は音の変化に反応し、ビート駆動は拍でのみ発生します。無音時は停止します。",
+    "ko": "음악 반응은 음악의 변화에 반응하며 비트 기반은 박자에서만 발생합니다. 무음 시 멈춥니다."
+  },
+  "Link 未连接": {
+    "en": "Link disconnected",
+    "ja": "Link 未接続",
+    "ko": "Link 연결 안 됨"
+  },
+  "使用音频识别": {
+    "en": "Using audio detection",
+    "ja": "音声検出を使用中",
+    "ko": "오디오 감지 사용 중"
+  },
+  "等待音频拍点": {
+    "en": "Waiting for audio beats",
+    "ja": "音声の拍を待機中",
+    "ko": "오디오 비트 대기 중"
+  },
+  "音频节拍不可用：": {
+    "en": "Audio beat detection unavailable: ",
+    "ja": "音声ビート検出が利用できません：",
+    "ko": "오디오 비트 감지를 사용할 수 없습니다: "
+  },
+  "自动优先使用 Link；指定来源时不会自动切换。": {
+    "en": "Auto prefers Link; a selected source never switches automatically.",
+    "ja": "自動は Link を優先します。指定したソースは自動で切り替わりません。",
+    "ko": "자동은 Link를 우선합니다. 지정한 소스는 자동으로 전환되지 않습니다."
+  },
+  "推荐透明 PNG，自动裁去透明边距并保留比例。": {
+    "en": "Transparent PNG recommended; padding is trimmed and proportions preserved.",
+    "ja": "透過 PNG を推奨。透明な余白を除き、縦横比を維持します。",
+    "ko": "투명 PNG를 권장합니다. 투명 여백을 제거하고 비율을 유지합니다."
+  },
+  "显示曲名、艺人及分隔线；隐藏后画面主体居中。": {
+    "en": "Show title, artist and divider; center the composition when hidden.",
+    "ja": "曲名・アーティスト・区切り線を表示。非表示時は画面の構成を中央に配置します。",
+    "ko": "곡명, 아티스트, 구분선을 표시합니다. 숨기면 화면 구성을 가운데로 정렬합니다."
+  },
+  "自动：Link 已连接时使用 Link，否则使用音频识别。": {
+    "en": "Auto uses Link when connected, otherwise audio detection.",
+    "ja": "自動：Link 接続中は Link、それ以外は音声検出を使用します。",
+    "ko": "자동: Link가 연결되면 Link를, 그 외에는 오디오 감지를 사용합니다."
+  },
+  "连接设备：{count}": {
+    "en": "Peers: {count}",
+    "ja": "接続数：{count}",
+    "ko": "연결 수: {count}"
+  },
+  "连接与校准": {
+    "en": "Connection & calibration",
+    "ja": "接続と調整",
+    "ko": "연결 및 보정"
+  },
+  "全屏冲击": {
+    "en": "Screen impact",
+    "ja": "画面インパクト",
+    "ko": "화면 임팩트"
+  },
+  "视觉响应强度": {
+    "en": "Visual response intensity",
+    "ja": "ビジュアルの反応強度",
+    "ko": "시각 반응 강도"
+  },
+  "冲击效果强度": {
+    "en": "Impact effect intensity",
+    "ja": "インパクト効果の強度",
+    "ko": "충격 효과 강도"
+  },
+  "低": {
+    "en": "Low",
+    "ja": "低",
+    "ko": "낮음"
+  },
+  "中（标准）": {
+    "en": "Medium",
+    "ja": "中（標準）",
+    "ko": "중간 (표준)"
+  },
+  "高": {
+    "en": "High",
+    "ja": "高",
+    "ko": "높음"
+  },
+  "极高": {
+    "en": "Very high",
+    "ja": "最高",
+    "ko": "매우 높음"
+  },
+  "柔和": {
+    "en": "Gentle",
+    "ja": "穏やか",
+    "ko": "부드럽게"
+  },
+  "标准": {
+    "en": "Standard",
+    "ja": "標準",
+    "ko": "표준"
+  },
+  "强烈": {
+    "en": "Strong",
+    "ja": "強い",
+    "ko": "강하게"
+  },
+  "极强": {
+    "en": "Intense",
+    "ja": "非常に強い",
+    "ko": "매우 강하게"
+  },
+  "可视化大小": {
+    "en": "Visualizer size",
+    "ja": "ビジュアルのサイズ",
+    "ko": "시각화 크기"
+  },
+  "较大": {
+    "en": "Larger",
+    "ja": "大",
+    "ko": "크게"
+  },
+  "最大": {
+    "en": "Largest",
+    "ja": "最大",
+    "ko": "가장 크게"
+  },
+  "中": {
+    "en": "Medium",
+    "ja": "中",
+    "ko": "중간"
+  },
+  "小": {
+    "en": "Small",
+    "ja": "小",
+    "ko": "작게"
+  },
+  "大": {
+    "en": "Large",
+    "ja": "大",
+    "ko": "크게"
+  },
+  "超高": {
+    "en": "Ultra",
+    "ja": "超高",
+    "ko": "초강력"
   }
 }

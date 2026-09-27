@@ -10,7 +10,7 @@ Genre Police AutoVJ 是面向 DJ 现场演出的自动 VJ 工具：演出前分�
 
 **项目设计、视觉与曲风分析整合：[LBN](https://github.com/lbnandy) · [Genre Police Visualizer](https://github.com/lbnandy/genre-police-visualizer)；音频识别：[DJ ICHIRYU](https://github.com/ichiryu0021) · [VJVision](https://github.com/ichiryu0021/VJVision)**
 
-当前为 `0.1.0` Beta 功能测试版，面向 Windows 10/11 x64。
+当前为 `0.1.1` Beta 功能测试版，面向 Windows 10/11 x64。
 
 ⭐ 如果你喜欢这个项目，欢迎点个 Star 支持一下。
 
@@ -19,11 +19,11 @@ Genre Police AutoVJ 是面向 DJ 现场演出的自动 VJ 工具：演出前分�
 **[前往 Releases 下载 Windows 便携版](../../releases)**
 
 - 系统要求：Windows 10 或 Windows 11，64 位（x64）。
-- 下载 `Genre-Police-AutoVJ-0.1.0-portable.exe` 后直接运行，无需安装。
+- 下载 `Genre-Police-AutoVJ-0.1.1-portable.exe` 后直接运行，无需安装。
 - 不需要另外安装 Node.js、Python 或单独的 AI 环境。
 - 发布包同时提供 `BUILD-INFO.json` 和 `SHA256SUMS.txt`，可使用后者核对文件校验值。
 
-`0.1.0` 尚未进行 Authenticode 代码签名，因此 Windows SmartScreen 可能显示“无法识别的发布者”。请只从本项目的 GitHub Releases 页面下载。
+`0.1.1` 尚未进行 Authenticode 代码签名，因此 Windows SmartScreen 可能显示“无法识别的发布者”。请只从本项目的 GitHub Releases 页面下载。
 
 ## 界面预览
 
@@ -44,7 +44,8 @@ Genre Police AutoVJ 是面向 DJ 现场演出的自动 VJ 工具：演出前分�
 - **前置曲库分析**：读取 ID3、Vorbis 等标签，结合 Apple / Deezer 查询和整曲本地 AI；结果优先级为手动指定、文件标签、在线资料、整曲 AI。
 - **现场识别**：使用 [VJVision](https://github.com/ichiryu0021/VJVision) 进行指纹匹配、音乐电量证据累积和候选确认，确认后再切换视觉。
 - **Genre Police 视觉**：沿用 [Genre Police Visualizer](https://github.com/lbnandy/genre-police-visualizer) 的可视化结构、背景设计、字体、配色、动态效果和过渡，并保留曲名、艺人和封面；VJ 输出不显示歌词。
-- **现场设置**：支持上下 / 左右布局、显示文字开关、英文窄体、每套曲库一个 DJ 名字和待机视觉。
+- **节拍与冲击**：支持 本地节拍识别、Ableton Link 同步、音乐响应 / 节拍驱动、冲击强度调节和全屏冲击。
+- **现场设置**：支持上下 / 左右布局、元素显示开关、英文窄体、可视化大小和待机视觉；每套曲库可保存 DJ 名字、Logo 和自定义封面。
 - **曲库与输出**：支持曲库导入/导出、重命名、整库删除、批量移除和撤销；输出到窗口预览、全屏外接屏幕、Spout 或 NDI。
 - **性能与界面**：支持低负载模式、帧率上限、自适应渲染质量、更新提示与输出诊断、无边框控制台和中英日韩界面，默认跟随系统语言。
 
@@ -58,7 +59,7 @@ AutoVJ 监听用户选择的 DJ Master / Record 音频输入，不播放音乐�
 2. 添加本地音乐，运行分析，复核需要确认的结果；可为整套曲库填写 DJ 名字。
 3. 将准备好的曲库导出为便携曲库包，带到演出电脑；曲库包不包含原始音频。
 4. 在演出电脑导入曲库，选择 DJ Master / Record 输入与通道，开始监听。
-5. 在画面输出中选择窗口预览、全屏、Spout 或 NDI；需要外接屏幕时启动全屏输出。`Esc` 收起输出，`B` 切黑，`A` 恢复自动，`F` 切换全屏。
+5. 在画面输出中选择窗口预览、全屏、Spout 或 NDI；需要外接屏幕时启动全屏输出。`Esc` 收起输出，`B` 切黑，`A` 恢复自动，`F` 切换全屏，`X` 切换全屏冲击。
 
 ## 隐私与联网
 

@@ -1,7 +1,14 @@
+import { ScreenImpact } from "./screen-impact.mjs";
+const screenImpact = new ScreenImpact();
+let brandAnchor = null;
+let brandLayoutTransition = false;
+import { RhythmClock } from "./rhythm-clock.mjs";
+const rhythmClock = new RhythmClock();
+let lastSignalAt = -Infinity;
 import { VisualEngine } from "../vendor/genre-police/renderer/visual-engine.js";
 import { AudioEngine } from "../vendor/genre-police/renderer/audio-engine.js";
 import { applyVisualResponse } from "../vendor/genre-police/renderer/audio-response.mjs";
-import { softenMotionMetrics } from "../vendor/genre-police/renderer/motion-preference.mjs";
+import { applyImpactLevel, impactPresentation } from "./impact-level.mjs";
 import { synthwaveAudioResponse } from "../vendor/genre-police/renderer/synthwave-response.mjs";
 import { KawaiiExpressionTracker } from "../vendor/genre-police/renderer/kawaii-expression.mjs";
 import { visualFinish } from "../vendor/genre-police/renderer/visual-finish.mjs";
@@ -11,7 +18,7 @@ import { createTextMotion } from "./upstream-text-motion.mjs";
 import { scheduleFrame } from "../vendor/genre-police/renderer/frame-rate-limit.mjs";
 import { outputFrameInterval } from "./output-frame-rate.mjs";
 import { translate, setLanguage, readingLanguageFor } from "./i18n.mjs";
-import { stageGeometry } from "./stage-geometry.mjs";
+import { stageGeometry, visualSizeScale } from "./stage-geometry.mjs";
 import { AdaptiveResolution } from "./adaptive-resolution.mjs";
 const $ = (id) => document.getElementById(id),
   root = document.documentElement,
@@ -87,7 +94,7 @@ function resolutionScale(time) {
   const lowPower = settings.performanceMode === 'low';
   const auto = settings.renderScale === "auto";
   const context = [themeKey, innerWidth, innerHeight, devicePixelRatio,
-    settings.fullscreenLayout, settings.textVisible, settings.frameRateLimit,lowPower].join(":");
+    settings.fullscreenLayout, settings.visualSize, settings.textVisible, settings.frameRateLimit,lowPower].join(":");
   const adaptive = adaptiveResolution.prepare({context, time,
     active: auto && scene?.outputVisible && !scene?.blackout && Boolean(scene?.active || !scene?.standby || scene?.externalOutput),
     frameRateLimit: settings.frameRateLimit,lowPower});
@@ -102,10 +109,21 @@ function applyResolution(value) {
   visual.resize();
 }
 function scale() {
-  const g = stageGeometry(innerWidth, innerHeight, scene?.settings.fullscreenLayout || "split");
-  const {scale: s, x, y, designHeight, stackY, hudTop} = g;
+  brandAnchor = null;
+  const size = visualSizeScale(scene?.settings.visualSize);
+  const g = stageGeometry(innerWidth, innerHeight, scene?.settings.fullscreenLayout || "split", scene?.settings.visualSize);
+  const {scale: s, x, y, designHeight} = g;
+  let {stackY,hudTop} = g;
+  if (scene?.settings.trackInfoVisible === false && scene?.settings.fullscreenLayout === "stacked") {
+    const headingHeight = $("hud").offsetHeight || 72;
+    const total = 200 * size + 28 + headingHeight;
+    stackY = (designHeight - total) / 2 + 100 * size - designHeight * 0.025;
+    hudTop = stackY + 100 * size + 28;
+  }
   const p = {
     "--stage-output-scale": s,
+    "--visual-size-scale": size,
+    "--stage-split-hud-left": 330 + (size - 1) * 120 + "px",
     "--stage-design-height": designHeight + "px",
     "--stage-stack-y": stackY + "px",
     "--stage-hud-top": hudTop + "px",
@@ -115,7 +133,7 @@ function scale() {
     "--stage-visual-width": 920 + 2 * x + "px",
     "--stage-visual-height": designHeight + 2 * y + "px",
     "--stage-split-visual-center-x": 206 + x + "px",
-    "--stage-split-visual-center-y": 200 + y + "px",
+    "--stage-split-visual-center-y": 200 + y - (scene?.settings.trackInfoVisible === false ? 10 : 0) + "px",
     "--stage-stacked-visual-center-x": 460 + x + "px",
     "--stage-stacked-visual-center-y": stackY + y + "px",
     "--stage-hidden-visual-center-y": designHeight / 2 + y + "px",
@@ -222,7 +240,17 @@ window.autovj.onScene((next) => {
   body.dataset.fullscreenEnglish = next.settings.fullscreenCondensed ? "condensed" : "regular";
   body.dataset.fullscreenLayout = next.settings.fullscreenLayout || "split";
   setTheme(next.theme, next.themeKey);
-  const djHeading = next.settings.showDjName && next.djName?.trim();
+  const mode = next.settings.headingMode || (next.settings.showDjName ? "dj" : "genre");
+  const logo = mode === "logo" && next.djLogo;
+  $("dj-logo").hidden = !logo;
+  if (logo && $("dj-logo").getAttribute("src") !== logo) $("dj-logo").src = logo;
+  if (!logo) $("dj-logo").removeAttribute("src");
+  root.style.setProperty("--dj-logo-height", (72 * (next.djLogoScale || 1)) + "px");
+  body.dataset.headingMode = logo ? "logo" : mode === "hidden" ? "hidden" : "text";
+  body.dataset.trackInfo = String(next.settings.trackInfoVisible !== false);
+  body.dataset.artworkVisible = String(next.settings.artworkVisible !== false);
+  body.dataset.brandingVisible = String(next.settings.brandingVisible !== false);
+  const djHeading = (mode === "dj" || mode === "logo") && next.djName?.trim();
   body.dataset.headingKind = djHeading ? "dj" : "genre";
   const label = djHeading || (next.standby
     ? "STANDBY"
@@ -234,7 +262,7 @@ window.autovj.onScene((next) => {
   root.style.setProperty("--genre-font", neutralStandby ? '"Space Grotesk"' : theme.font);
   root.style.setProperty("--output-brightness", next.settings.brightness);
   body.classList.toggle("blackout", next.blackout);
-  body.dataset.stageOutputText = String(next.settings.textVisible);
+  body.dataset.stageOutputText = String(next.settings.textVisible && !(mode === "hidden" && next.settings.trackInfoVisible === false));
   $("title").querySelector(".title-scroll-text").textContent =
     next.track?.title ||
     translate(next.settings.language, "等待音乐", "WAITING FOR MUSIC");
@@ -243,7 +271,7 @@ window.autovj.onScene((next) => {
   for (const id of ["title", "artist"]) {
     $(id).lang = readingLanguageFor($(id).textContent, readingContext, next.settings.language, theme.id);
   }
-  const art = next.track?.artwork || "";
+  const art = next.customArtwork || next.track?.artwork || "";
   if (art !== lastArt) {
     lastArt = art;
     $("artwork").classList.remove("loaded");
@@ -267,13 +295,21 @@ window.autovj.onScene((next) => {
     );
   }
 });
+$("dj-logo").onload = () => scale();
 $("artwork").onload = () => $("artwork").classList.add("loaded");
 window.autovj.onPCM((frame) => {
-  if (scene?.active && audio.node)
+  if (scene?.active && audio.node) {
+    let sum=0;for(const sample of frame.samples)sum+=sample*sample;
+    if(frame.samples.length && Math.sqrt(sum/frame.samples.length)>.0001) lastSignalAt=performance.now();
     audio.node.port.postMessage({ samples: frame.samples });
+  }
   window.autovj.ackPCM();
 });
-window.autovj.onRhythm((e) => audio.setModelAssist(e));
+window.autovj.onLink(e => rhythmClock.setLink(e));
+window.autovj.onRhythm(e => {
+  audio.setModelAssist(rhythmClock.source(scene?.settings||{},performance.timeOrigin+performance.now()) === "audio" ? e : {type:"disabled"});
+  rhythmClock.setModel(e, performance.timeOrigin + performance.now());
+});
 window.autovj.onRenderActive(active => {
   renderActive = Boolean(active);
   body.classList.toggle('render-paused',!renderActive);
@@ -295,7 +331,8 @@ function refreshTypography() {
   // Chromium may defer animation callbacks on a hidden output window. Fit
   // immediately so its captured console preview also uses the current name.
   fitStageTypography();
-  document.fonts.ready.then(fitStageTypography);
+  scale();
+  document.fonts.ready.then(() => { fitStageTypography(); scale(); });
 }
 window.addEventListener("resize", () => {
   scale();
@@ -313,7 +350,16 @@ window.autovj.onOutputResume(() => {
   // resume exactly one animation loop (including repeated fullscreen shows).
   animate(lastFrame);
 });
+for (const event of ['transitionrun', 'transitionend', 'transitioncancel']) {
+  $('hud').addEventListener(event, e => {
+    if (e.target === $('hud') && e.propertyName === 'transform') {
+      brandLayoutTransition = event === 'transitionrun';
+      brandAnchor = null;
+    }
+  });
+}
 window.addEventListener("keydown", (e) => {
+  if (e.code === "KeyX" && !e.repeat && !e.ctrlKey && !e.altKey && !e.metaKey) window.autovj.call("settings", {screenImpact: !scene?.settings.screenImpact});
   if (e.code === "Escape") window.autovj.hideOutput();
 });
 window.addEventListener("error", (e) => window.autovj.stageError(e.message));
@@ -337,17 +383,57 @@ function animate(time) {
   const rawInterval = time - lastFrame;
   const dt = clamp(time - lastFrame, 4, 80);
   lastFrame = time;
+  if (rhythmClock.prepare(scene?.settings || {}, performance.timeOrigin + time, Boolean(scene?.active))) {
+    screenImpact.reset();
+    audio.resetDetectionState();
+    audio.setModelAssist({type:"disabled"});
+  }
   let metrics = scene?.active ? audio.update(time) : audio.emptyMetrics();
+  // Raw waveform threshold, independent of adaptive visual gain.
+  const signal=scene?.active && performance.now()-lastSignalAt<150;
+  metrics = rhythmClock.update(metrics, scene?.settings || {}, performance.timeOrigin + time, Boolean(scene?.active), signal);
+  const impactLevel = scene?.settings.impactLevel || 'medium';
+  const hit = screenImpact.update(metrics, time, Boolean(scene?.settings.screenImpact && scene?.active && signal && !scene?.blackout), scene?.settings.impactMode, impactLevel);
+  const layer = $("screen-impact-layer");
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const presentation = impactPresentation(scene?.active && signal && !scene?.blackout ? metrics : {}, impactLevel, reduced);
+  root.style.setProperty('--visual-impact-scale', presentation.visualScale);
+  root.style.setProperty('--title-impact-scale', presentation.titleScale);
+  const motion = hit.motion * (reduced ? .25 : 1);
+  const brand = document.querySelector('.jurisdiction');
+  if (!brandAnchor || brandLayoutTransition) {
+    layer.style.transform = 'none';
+    brand.style.transform = 'none';
+    const rect = brand.getBoundingClientRect();
+    brandAnchor = {x: rect.left, y: rect.top, scale: stageGeometry(innerWidth, innerHeight, scene?.settings.fullscreenLayout || 'split', scene?.settings.visualSize).scale};
+  }
+  // Conjugate the inverse viewport transform into the brand's local space.
+  // This anchors the existing text without cloning it or losing theme styling.
+  if (motion > .001) {
+    const zoom = 1 + motion * .065;
+    const skew = Math.tan(Math.sin(hit.age * .045) * motion * .7 * Math.PI / 180);
+    const cx = innerWidth / 2, cy = innerHeight / 2;
+    const inverse = new DOMMatrix([zoom, 0, zoom * skew, zoom, cx - zoom * cx - zoom * skew * cy, cy - zoom * cy]).inverse();
+    const {x, y, scale: s} = brandAnchor;
+    const point = inverse.transformPoint({x, y});
+    brand.style.transformOrigin = '0 0';
+    brand.style.transform = `matrix(${inverse.a},${inverse.b},${inverse.c},${inverse.d},${(point.x-x)/s},${(point.y-y)/s})`;
+  } else {
+    brand.style.transform = 'none';
+  }
+  layer.style.transform = motion > .001 ? `scale(${1 + motion * .065}) skewX(${Math.sin(hit.age * .045) * motion * .7}deg)` : 'none';
+  const rgb = !reduced && scene?.settings.performanceMode !== 'low' ? hit.rgb : 0;
+  $('screen-rgb-red').setAttribute('dx', rgb.toFixed(2));
+  $('screen-rgb-blue').setAttribute('dx', (-rgb).toFixed(2));
+  layer.style.filter = rgb > .15 ? 'url(#screen-rgb)' : 'none';
+  $("screen-impact-flash").style.opacity = String(hit.flash * (reduced ? .025 : .12));
   metrics = applyVisualResponse(
     metrics,
     { calm: "gentle", standard: "standard", energetic: "strong" }[
       scene?.settings.intensity
     ],
   );
-  metrics = softenMotionMetrics(
-    metrics,
-    scene?.settings.flashEnabled ? "standard" : "gentle",
-  );
+  metrics = applyImpactLevel(metrics, scene?.settings.impactLevel || "medium");
   if (theme.id === "synthwave")
     metrics = {
       ...metrics,

@@ -10,7 +10,7 @@ Genre Police AutoVJ is an automatic VJ tool for live DJ shows. It analyses a loc
 
 **Project design, visuals and genre-analysis integration by [LBN](https://github.com/lbnandy) · [Genre Police Visualizer](https://github.com/lbnandy/genre-police-visualizer); audio recognition by [DJ ICHIRYU](https://github.com/ichiryu0021) · [VJVision](https://github.com/ichiryu0021/VJVision)**
 
-The current release is the `0.1.0` Beta functional test build for Windows 10/11 x64.
+The current release is the `0.1.1` Beta functional test build for Windows 10/11 x64.
 
 ⭐ If you like this project, consider giving it a star on GitHub.
 
@@ -19,11 +19,11 @@ The current release is the `0.1.0` Beta functional test build for Windows 10/11 
 **[Open Releases to download the Windows portable build](../../releases)**
 
 - Requires 64-bit Windows 10 or Windows 11 (x64).
-- Download and run `Genre-Police-AutoVJ-0.1.0-portable.exe`; no installation is required.
+- Download and run `Genre-Police-AutoVJ-0.1.1-portable.exe`; no installation is required.
 - Node.js, Python and a separate AI runtime are not required.
 - The package includes `BUILD-INFO.json` and `SHA256SUMS.txt`; use the latter if you want to verify the executable.
 
-Version `0.1.0` is not Authenticode-signed. Windows SmartScreen may therefore show an unknown-publisher warning. Only download the executable from this project's GitHub Releases page.
+Version `0.1.1` is not Authenticode-signed. Windows SmartScreen may therefore show an unknown-publisher warning. Only download the executable from this project's GitHub Releases page.
 
 ## Screenshots
 
@@ -44,7 +44,8 @@ Version `0.1.0` is not Authenticode-signed. Windows SmartScreen may therefore sh
 - **Pre-show analysis:** reads ID3, Vorbis and related tags, then combines Apple / Deezer lookup with whole-track local AI. Resolution priority is manual choices, file tags, online metadata and whole-track AI.
 - **Live recognition:** uses [VJVision](https://github.com/ichiryu0021/VJVision) for fingerprint matching, music-charge evidence and candidate confirmation before a visual change.
 - **Genre Police visuals:** keeps the [Genre Police Visualizer](https://github.com/lbnandy/genre-police-visualizer) visual structure, background design, typography, colour, motion and transitions, along with the track title, artist and artwork; lyrics are omitted from VJ output.
-- **Show controls:** stacked or split layouts, text visibility, condensed English type, one DJ name per library and a selectable standby visual.
+- **Beats and impact:** local beat tracking, Ableton Link synchronization, music-responsive or beat-driven impacts, adjustable impact strength, and screen-impact effects.
+- **Show controls:** stacked or split layouts, element visibility, condensed English type, visual size, and standby visuals; each library can store a DJ name, logo, and custom artwork.
 - **Library and output:** portable library import/export, library rename, full-library deletion, batch removal and undo; local preview, fullscreen display, Spout and NDI output.
 - **Performance and interface:** low-load mode, frame-rate caps, adaptive render quality, update reminders, output diagnostics, a frameless console, and Simplified Chinese, English, Japanese and Korean UI languages. Follow System is the default.
 
@@ -58,7 +59,7 @@ AutoVJ listens to the selected DJ Master / Record audio input. It is not a music
 2. Create or import a library, add local music, run analysis and review uncertain results. Add one DJ name to the library if desired.
 3. Export the prepared library as a portable pack and take it to the show computer; the pack does not contain the original audio.
 4. Import the library on the show computer, select the DJ Master / Record input and channel pair, and start listening.
-5. Choose window preview, fullscreen, Spout or NDI under video output; start fullscreen when using an external display. `Esc` hides output, `B` toggles blackout, `A` restores automatic visuals and `F` toggles fullscreen.
+5. Choose window preview, fullscreen, Spout or NDI under video output; start fullscreen when using an external display. `Esc` hides output, `B` toggles blackout, `A` restores automatic visuals `F` toggles fullscreen, and `X` toggles screen impact.
 
 ## Privacy and network
 

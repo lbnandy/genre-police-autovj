@@ -1,0 +1,43 @@
+diff --git a/include/ableton/platforms/asio/Socket.hpp b/include/ableton/platforms/asio/Socket.hpp
+index 4fa4692..e81a9f0 100644
+--- a/include/ableton/platforms/asio/Socket.hpp
++++ b/include/ableton/platforms/asio/Socket.hpp
+@@ -68,10 +68,11 @@ struct Socket
+     return mpImpl->mSocket.local_endpoint();
+   }
+ 
+-  struct Impl
++  struct Impl : std::enable_shared_from_this<Impl>
+   {
+     Impl(::LINK_ASIO_NAMESPACE::io_service& io, ::LINK_ASIO_NAMESPACE::ip::udp protocol)
+       : mSocket(io, protocol)
++      , mRetry(io)
+     {
+     }
+ 
+@@ -92,9 +93,25 @@ struct Socket
+         const auto bufBegin = begin(mReceiveBuffer);
+         mHandler(mSenderEndpoint, bufBegin, bufBegin + static_cast<ptrdiff_t>(numBytes));
+       }
++      else if (error != ::LINK_ASIO_NAMESPACE::error::operation_aborted
++        && error != ::LINK_ASIO_NAMESPACE::error::bad_descriptor
++        && mSocket.is_open())
++      {
++        // AutoVJ: UDP peer departures can produce WSAECONNRESET on Windows.
++        // A receive error or empty datagram must not permanently stop listening.
++        // Defer retries to avoid spinning on a persistent interface error.
++        mRetry.expires_from_now(std::chrono::milliseconds{10});
++        mRetry.async_wait([self = this->shared_from_this()](const auto& ec) {
++          if (!ec && self->mSocket.is_open())
++            self->mSocket.async_receive_from(
++              ::LINK_ASIO_NAMESPACE::buffer(self->mReceiveBuffer, MaxPacketSize),
++              self->mSenderEndpoint, util::makeAsyncSafe(self));
++        });
++      }
+     }
+ 
+     discovery::UdpSocket mSocket;
++    ::LINK_ASIO_NAMESPACE::steady_timer mRetry;
+     discovery::UdpEndpoint mSenderEndpoint;
+     using Buffer = std::array<uint8_t, MaxPacketSize>;
+     Buffer mReceiveBuffer;

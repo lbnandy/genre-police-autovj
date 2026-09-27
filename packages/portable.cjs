@@ -29,6 +29,9 @@ function readPackage(root) {
     if (!/^custom-[a-f0-9-]+$/i.test(p.id))
       throw new Error("Invalid preset ID");
   data.djName = normalizeDjName(data.djName);
+  data.customArtwork = require("./dj-logo.cjs").validateLogo(data.customArtwork);
+  data.djLogo = require("./dj-logo.cjs").validateLogo(data.djLogo);
+  data.djLogoScale = require("./dj-logo.cjs").logoScale(data.djLogoScale);
   return data;
 }
 function copyRegular(from, to, limit) {

@@ -18,7 +18,11 @@ function drawForegroundRiffStrings(metrics, time) {
   const width = riffStrings.clientWidth;
   const height = riffStrings.clientHeight;
   if (!width || !height) return;
-  const renderedWidth = riffStrings.getBoundingClientRect().width;
+  // Exclude transient impact transforms so each kick does not reallocate the
+  // canvas backing store. Still include the user's persistent visual size.
+  const outputStyle = getComputedStyle(document.documentElement);
+  const renderedWidth = width * (Number(outputStyle.getPropertyValue('--stage-output-scale')) || 1)
+    * (Number(outputStyle.getPropertyValue('--visual-size-scale')) || 1);
   const pixelRatio = presentationPixelRatio({
     designWidth: width,
     renderedWidth,

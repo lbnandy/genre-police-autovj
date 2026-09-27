@@ -9,3 +9,7 @@ native/bin/
 .playwright-cli/
 output/
 .upstream-staging/
+
+# Local Python model-export and analysis caches
+__pycache__/
+*.py[cod]

@@ -4,6 +4,7 @@ const {
   BrowserWindow,
   ipcMain,
   dialog,
+  nativeImage,
   screen,
   shell,
   session,
@@ -14,6 +15,10 @@ const {
 const fs = require("node:fs"),
   path = require("node:path"),
   crypto = require("node:crypto");
+const { LinkClient } = require("../packages/link-client.cjs");
+const linkClient = new LinkClient();
+let rhythmStatus = "off";
+let lastLinkSummary = "";
 const { Worker } = require("node:worker_threads");
 const { Library, atomicJson, UUID } = require("../packages/library.cjs");
 const { LiveHost, nativeTask } = require("../packages/native-host.cjs");
@@ -37,13 +42,14 @@ const { translate, resolveLanguage } = require("../packages/i18n.cjs");
 const languagePreference = () => config.language || "system";
 const language = () => resolveLanguage(languagePreference(), app.getLocale());
 const tr = (text) => translate(language(), text);
-const settings = () => ({ ...library.data.settings, ...config.equipment, performanceMode:performanceProfile(config.performanceMode), keepAwake:config.keepAwake !== false, language: language(), languagePreference: languagePreference() });
+const settings = () => ({ ...library.data.settings, rhythmSource:["auto","audio","link"].includes(config.rhythmSource) ? config.rhythmSource : "auto", linkOffsetMs:Math.max(-250,Math.min(250,Number(config.linkOffsetMs)||0)), ...config.equipment, performanceMode:performanceProfile(config.performanceMode), keepAwake:config.keepAwake !== false, language: language(), languagePreference: languagePreference() });
 const realResource = (p) =>
   app.isPackaged
     ? path.join(process.resourcesPath, "app.asar.unpacked", p)
     : path.join(ROOT, p);
 const EXE = realResource("native/bin/autovj-recognizer.exe"),
   MODELS = realResource("vendor/genre-police/assets/models");
+const LINK_EXE = realResource("native/bin/Carabiner.exe");
 const videoSender = new VideoSender(realResource("native/bin/autovj-video-output.exe"));
 const textures = new TextureDistributor(sharedTexture);
 let videoRoutes = {spout:false,ndi:false}, videoChanging = false, videoChange = Promise.resolve();
@@ -192,6 +198,7 @@ function publicState() {
     libraries: listLibraries(),
     settings: settings(),
     video: {...videoSender.state, ...videoRoutes, changing:videoChanging, settings:videoSettings(config.video)},
+    rhythm: {model:rhythmStatus,link:{status:linkClient.state.status,peers:linkClient.state.peers,bpm:Math.round((linkClient.state.bpm||0)*10)/10},componentAvailable:fs.existsSync(LINK_EXE)},
     devices,
     channels: channelOptions(devices.find(d => d.id === settings().deviceId)),
     inputHealth: inputHealth.status(live),
@@ -250,6 +257,9 @@ function scene() {
     themeKey: themeId,
     track: library.publicTrack(track, true),
     djName: library.data.djName,
+    customArtwork: library.data.customArtwork,
+    djLogo: library.data.djLogo,
+    djLogoScale: library.data.djLogoScale,
     settings: externalOutput() ? {...settings(),frameRateLimit:String(videoSettings(config.video).fps),idleFrameLimit:false} : settings(),
     blackout: live.blackout,
     active: live.running && !live.deviceLost,
@@ -413,22 +423,51 @@ function createStage() {
   stageWindow.webContents.on('render-process-gone',recover);
   sourceWindow.webContents.on('render-process-gone',recover);
 }
+function configureLink() {
+  if (config.rhythmSource !== "audio") linkClient.start(LINK_EXE);
+  else linkClient.disconnect();
+}
+function needsRhythmModel() {
+  return live.running && config.rhythmSource !== "link" && (config.rhythmSource === "audio" || linkClient.state.status !== "connected" || !linkClient.state.peers);
+}
+linkClient.on('state', sample => {
+  if (stageReady && !sourceWindow?.isDestroyed()) sourceWindow.webContents.send('autovj:link',sample);
+  if (!library || quitting) return;
+  if (needsRhythmModel() && !rhythmWorker) startRhythm();
+  else if (!needsRhythmModel() && rhythmWorker) stopRhythm();
+  const summary=JSON.stringify([sample.status,sample.peers,Math.round((sample.bpm||0)*10)]);
+  if(summary!==lastLinkSummary){lastLinkSummary=summary;broadcast();}
+});
 function startRhythm() {
   stopRhythm();
-  if (!library.data.settings.rhythmModel) return;
+  if (!needsRhythmModel()) return;
+  rhythmStatus = "starting";
+  const rhythmConfig = require("../packages/rhythm-config.cjs").rhythmConfig(realResource);
   rhythmWorker = new Worker(path.join(ROOT, "packages/rhythm-worker.cjs"), {
-    workerData: { modelPath: path.join(MODELS, "beatnet-model-1.onnx") },
+    workerData: {
+      ...rhythmConfig,
+    },
   });
+  const worker = rhythmWorker;
   rhythmWorker.on("message", (m) => {
+    if (worker !== rhythmWorker) return;
     if (m.type === "ack") rhythmPending = Math.max(0, rhythmPending - 1);
-    else if (stageReady) sourceWindow.webContents.send("autovj:rhythm", m);
+    else {
+      const next=['ready','rhythm'].includes(m.type)?'ready':m.type==='unavailable'?'unavailable':rhythmStatus;
+      if(next!==rhythmStatus){rhythmStatus=next;broadcast();}
+      if(stageReady)sourceWindow.webContents.send("autovj:rhythm", m);
+    }
   });
   rhythmWorker.on("error", (e) => {
-    error = tr("节拍辅助不可用，继续使用实时 DSP：") + e.message;
+    if (worker !== rhythmWorker) return;
+    rhythmStatus = "unavailable";
+    error = tr("音频节拍不可用：") + e.message;
+    if (stageReady) sourceWindow.webContents.send("autovj:rhythm", {type:"unavailable"});
     broadcast();
   });
 }
 function stopRhythm() {
+  rhythmStatus = "off";
   rhythmWorker?.terminate();
   rhythmWorker = null;
   rhythmPending = 0;
@@ -485,14 +524,23 @@ function setSettings(input) {
         "localAI",
         "textVisible",
         "showDjName",
+        "trackInfoVisible",
+        "artworkVisible",
+        "brandingVisible",
         "fullscreenCondensed",
-        "rhythmModel",
-        "flashEnabled",
+        "screenImpact",
         "idleFrameLimit",
         "showFps",
       ].includes(key)
     )
-      s[key] = Boolean(value);
+      { s[key] = Boolean(value); if (key === "showDjName") s.headingMode = value ? "dj" : "genre"; }
+    else if (key === "rhythmSource" && ["auto","audio","link"].includes(value)) config.rhythmSource=value;
+    else if (key === "linkOffsetMs" && Number.isFinite(Number(value))) config.linkOffsetMs=Math.max(-250,Math.min(250,Math.round(Number(value))));
+    else if (key === "beatStrength" && ["fixed","dynamic"].includes(value)) s.beatStrength=value;
+    else if (key === "impactMode" && ["music","beat"].includes(value)) s.impactMode=value;
+    else if (key === "impactLevel" && ["low","medium","high","extreme","ultra"].includes(value)) s.impactLevel=value;
+    else if (key === "visualSize" && ["standard","large","maximum"].includes(value)) s.visualSize=value;
+    else if (key === "headingMode" && ["genre", "dj", "logo", "hidden"].includes(value)) { s.headingMode = value; s.showDjName = value === "dj"; }
     else if (key === "brightness")
       s[key] = Math.max(0.05, Math.min(1, Number(value) || 0.85));
     else if (
@@ -534,7 +582,9 @@ function setSettings(input) {
   }
   saveConfig();
   library.save();
-  if (live.running && "rhythmModel" in input) startRhythm();
+  if ("rhythmSource" in input) configureLink();
+  if (needsRhythmModel() && !rhythmWorker) startRhythm();
+  else if (!needsRhythmModel() && rhythmWorker) stopRhythm();
   sendScene();
 }
 function collectFiles(paths) {
@@ -757,6 +807,7 @@ async function action(name, input) {
         ["genre-police", "https://github.com/lbnandy/genre-police-visualizer"],
         ["vjvision", "https://github.com/ichiryu0021/VJVision"],
         ["ndi", "https://ndi.video/"],
+        ["carabiner", "https://github.com/Deep-Symmetry/carabiner/releases"],
         ["spout", "https://spout.zeal.co/"],
       ]).get(input);
       if (!url) throw new Error("Unknown repository");
@@ -953,6 +1004,55 @@ async function action(name, input) {
       live = {...initialLive(),blackout:live.blackout};
       sendScene();
       break;
+    case "library-cover": {
+      const owner = library;
+      if (input?.libraryId !== owner.data.libraryId) throw new Error(tr("曲库已切换，请重新选择。"));
+      if (input.remove) owner.data.customArtwork = "";
+      else if (input.image !== undefined) {
+        const data = require("../packages/dj-logo.cjs").validateLogo(input.image);
+        const image = nativeImage.createFromDataURL(data);
+        const size = image.getSize();
+        if (image.isEmpty() || size.width !== size.height || size.width > 1024) throw new Error("Invalid cover image");
+        owner.data.customArtwork = image.toDataURL();
+      } else {
+        const result = await dialog.showOpenDialog(consoleWindow, {properties:["openFile"],filters:[{name:"PNG / WebP / JPEG",extensions:["png","webp","jpg","jpeg"]}]});
+        if (result.canceled) return null;
+        if (owner !== library) throw new Error(tr("曲库已切换，请重新选择。"));
+        if (fs.statSync(result.filePaths[0]).size > 16*1024*1024) throw new Error(tr("图片不能超过 16 MB。"));
+        let image = nativeImage.createFromPath(result.filePaths[0]);
+        if (image.isEmpty()) throw new Error(tr("无法读取图片。"));
+        const {width,height}=image.getSize(), ratio=Math.min(1,2048/Math.max(width,height));
+        if(ratio<1) image=image.resize({width:Math.max(1,Math.round(width*ratio)),height:Math.max(1,Math.round(height*ratio))});
+        return {image:image.toDataURL()};
+      }
+      owner.save(); sendScene(); break;
+    }
+    case "library-logo": {
+      const owner = library;
+      if (input?.libraryId !== owner.data.libraryId) throw new Error(tr("曲库已切换，请重新选择。"));
+      if (input.remove) owner.data.djLogo = "";
+      else if (input.scale !== undefined) owner.data.djLogoScale = require("../packages/dj-logo.cjs").logoScale(input.scale);
+      else {
+        const result = await dialog.showOpenDialog(consoleWindow, {properties:["openFile"], filters:[{name:"Logo (PNG / WebP / JPEG)",extensions:["png","webp","jpg","jpeg"]}]});
+        if (result.canceled) break;
+        if (owner !== library) throw new Error(tr("曲库已切换，请重新选择。"));
+        const file = result.filePaths[0];
+        if (fs.statSync(file).size > 16 * 1024 * 1024) throw new Error(tr("Logo 图片不能超过 16 MB。"));
+        let image = nativeImage.createFromPath(file);
+        if (image.isEmpty()) throw new Error(tr("无法读取 Logo 图片。"));
+        const size = image.getSize();
+        const ratio = Math.min(1, 2048 / Math.max(size.width,size.height));
+        if (ratio < 1) image = image.resize({width:Math.max(1,Math.round(size.width*ratio)),height:Math.max(1,Math.round(size.height*ratio))});
+        // Remove transparent padding so the visible mark, not its canvas, determines scale.
+        const {width,height}=image.getSize(), pixels=image.toBitmap();
+        let left=width,top=height,right=-1,bottom=-1;
+        for(let y=0;y<height;y++) for(let x=0;x<width;x++) if(pixels[(y*width+x)*4+3]>8) {left=Math.min(left,x);top=Math.min(top,y);right=Math.max(right,x);bottom=Math.max(bottom,y);}
+        if(right<0) throw new Error(tr("无法读取 Logo 图片。"));
+        image=image.crop({x:left,y:top,width:right-left+1,height:bottom-top+1});
+        owner.data.djLogo=require("../packages/dj-logo.cjs").validateLogo(image.toDataURL());
+      }
+      owner.save(); sendScene(); break;
+    }
     case "library-profile":
       if (typeof input?.djName !== "string") throw new Error("Invalid DJ name");
       library.setDjName(input.djName);
@@ -1109,6 +1209,7 @@ else
         } else if (live.currentId !== prior.currentId) sendScene();
         else broadcast();
       });
+      configureLink();
       createStage();
       openConsole();
       scheduleAutomaticUpdateCheck();
@@ -1138,6 +1239,7 @@ app.on("before-quit", (e) => {
   if (quitting) return;
   e.preventDefault();
   quitting = true;
+  linkClient.stop();
   clearTimeout(videoRecoveryTimer);
   performanceSession.updateAwake(false);
   queue = [];

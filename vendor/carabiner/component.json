@@ -1,0 +1,19 @@
+{
+  "version": "1.2.0",
+  "repository": "https://github.com/Deep-Symmetry/carabiner",
+  "commit": "b7310b6e01443d90b24200318aee38e4313cd2a0",
+  "runtimeUrl": "https://github.com/Deep-Symmetry/carabiner/releases/download/v1.2.0/Carabiner_Win_x64.zip",
+  "archiveSha256": "d0acd5f739cbed3cff9dddd5e816761d4fee5c9e8716a5f948fa4ce396c6157a",
+  "sourceFile": "carabiner-1.2.0-source.zip",
+  "sourceSha256": "9f20c6422194a69409b52db3ea9999a063f96be1f8061db5c7691f6ef5f6836e",
+  "submodules": [
+    "e171aa2d15ed9eb17054558e0b3a6a413bb01067 gflags (e171aa2)",
+    " 8411df715cf522606e3b1aca386ddfc0b63d34b4 gflags/doc (8411df7)",
+    " 41d9aa111f702e78b6fbaee9d3e06dda1db6420d link (41d9aa1)",
+    " c465349fa5cd91a64bb369f5131ceacab2c0c1c3 link/modules/asio-standalone (c465349)"
+  ],
+  "build": "autovj-1",
+  "upstreamRuntimeSha256": "0b283cec99092ff07845eba617a168121caed99c8cbe7caf32ae0904b00896c2",
+  "patchFile": "link-udp-receive.patch",
+  "patchSha256": "3fdc6ec3d97cb687483bb5fa01af3216ec103571204831e2f6c06e2b2987d5c3"
+}

@@ -1,3 +1,4 @@
+import { cropCover } from "./cover-crop.mjs";
 import { updateSelectPickers, closeSelectPicker } from "./select-picker.mjs";
 import { translate, setLanguage } from "./i18n.mjs";
 import { videoRoutesMarkup, videoSettingsMarkup, syncVideo } from './video-controls.mjs';
@@ -79,7 +80,7 @@ function view() {
   <div class="hero-grid">
     <article class="panel preview-panel"><div class="panel-head"><h3>${t("输出预览", "Output preview")}</h3><span id="fps-readout" class="fps-readout" hidden></span><span id="output-badge" class="badge"></span></div>
       <div class="program"><canvas id="preview" aria-label="${t("现场输出画面预览", "Live output preview")}"></canvas><div class="preview-placeholder">${t("正在启动视觉引擎…", "Starting the visual engine…")}</div></div>
-      <div class="program-footer"><div class="readouts grow"><span>MASTER</span><div class="meter"><i id="input-meter"></i></div><span id="db-value">−∞ dB</span></div><button class="small ghost danger" id="blackout-button" data-action="blackout">${t("切黑", "Blackout")} <span class="key">B</span></button></div>
+      <div class="program-footer"><div class="readouts grow"><span>MASTER</span><div class="meter"><i id="input-meter"></i></div><span id="db-value">−∞ dB</span></div><div class="preview-actions"><button class="small ghost" id="screen-impact-button" data-action="screen-impact" aria-pressed="false">${t("全屏冲击", "Screen impact")} <kbd class="key">X</kbd></button><button class="small ghost danger" id="blackout-button" data-action="blackout">${t("切黑", "Blackout")} <span class="key">B</span></button></div></div>
     </article>
     <aside class="panel cue"><div><div class="row between"><h3>${t("当前视觉", "Current visual")}</h3><span id="mode-badge" class="badge purple"></span></div><div id="cue-theme" class="cue-theme"></div><div id="cue-track" class="cue-track"></div><div id="cue-artist" class="cue-artist"></div></div>
       <div class="cue-scroll">
@@ -88,7 +89,7 @@ function view() {
           <div class="evidence-meter"><div class="row between"><span class="charge-label"><span>${t("候选曲目", "Candidate track")}</span><span id="candidate-charge-title" class="charge-title"></span></span><span id="candidate-charge" class="charge-value"></span></div><div class="meter" role="meter" aria-label="${t("候选曲目匹配证据", "Candidate track match evidence")}" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><i id="candidate-battery"></i></div></div>
           <p id="candidate-name" class="cue-hint"></p><p id="candidate-artist" class="cue-hint"></p><p id="recognition-note" class="cue-note"></p>
         </section>
-        <section class="genre-evidence"><div class="row between"><h4>${t("曲风依据", "Genre evidence")}</h4><button id="cue-evidence-button" class="small ghost">${t("详情", "Details")}</button></div><div id="cue-evidence"></div></section>
+        <section id="cue-rhythm"><h4>${t("节奏与冲击", "Rhythm & impact")}</h4><p id="live-rhythm-status" class="cue-note"></p></section><section class="genre-evidence"><div class="row between"><h4>${t("曲风依据", "Genre evidence")}</h4><button id="cue-evidence-button" class="small ghost">${t("详情", "Details")}</button></div><div id="cue-evidence"></div></section>
       </div>
       <div class="cue-manual"><label class="field"><span>${t("手动指定视觉", "Manual visual")}</span><select id="lock-theme" data-searchable data-search-placeholder="${t("输入或选择曲风", "Type or choose a genre")}" data-empty-text="${t("未找到曲风", "No matching genres")}" aria-label="${t("手动指定视觉", "Manual visual")}"></select></label><button id="auto-button" class="small ghost" data-action="auto">${t("恢复自动", "Return to auto")} <span class="key">A</span></button></div>
     </aside>
@@ -96,42 +97,32 @@ function view() {
   <div class="control-grid">
     <article class="panel control-card"><div class="control-title">${icon("volume-2")}<h3>${t("音频输入", "Audio input")}</h3><button class="small ghost" style="margin-left:auto" data-action="refresh" aria-label="${t("刷新设备", "Refresh devices")}">${icon("refresh-cw")}</button></div><div class="field-row"><label class="field"><span>DJ MASTER</span><select id="device" aria-label="DJ Master"></select></label><label class="field"><span>${t("通道", "Channels")}</span><select id="channels"></select></label></div><p id="input-hint" class="bottom-caption"></p></article>
     <article class="panel control-card"><div class="control-title">${icon("monitor")}<h3>${t("画面输出", "Visual output")}</h3><button class="small ghost sender-settings-button" data-action="video-config">${t("发送设置", "Sender settings")}</button></div><label class="field"><span>${t("输出屏幕", "Display")}</span><select id="display"></select></label><div class="output-actions"><button data-action="window">${t("窗口预览", "Window")}</button><button data-action="fullscreen">${t("全屏输出", "Fullscreen")}</button><button class="ghost" data-action="hide">${t("收起窗口", "Hide window")}</button></div>${videoRoutesMarkup(t)}</article>
-    <article class="panel control-card performance-card"><div class="control-title">${icon("sliders-horizontal")}<h3>${t("现场表现", "Performance")}</h3></div><div class="row between"><label for="brightness" class="muted">${t("画面亮度", "Brightness")}</label><span id="brightness-value" class="range-label"></span></div><input id="brightness" type="range" min="5" max="100" aria-label="${t("画面亮度", "Brightness")}"><div class="performance-options"><select id="intensity" aria-label="${t("响应强度", "Response intensity")}"><option value="calm">${t("柔和响应", "Gentle")}</option><option value="standard">${t("标准响应", "Standard")}</option><option value="energetic">${t("强烈响应", "Strong")}</option></select></div></article>
+    <article class="panel control-card performance-card"><div class="control-title">${icon("sliders-horizontal")}<h3>${t("现场表现", "Performance")}</h3></div><div class="row between"><label for="brightness" class="muted">${t("画面亮度", "Brightness")}</label><span id="brightness-value" class="range-label"></span></div><input id="brightness" type="range" min="5" max="100" aria-label="${t("画面亮度", "Brightness")}"><div class="performance-options"><label class="performance-field"><span>${t("视觉响应强度", "Visual response intensity")}</span><select id="intensity"><option value="calm">${t("低", "Low")}</option><option value="standard">${t("中", "Medium")}</option><option value="energetic">${t("高", "High")}</option></select></label><label class="performance-field"><span>${t("冲击效果强度", "Impact effect intensity")}</span><select id="impactLevel"><option value="low">${t("低", "Low")}</option><option value="medium">${t("中", "Medium")}</option><option value="high">${t("高", "High")}</option><option value="extreme">${t("极高", "Very high")}</option><option value="ultra">${t("超高", "Ultra")}</option></select></label><label class="performance-field"><span>${t("可视化大小", "Visualizer size")}</span><select id="visualSize"><option value="standard">${t("小", "Small")}</option><option value="large">${t("标准", "Standard")}</option><option value="maximum">${t("大", "Large")}</option></select></label></div></article>
   </div>
 </section>
 <section class="page" id="page-library">
   <div class="page-heading"><h1>${t("准备音乐", "Prepare")}</h1><div class="row"><button data-action="import">${t("导入曲库包", "Import pack")}</button><button data-action="export">${t("导出曲库包", "Export library pack")}</button></div></div>
-  <div class="library-bar"><label class="field"><span>${t("当前曲库", "Active library")}</span><select id="library-select"></select></label><button data-action="new-library">+ ${t("新建曲库", "New library")}</button><div class="library-management"><button id="library-manage-button" class="ghost" popovertarget="library-manage" aria-controls="library-manage" aria-expanded="false">${t("管理曲库", "Manage library")}<img class="ui-icon" src="../assets/material-symbols/expand_more.svg" alt=""></button><div id="library-manage" class="action-popover" popover aria-label="${t("管理曲库", "Manage library")}"><button class="ghost" data-action="rename-library">${t("重命名", "Rename")}</button><button class="ghost" data-action="reveal">${t("打开曲库数据文件夹", "Open library data folder")}</button><div class="divider"></div><button class="ghost danger" data-action="delete-library">${t("删除曲库", "Delete library")}</button></div></div><label class="field dj-name-field"><span>${t("DJ 名字", "DJ name")}</span><input id="dj-name" type="text" maxlength="64" autocomplete="off" placeholder="${t("整套曲库使用的 DJ 名字", "One DJ name for this library")}" title="${t("自动保存到当前曲库，导出曲库时一起携带。", "Saved automatically to this library and included in its export.")}"></label><div class="summary-grid" id="summaries"></div></div>
+  <div class="library-bar"><label class="field"><span>${t("当前曲库", "Active library")}</span><select id="library-select"></select></label><button data-action="new-library">+ ${t("新建曲库", "New library")}</button><div class="library-management"><button id="library-manage-button" class="ghost" popovertarget="library-manage" aria-controls="library-manage" aria-expanded="false">${t("管理曲库", "Manage library")}<img class="ui-icon" src="../assets/material-symbols/expand_more.svg" alt=""></button><div id="library-manage" class="action-popover" popover aria-label="${t("管理曲库", "Manage library")}"><button class="ghost" data-action="rename-library">${t("重命名", "Rename")}</button><button class="ghost" data-action="reveal">${t("打开曲库数据文件夹", "Open library data folder")}</button><div class="divider"></div><button class="ghost danger" data-action="delete-library">${t("删除曲库", "Delete library")}</button></div></div><div class="summary-grid" id="summaries"></div></div>
+  <details class="performance-details dj-profile"><summary>${t("DJ 标识", "DJ identity")}<img class="ui-icon" src="../assets/material-symbols/expand_more.svg" alt=""></summary><p class="dj-profile-note">${t("自动保存到当前曲库，导出曲库时一起携带。", "Saved automatically to this library and included in its export.")}</p><div class="dj-profile-fields"><label class="field dj-name-field"><span>${t("DJ 名字", "DJ name")}</span><input id="dj-name" type="text" maxlength="64" autocomplete="off" placeholder="${t("整套曲库使用的 DJ 名字", "One DJ name for this library")}" title="${t("自动保存到当前曲库，导出曲库时一起携带。", "Saved automatically to this library and included in its export.")}"></label><div class="dj-logo-control"><span class="profile-label">DJ Logo</span><div class="profile-actions"><img id="dj-logo-preview" alt="DJ Logo" hidden><button class="ghost" data-action="choose-logo">${t("选择 DJ Logo", "Choose DJ logo")}</button><button id="remove-logo" class="small ghost" data-action="remove-logo">${t("移除", "Remove")}</button></div><label id="logo-scale-field" class="field"><span>${t("Logo 大小", "Logo size")} <output id="logo-scale-value"></output></span><input id="logo-scale" type="range" min="50" max="150" step="5" aria-label="${t("Logo 大小", "Logo size")}"></label><small>${t("推荐透明 PNG，自动裁去透明边距并保留比例。", "Transparent PNG recommended; padding is trimmed and proportions preserved.")}</small></div><div class="library-cover-control"><span class="profile-label">${t("自定义封面", "Custom cover")}</span><div class="profile-actions"><img id="custom-cover-preview" alt="" hidden><button class="ghost" data-action="choose-cover">${t("自定义封面", "Custom cover")}</button><button id="remove-cover" class="small ghost" data-action="remove-cover">${t("移除", "Remove")}</button></div><small>${t("替换整套曲库的封面；移除后恢复曲目封面。", "Overrides artwork for this library. Remove to restore track artwork.")}</small></div></div></details>
   <div class="toolbar"><button class="primary" data-action="files">+ ${t("添加音乐", "Add music")}</button><button data-action="folder">${t("添加文件夹", "Add folder")}</button><span class="analysis-control"><button id="analyze-button" data-action="analyze"></button><button id="cancel-analysis" class="ghost inactive" data-action="cancel" aria-hidden="true">${t("停止分析", "Stop analysis")}</button></span><span class="grow"></span><input id="search" type="search" aria-label="${t("搜索曲名或艺人", "Search tracks or artists")}" placeholder="${t("搜索曲名或艺人", "Search tracks or artists")}"><select id="filter" aria-label="${t("筛选曲目", "Filter tracks")}"><option value="all">${t("全部曲目", "All tracks")}</option><option value="review">${t("需要确认", "Needs review")}</option><option value="pending">${t("待准备", "Not prepared")}</option><option value="ready">${t("已准备", "Prepared")}</option></select></div>
   <article class="panel"><div class="table-wrap" id="tracks"></div><div class="table-footer"><span id="selection-info"></span><div class="library-activity"><div id="undo-removal-note" class="undo-note" role="status" hidden><span id="undo-removal-text"></span><button class="small ghost" data-action="undo-removal">${t("撤销移除", "Undo removal")}</button></div><p id="library-busy" role="status" hidden></p><div id="job" class="job" hidden><div class="job-copy"><span id="job-title"></span><span id="job-count" class="muted"></span><span id="job-detail" class="muted"></span></div><div id="job-progress" class="meter" role="progressbar" aria-label="${t("整批分析进度", "Batch analysis progress")}" aria-valuemin="0" aria-valuemax="100"><i class="job-progress-fill"></i></div></div></div><div class="row" id="selection-actions" hidden><button class="small ghost" data-action="clear-selection">${t("清除选择", "Clear selection")}</button><button id="remove-selected" class="small ghost danger" data-action="remove-selected">${t("移除所选曲目", "Remove selected tracks")}</button></div></div></article><p class="bottom-caption">${t("曲库包包含分析数据，不含音乐文件。音乐需另行携带。", "Library packs contain analysis data, not music. Bring your audio files separately.")}</p>
 </section>
 <section class="page" id="page-settings">
   <div class="page-heading"><h1>${t("设置", "Settings")}</h1><label class="settings-language"><span>${t("语言", "Language")}</span><select id="language"><option value="system">${t("跟随系统", "Follow system")}</option><option value="zh">简体中文</option><option value="en">English</option><option value="ja">日本語</option><option value="ko">한국어</option></select></label></div>
   <div class="settings-grid">
+  <div class="settings-column">
   <article class="panel settings-card display-settings"><h2>${t("画面与文字", "Visuals & text")}</h2>
     <label class="setting-row"><div><p>${t("布局", "Layout")}</p></div><select id="layout"><option value="split">${t("左右", "Side by side")}</option><option value="stacked">${t("上下", "Stacked")}</option></select></label>
-    <label class="setting-row"><div><p>${t("显示文字", "Show text")}</p></div><input id="text-visible" type="checkbox" role="switch"></label>
+    <label class="setting-row"><div><p>${t("显示文字与 Logo", "Show text & logo")}</p></div><input id="text-visible" type="checkbox" role="switch"></label>
     <div class="text-options">
-      <label class="setting-row"><div><p>${t("显示 DJ 名字", "Show DJ name")}</p><small>${t("替换曲风标题。DJ 名字在「准备音乐」中填写。", "Replace the genre heading. Enter your DJ name in Prepare.")}</small></div><input id="show-dj-name" type="checkbox" role="switch"></label>
+      <label class="setting-row"><div><p>${t("标题内容", "Heading")}</p><small>${t("DJ 名字和 Logo 在准备音乐中设置。", "Set your DJ name and logo in Prepare.")}</small></div><select id="heading-mode"><option value="genre">${t("曲风", "Genre")}</option><option value="dj">${t("DJ 名字", "DJ name")}</option><option value="logo">DJ Logo</option><option value="hidden">${t("隐藏", "Hidden")}</option></select></label>
+      <label class="setting-row"><div><p>${t("显示曲目信息", "Show track information")}</p><small>${t("显示曲名、艺人及分隔线；隐藏后画面主体居中。", "Show title, artist and divider; center the composition when hidden.")}</small></div><input id="track-info-visible" type="checkbox" role="switch"></label>
+      <label class="setting-row"><div><p>${t("显示品牌标识", "Show branding")}</p></div><input id="branding-visible" type="checkbox" role="switch"></label>
       <label class="setting-row"><div><p>${t("英文窄体", "Condensed English")}</p><small>${t("用于曲名和艺人的英文文字。", "For English track titles and artist names.")}</small></div><input id="english-condensed" type="checkbox" role="switch"></label>
     </div>
+    <label class="setting-row"><div><p>${t("显示封面", "Show artwork")}</p></div><input id="artwork-visible" type="checkbox" role="switch"></label>
     <label class="setting-row"><div><p>${t("待机视觉", "Standby visual")}</p><small>${t("等待音乐时使用的画面。", "Visual used while waiting for music.")}</small></div><select id="standbyTheme" data-searchable data-search-placeholder="${t("输入或选择曲风", "Type or choose a genre")}" data-empty-text="${t("未找到曲风", "No matching genres")}"></select></label>
     <div class="setting-row preset-setting"><div><p>${t("自定义视觉预设", "Custom visual presets")}</p><small>${t("保存曲风配色，分配给曲目或现场手动使用。", "Save genre colors for a track or manual live use.")}</small></div><button data-action="new-preset">${t("创建预设", "Create preset")}</button></div>
-  </article>
-  <article class="panel settings-card performance-settings"><h2>${t("输出与性能", "Output & performance")}</h2>
-    <label class="setting-row"><div><p>${t("低负载模式", "Low-load mode")}</p><small>${t("降低预览与动画开销，文字和发送格式保持不变。仅保存在本机。", "Reduce preview and animation work while preserving text and the send format. Saved on this computer.")}</small></div><input type="checkbox" id="low-load" role="switch"></label>
-    ${videoSettingsMarkup(t,option)}
-    <label class="setting-row"><div><p>${t("本地帧率上限", "Local frame rate limit")}</p><small id="local-frame-hint" hidden>${t("发送期间由发送帧率决定画面节奏。", "While sending, the send frame rate sets the visual cadence.")}</small></div><select id="frameRateLimit">${option("display", t("跟随显示器", "Match display"))}${[120,90,60,30].map(n => option(n, n + " FPS")).join("")}</select></label>
-    <label class="setting-row"><div><p>${t("渲染质量", "Render quality")}</p><small>${t("自动调节动画分辨率，文字保持清晰；也可固定画质。", "Automatically adjust animation resolution while keeping text sharp, or choose a fixed quality.")}</small></div><select id="renderScale"><option value="auto">${t("自动（推荐）", "Auto (recommended)")}</option><option value="1">100%</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label>
-    <label class="setting-row"><div><p>${t("强烈冲击效果", "Strong impact effects")}</p><small>${t("增强骤亮和画面跳动。", "Adds stronger flashes and motion.")}</small></div><input type="checkbox" id="flashEnabled" role="switch"></label>
-    <label class="setting-row"><div><p>${t("BeatNet 节拍辅助", "BeatNet rhythm assistance")}</p><small>${t("辅助画面跟随现场节奏。", "Helps visuals follow the live rhythm.")}</small></div><input type="checkbox" id="rhythmModel" role="switch"></label>
-    <details class="performance-details"><summary>${t("待机与帧率监测", "Standby & frame rate monitoring")}<img class="ui-icon" src="../assets/material-symbols/expand_more.svg" alt=""></summary><label class="setting-row"><div><p>${t("待机时降低帧率", "Limit standby frame rate")}</p><small>${t("未启动监听的待机画面限制为 30 FPS。", "Limit standby to 30 FPS while listening is stopped.")}</small></div><input type="checkbox" id="idleFrameLimit" role="switch"></label><label class="setting-row"><div><p>${t("控制台显示帧率", "Show FPS in console")}</p><small>${t("分别显示输出和预览帧率，观众画面不显示。", "Show output and preview FPS in the console only.")}</small></div><input type="checkbox" id="showFps" role="switch"></label></details>
-    <details class="performance-details"><summary>${t("演出保护与诊断", "Show protection & diagnostics")}<img class="ui-icon" src="../assets/material-symbols/expand_more.svg" alt=""></summary>
-      <label class="setting-row"><div><p>${t("演出时保持屏幕唤醒", "Keep screen awake during shows")}</p><small>${t("监听或输出期间阻止空闲休眠，结束后恢复。", "Prevent idle sleep while listening or outputting; release when finished.")}</small></div><input id="keepAwake" type="checkbox" role="switch"></label>
-      <p class="bottom-caption">${t("音频设备、通道和输出屏幕保存在本机，切换曲库时保留。", "Audio routing and output display stay on this computer when switching libraries.")}</p>
-      <div class="row diagnostic-actions"><button class="small ghost" data-action="restart-output">${t("重新启动画面", "Restart visuals")}</button><button class="small ghost" data-action="export-diagnostics">${t("导出诊断报告", "Export diagnostics")}</button></div>
-      <p class="bottom-caption">${t("仅导出本次运行的状态与事件，不含音频、曲名和文件路径。", "Export session status and events only, without audio, track titles or file paths.")}</p>
-    </details>
   </article>
   <article class="panel settings-card analysis-settings"><h2>${t("曲风分析", "Genre analysis")}</h2>
     <label class="setting-row"><div><p>${t("在线查询曲风", "Online genre lookup")}</p><small>${t("准备时查询并缓存。仅发送曲名和艺人，不上传音频。", "Look up and cache during preparation. Only title and artist are sent, never audio.")}</small></div><input type="checkbox" id="online" role="switch"></label>
@@ -140,9 +131,37 @@ function view() {
   </article>
   <article class="panel settings-card about-card"><div class="row"><img class="about-icon" src="../assets/icon.png" alt=""><div><h2>GENRE POLICE AUTOVJ</h2><span class="muted app-version">v${esc(state.version)}</span></div></div><div class="credit">Project design, visuals & genre analysis by <strong>LBN</strong><br><div class="recognition-credit"><span>Audio recognition by <strong>DJ ICHIRYU</strong></span><span class="credit-logo"><img src="../assets/credits/dj-ichiryu.png" alt="DJ ICHIRYU"></span></div>Based on <a class="repository-link" data-repository="genre-police" href="https://github.com/lbnandy/genre-police-visualizer">Genre Police Visualizer</a> & <a class="repository-link" data-repository="vjvision" href="https://github.com/ichiryu0021/VJVision">VJVision</a></div><div class="software-update"><div><p>${t("软件更新", "Software update")}</p><small id="update-state"></small></div><div class="row"><button id="update-check-button" class="small ghost" data-action="update-check">${t("检查更新", "Check for updates")}</button><button id="update-view-button" class="small primary" data-action="open-update" hidden>${t("查看更新", "View update")}</button></div></div><p class="settings-note ndi-attribution">NDI® is a registered trademark of Vizrt NDI AB.</p><p class="settings-note">${t("本地曲风模型的许可信息见随附 THIRD_PARTY_NOTICES。", "See the included THIRD_PARTY_NOTICES for the local genre model license.")}</p></article>
   </div>
+  <div class="settings-column">
+    <article class="panel settings-card rhythm-settings"><h2>${t("节奏与冲击", "Rhythm & impact")}</h2>
+      <label class="setting-row"><div><p>${t("节拍来源", "Beat source")}</p><small>${t("自动：Link 已连接时使用 Link，否则使用音频识别。", "Auto uses Link when connected, otherwise audio detection.")}</small></div><select id="rhythmSource">${option("auto",t("自动（推荐）", "Auto (recommended)"))}${option("audio",t("音频识别", "Audio detection"))}${option("link","Ableton Link")}</select></label>
+      <div id="link-settings" hidden>
+        <p id="link-state" class="settings-note" role="status"></p>
+        <details class="performance-details"><summary>${t("连接与校准", "Connection & calibration")}<img class="ui-icon" src="../assets/material-symbols/expand_more.svg" alt=""></summary>
+          <p class="settings-note">${t("在 rekordbox 中开启全局和 Deck 的 LINK，并连接同一局域网。同步组件自动启动，AutoVJ 只跟随，不改变速度。", "Enable global and deck LINK in rekordbox and join the same local network. The sync component starts automatically; AutoVJ follows without changing tempo.")}</p>
+        <label class="setting-row"><div><p>${t("同步偏移（毫秒）", "Sync offset (ms)")}</p><small>${t("正值延后画面，负值提前。仅保存在本机。", "Positive delays visuals; negative advances them. Saved on this computer.")}</small></div><input id="linkOffsetMs" type="number" min="-250" max="250" step="5" aria-label="${t("同步偏移（毫秒）", "Sync offset (ms)")}"></label>
+        </details>
+      </div>
+      <label class="setting-row"><div><p>${t("冲击模式", "Impact mode")}</p><small>${t("音乐响应跟随音乐事件；节拍驱动仅在拍点冲击。静音时停止冲击。", "Music response follows musical events; beat-driven impacts occur only on beats. Impacts stop during silence.")}</small></div><select id="impactMode">${option("music",t("音乐响应", "Music response"))}${option("beat",t("节拍驱动", "Beat-driven"))}</select></label>
+      <label class="setting-row" id="beat-strength-row"><div><p>${t("冲击强度", "Impact strength")}</p><small>${t("每拍都会触发；随音乐变化只改变强弱。", "Every beat triggers; music only changes its strength.")}</small></div><select id="beatStrength">${option("fixed",t("固定强度", "Fixed"))}${option("dynamic",t("随音乐变化", "Follow music"))}</select></label>
+    </article>
+  <article class="panel settings-card performance-settings"><h2>${t("输出与性能", "Output & performance")}</h2>
+    <label class="setting-row"><div><p>${t("低负载模式", "Low-load mode")}</p><small>${t("降低预览与动画开销，文字和发送格式保持不变。仅保存在本机。", "Reduce preview and animation work while preserving text and the send format. Saved on this computer.")}</small></div><input type="checkbox" id="low-load" role="switch"></label>
+    ${videoSettingsMarkup(t,option)}
+    <label class="setting-row"><div><p>${t("本地帧率上限", "Local frame rate limit")}</p><small id="local-frame-hint" hidden>${t("发送期间由发送帧率决定画面节奏。", "While sending, the send frame rate sets the visual cadence.")}</small></div><select id="frameRateLimit">${option("display", t("跟随显示器", "Match display"))}${[120,90,60,30].map(n => option(n, n + " FPS")).join("")}</select></label>
+    <label class="setting-row"><div><p>${t("渲染质量", "Render quality")}</p><small>${t("自动调节动画分辨率，文字保持清晰；也可固定画质。", "Automatically adjust animation resolution while keeping text sharp, or choose a fixed quality.")}</small></div><select id="renderScale"><option value="auto">${t("自动（推荐）", "Auto (recommended)")}</option><option value="1">100%</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label>
+    <details class="performance-details"><summary>${t("待机与帧率监测", "Standby & frame rate monitoring")}<img class="ui-icon" src="../assets/material-symbols/expand_more.svg" alt=""></summary><label class="setting-row"><div><p>${t("待机时降低帧率", "Limit standby frame rate")}</p><small>${t("未启动监听的待机画面限制为 30 FPS。", "Limit standby to 30 FPS while listening is stopped.")}</small></div><input type="checkbox" id="idleFrameLimit" role="switch"></label><label class="setting-row"><div><p>${t("控制台显示帧率", "Show FPS in console")}</p><small>${t("分别显示输出和预览帧率，观众画面不显示。", "Show output and preview FPS in the console only.")}</small></div><input type="checkbox" id="showFps" role="switch"></label></details>
+    <details class="performance-details"><summary>${t("演出保护与诊断", "Show protection & diagnostics")}<img class="ui-icon" src="../assets/material-symbols/expand_more.svg" alt=""></summary>
+      <label class="setting-row"><div><p>${t("演出时保持屏幕唤醒", "Keep screen awake during shows")}</p><small>${t("监听或输出期间阻止空闲休眠，结束后恢复。", "Prevent idle sleep while listening or outputting; release when finished.")}</small></div><input id="keepAwake" type="checkbox" role="switch"></label>
+      <p class="bottom-caption">${t("音频设备、通道和输出屏幕保存在本机，切换曲库时保留。", "Audio routing and output display stay on this computer when switching libraries.")}</p>
+      <div class="row diagnostic-actions"><button class="small ghost" data-action="restart-output">${t("重新启动画面", "Restart visuals")}</button><button class="small ghost" data-action="export-diagnostics">${t("导出诊断报告", "Export diagnostics")}</button></div>
+      <p class="bottom-caption">${t("仅导出本次运行的状态与事件，不含音频、曲名和文件路径。", "Export session status and events only, without audio, track titles or file paths.")}</p>
+    </details>
+  </article>
+  </div>
+  </div>
 </section>
 </main>
-<footer><span class="shortcuts"><span class="shortcut-label">${t("控制台快捷键", "Console shortcuts")}${state.settings.language === "zh" || state.settings.language === "ja" ? "：" : ":"}</span><span class="shortcut"><kbd class="key">B</kbd>${t("切黑", "Blackout")}</span><span class="shortcut"><kbd class="key">A</kbd>${t("自动", "Auto")}</span><span class="shortcut"><kbd class="key">F</kbd>${t("全屏", "Fullscreen")}</span><span class="shortcut"><kbd class="key">Esc</kbd>${t("收起窗口", "Hide window")}</span></span></footer>
+<footer><span class="shortcuts"><span class="shortcut-label">${t("控制台快捷键", "Console shortcuts")}${state.settings.language === "zh" || state.settings.language === "ja" ? "：" : ":"}</span><span class="shortcut"><kbd class="key">B</kbd>${t("切黑", "Blackout")}</span><span class="shortcut"><kbd class="key">X</kbd>${t("全屏冲击", "Screen impact")}</span><span class="shortcut"><kbd class="key">A</kbd>${t("自动", "Auto")}</span><span class="shortcut"><kbd class="key">F</kbd>${t("全屏", "Fullscreen")}</span><span class="shortcut"><kbd class="key">Esc</kbd>${t("收起窗口", "Hide window")}</span></span></footer>
 `;
   $("library-manage").addEventListener("toggle", e => {
     $("library-manage-button").setAttribute("aria-expanded", String(e.newState === "open"));
@@ -378,16 +397,18 @@ function sync() {
   setValue("brightness", Math.round(s.brightness * 100));
   $("brightness-value").textContent = Math.round(s.brightness * 100) + "%";
   setValue("intensity", s.intensity);
+  setValue("impactLevel", s.impactLevel || "medium");
+  setValue("visualSize", s.visualSize || "large");
+  $("screen-impact-button").setAttribute("aria-pressed", String(Boolean(s.screenImpact)));
   setValue("text-visible", s.textVisible);
   setValue("english-condensed", s.fullscreenCondensed);
-  setValue("show-dj-name", s.showDjName);
-  for (const id of ["english-condensed", "show-dj-name"]) $(id).disabled = !s.textVisible;
+  setValue("heading-mode", s.headingMode || (s.showDjName ? "dj" : "genre"));
+  for (const [id,key] of [["track-info-visible","trackInfoVisible"],["branding-visible","brandingVisible"],["artwork-visible","artworkVisible"]]) setValue(id,s[key] !== false);
+  for (const id of ["english-condensed", "heading-mode", "track-info-visible", "branding-visible"]) $(id).disabled = !s.textVisible;
   document.querySelector(".text-options").classList.toggle("is-disabled", !s.textVisible);
   for (const key of [
     "online",
     "localAI",
-    "rhythmModel",
-    "flashEnabled",
     "renderScale",
     "frameRateLimit",
     "idleFrameLimit",
@@ -395,6 +416,19 @@ function sync() {
     "keepAwake",
   ])
     setValue(key, s[key]);
+  const preference=s.rhythmSource || 'auto';
+  setValue('rhythmSource',preference);setValue('impactMode',s.impactMode || 'beat');setValue('linkOffsetMs',s.linkOffsetMs || 0);
+  setValue('beatStrength',s.beatStrength || 'dynamic');
+  $('beat-strength-row').hidden=s.impactMode!=='beat';
+  $('link-settings').hidden=preference==='audio';
+  const link=state.rhythm?.link || {}, linked=preference!=='audio' && link.status==='connected' && link.peers>0;
+  const audioSource=t('音频识别','Audio detection');
+  const linkLabel=linked?`${Number(link.bpm).toFixed(1)} BPM · ${t('连接设备：{count}', 'Peers: {count}').replace('{count}',link.peers)}`:link.status==='connecting'?t('正在连接 Link','Connecting to Link'):t('Link 未连接','Link disconnected');
+  $('link-state').textContent=linkLabel+(preference==='auto'&&!linked?' · '+t('使用音频识别','Using audio detection'):'');
+  const sourceLabel=linked?`Link · ${linkLabel}`:preference==='link'?linkLabel:audioSource;
+  const waiting=state.live.running&&!linked&&preference!=='link'&&s.impactMode==='beat'&&state.rhythm?.model!=='ready';
+  $('live-rhythm-status').textContent=sourceLabel+' · '+(s.impactMode==='beat'?t('节拍驱动','Beat-driven'):t('音乐响应','Music response'))+(waiting?' · '+t('等待音频拍点','Waiting for audio beats'):'');
+  $('cue-rhythm').hidden=!state.live.running && preference==='audio';
   syncVideo(state,t,setValue);
   setValue('low-load',s.performanceMode === 'low');
   setValue("language", s.languagePreference || "system");
@@ -406,6 +440,17 @@ function sync() {
   );
   setValue("library-select", state.library.id);
   setValue("dj-name", state.library.djName);
+  const cover = state.library.customArtwork || "";
+  $("custom-cover-preview").hidden = !cover;
+  if (cover && $("custom-cover-preview").getAttribute("src") !== cover) $("custom-cover-preview").src = cover;
+  $("remove-cover").hidden = !cover;
+  const logo = state.library.djLogo || "";
+  $("dj-logo-preview").hidden = !logo;
+  if (logo && $("dj-logo-preview").getAttribute("src") !== logo) $("dj-logo-preview").src = logo;
+  if (!logo) $("dj-logo-preview").removeAttribute("src");
+  $("remove-logo").hidden = $("logo-scale-field").hidden = !logo;
+  setValue("logo-scale", Math.round((state.library.djLogoScale || 1)*100));
+  $("logo-scale-value").textContent = Math.round((state.library.djLogoScale || 1)*100) + "%";
   $("library-select").disabled = busy;
   for (const el of document.querySelectorAll("[data-action=import], [data-action=export], [data-action=new-library], [data-action=rename-library], [data-action=delete-library], [data-action=files], [data-action=folder]")) el.disabled = busy;
   syncEditorActions();
@@ -721,6 +766,17 @@ document.addEventListener("click", async (e) => {
   }
   const action = b.dataset.action;
   if (!action) return;
+  if (action === "choose-cover") {
+    const libraryId = state.library.id;
+    const source = await call("library-cover", {libraryId});
+    if (source?.image) {
+      const image = await cropCover(source.image, t);
+      if (image) await call("library-cover", {libraryId, image});
+    }
+    return;
+  }
+  if (action === "remove-cover") { await call("library-cover", {libraryId:state.library.id, remove:true}); return; }
+  if (["choose-logo", "remove-logo"].includes(action)) { await call("library-logo", {libraryId:state.library.id, remove:action === "remove-logo"}); return; }
   if (b.closest("#library-manage")) $("library-manage").hidePopover();
   if (action === "video-config") { document.querySelector("[data-tab=settings]").click(); $("video-settings").open=true; $("video-settings").scrollIntoView({block:"center"}); $("video-settings").querySelector("summary").focus(); return; }
   if (action === "video-retry") { await call("video-retry"); return; }
@@ -750,6 +806,7 @@ document.addEventListener("click", async (e) => {
     maximize: () => call("window-control", "maximize"),
     close: () => call("window-control", "close"),
     "live-toggle": () => call(state.live.running ? "live-stop" : "live-start"),
+    "screen-impact": () => call("settings", {screenImpact: !state.settings.screenImpact}),
     blackout: () => call("blackout", !state.live.blackout),
     auto: () => call("lock", null),
     refresh: () => call("devices"),
@@ -849,6 +906,7 @@ document.addEventListener("change", async (e) => {
     await call("library", el.value);
     return;
   }
+  if (el.id === "logo-scale") { await call("library-logo", {libraryId:state.library.id, scale:Number(el.value)/100}); return; }
   if (el.id === "dj-name") {
     await call("library-profile", { djName: el.value });
     return;
@@ -863,12 +921,19 @@ document.addEventListener("change", async (e) => {
     brightness: "brightness",
     intensity: "intensity",
     "text-visible": "textVisible",
-    "show-dj-name": "showDjName",
+    "heading-mode": "headingMode",
+    "track-info-visible": "trackInfoVisible",
+    "branding-visible": "brandingVisible",
+    "artwork-visible": "artworkVisible",
     "english-condensed": "fullscreenCondensed",
     online: "online",
     localAI: "localAI",
-    rhythmModel: "rhythmModel",
-    flashEnabled: "flashEnabled",
+    rhythmSource: "rhythmSource",
+    impactMode: "impactMode",
+    beatStrength: "beatStrength",
+    linkOffsetMs: "linkOffsetMs",
+    impactLevel: "impactLevel",
+    visualSize: "visualSize",
     renderScale: "renderScale",
     frameRateLimit: "frameRateLimit",
     idleFrameLimit: "idleFrameLimit",
@@ -929,6 +994,7 @@ document.addEventListener("keydown", (e) => {
     document.querySelector("dialog[open], :popover-open")
   )
     return;
+  if (e.code === "KeyX") call("settings", {screenImpact: !state.settings.screenImpact});
   if (e.code === "KeyB") call("blackout", !state.live.blackout);
   if (e.code === "KeyA") call("lock", null);
   if (e.code === "KeyF") call("output", "fullscreen");

@@ -22,7 +22,9 @@ const info = {
   arch: "x64",
   artifact,
   sha256,
+  rhythmModel: {kind:'beatnet-plus',sha256:require('../packages/rhythm-config.cjs').MODEL_SHA256,edmTiming:'boundary'},
   builtAt: new Date().toISOString(),
+  linkComponent: JSON.parse(fs.readFileSync(path.join(ROOT, "vendor/carabiner/component.json"), "utf8")),
 };
 
 fs.writeFileSync(path.join(dist, "BUILD-INFO.json"), `${JSON.stringify(info, null, 2)}\n`);

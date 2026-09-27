@@ -28,17 +28,24 @@ const defaults = {
   localAI: true,
   deviceId: "",
   channelStart: 0,
-  brightness: 0.85,
+  brightness: 1,
   intensity: "standard",
+  visualSize: "large",
   textVisible: true,
   showDjName: false,
+  headingMode: "genre",
+  trackInfoVisible: true,
+  artworkVisible: true,
+  brandingVisible: true,
   fullscreenCondensed: false,
   fullscreenLayout: "split",
   displayId: null,
   language: "system",
-  rhythmModel: true,
+  beatStrength: "dynamic",
+  impactMode: "beat",
   standbyTheme: "neutral",
-  flashEnabled: false,
+  impactLevel: "medium",
+  screenImpact: false,
   renderScale: "auto",
   frameRateLimit: "60",
   idleFrameLimit: true,
@@ -69,7 +76,19 @@ class Library {
       !Array.isArray(this.data.tracks)
     )
       throw new Error("Unsupported library format; existing data retained");
-    this.data.settings = { ...defaults, ...this.data.settings };
+    const previousSettings = this.data.settings || {};
+    this.data.settings = { ...defaults, ...previousSettings };
+    if (!["low", "medium", "high", "extreme", "ultra"].includes(previousSettings.impactLevel)) {
+      this.data.settings.impactLevel = typeof previousSettings.flashEnabled === "boolean"
+        ? (previousSettings.flashEnabled ? "medium" : "low") : defaults.impactLevel;
+    }
+    delete this.data.settings.flashEnabled;
+    if (!["standard", "large", "maximum"].includes(this.data.settings.visualSize)) this.data.settings.visualSize = defaults.visualSize;
+    delete this.data.settings.rhythmModel;
+    if (!previousSettings.headingMode && previousSettings.showDjName) this.data.settings.headingMode = "dj";
+    this.data.customArtwork = require("./dj-logo.cjs").validateLogo(this.data.customArtwork);
+    this.data.djLogo = require("./dj-logo.cjs").validateLogo(this.data.djLogo);
+    this.data.djLogoScale = require("./dj-logo.cjs").logoScale(this.data.djLogoScale);
     this.data.djName = normalizeDjName(this.data.djName);
     for (const track of this.data.tracks)
       if (!UUID.test(track.id)) throw new Error("Invalid track identity");

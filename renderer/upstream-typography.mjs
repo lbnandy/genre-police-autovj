@@ -87,6 +87,12 @@ function balanceCapsuleGenreStack() {
 }
 
 function balanceGenreLabel() {
+  // VJ can hide the divider; its zero rectangle is not a typography anchor.
+  if (!trackRule?.getClientRects().length) {
+    genreLabel.style.removeProperty("--genre-balance-y");
+    parentGenre.style.removeProperty("--parent-balance-y");
+    return;
+  }
   if (balanceCapsuleGenreStack()) return;
 
   if (!genreFace || !parentGenre.textContent.trim() || !genreFace.textContent.trim() || !trackRule) {

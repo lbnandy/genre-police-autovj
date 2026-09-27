@@ -26,6 +26,16 @@ body.blackout #blackout {
 #hud {
   pointer-events: none;
 }
+#visual-group {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  transform-origin: var(--visual-center-x) var(--visual-center-y);
+  transform: scale(calc(var(--visual-size-scale, 1) * var(--visual-impact-scale, 1)));
+}
+#genre, #dj-logo { scale: var(--title-impact-scale, 1); }
+body[data-stage-output="true"][data-fullscreen-layout="split"] #hud { left: var(--stage-split-hud-left, 330px); }
 .themed-backdrop {
   transition: none !important;
 }
@@ -76,3 +86,30 @@ body[data-heading-kind="dj"] #genre:lang(zh-CN) { --stage-cjk: "Noto Sans SC Var
 body[data-heading-kind="dj"] #genre:lang(ja) { --stage-cjk: "Noto Sans JP Variable", "Noto Sans SC Variable", "Noto Sans KR Variable"; }
 body[data-heading-kind="dj"] #genre:lang(ko) { --stage-cjk: "Noto Sans KR Variable", "Noto Sans SC Variable", "Noto Sans JP Variable"; }
 body.render-paused *, body.render-paused *::before, body.render-paused *::after { animation-play-state: paused !important; }
+
+/* A static separator, not a playback timeline. */
+body[data-stage-output="true"] .track-rule { height:1px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); opacity:.65; box-shadow:none; }
+#dj-logo { display:block; width:100%; height:var(--dj-logo-height,72px); object-fit:contain; object-position:left center; margin:8px 0; }
+#dj-logo[hidden] { display:none; }
+body[data-fullscreen-layout="stacked"] #dj-logo { object-position:center; }
+body[data-heading-mode="logo"] :is(#genre,#parent-genre), body[data-heading-mode="hidden"] :is(#genre,#parent-genre) { display:none !important; }
+body[data-heading-kind="dj"] #parent-genre { display:none; }
+body[data-track-info="false"] .track-details { display:none !important; }
+body[data-branding-visible="false"] .jurisdiction { display:none !important; }
+body[data-artwork-visible="false"] #core-art { visibility:hidden !important; }
+body[data-stage-output="true"][data-track-info="false"][data-fullscreen-layout="split"] #hud { transform:translateY(-50%); }
+body[data-stage-output="true"][data-track-info="false"][data-fullscreen-layout="stacked"] #hud { padding-top:0; }
+body[data-stage-output="true"][data-track-info="false"][data-fullscreen-layout="split"] .jurisdiction { position:absolute; bottom:calc(100% + 16px); }
+
+body[data-stage-output-text="false"] #monogram { visibility:hidden; }
+
+body[data-stage-output="true"][data-track-info="false"] #parent-genre { margin-bottom:10px; translate:none; }
+body[data-stage-output="true"][data-track-info="false"][data-fullscreen-layout="split"] #app { --visual-center-y:190px; }
+body[data-stage-output="true"][data-track-info="false"][data-fullscreen-layout="split"] #hud { top:calc(50% - 10px); }
+#dj-logo { transform-origin:left center; }
+body[data-fullscreen-layout="stacked"] #dj-logo { transform-origin:center; }
+
+#dj-logo { --genre-extra-saturation: 1; }
+
+#screen-impact-layer { position: fixed; inset: 0; transform-origin: center; }
+#screen-impact-flash { position: fixed; inset: 0; background: white; opacity: 0; pointer-events: none; z-index: 99997; }

@@ -9,5 +9,6 @@
 - **High-resolution output needs GPU headroom.** The adaptive render scale and frame-rate cap reduce load, but they cannot guarantee a target frame rate for every genre scene, display scaling or GPU driver.
 - **Portable packs do not contain source audio.** An imported pack retains library metadata, analysis and artwork; source files must be present on the show computer if a track needs to be reanalyzed.
 - **This is a Beta release.** Long runs, device hot-unplug, unusual mixer routing and multi-display setups still need field testing.
+- **Ableton Link requires a connected peer.** The bundled component starts automatically; firewall or local-network restrictions can prevent peer discovery. Enable Link in the other application and verify its beat grid. Silence gating still requires the DJ Master audio input. Adjust the local sync offset for venue audio/video delay. Rekordbox and external-display end-to-end timing has not yet been field-validated.
 
 The current release does not include MIDI/OSC, recording, virtual-camera output, SRT, RTMP, SMPTE ST 2110 or automatic library merging.

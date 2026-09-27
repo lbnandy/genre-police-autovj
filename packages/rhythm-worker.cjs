@@ -5,6 +5,8 @@ const {
 } = require("../vendor/genre-police/src/rhythm-model-runtime");
 const model = new LocalRhythmModel({
   modelPath: workerData.modelPath,
+  modelKind: workerData.modelKind || 'beatnet',
+  edmTiming: workerData.edmTiming ?? true,
   onEvent: (e) => parentPort.postMessage(e),
 });
 // Streaming 31-tap low-pass FIR before the exact 44.1 -> 22.05 kHz decimation.

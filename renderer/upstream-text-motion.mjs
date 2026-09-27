@@ -17,6 +17,7 @@ function setDynamicStyleProperty(element, name, value) {
 }
 
 function genreFilterValue({
+  logo = false,
   bilibiliMode,
   tranceMode,
   synthwaveMode,
@@ -35,6 +36,14 @@ function genreFilterValue({
   const hotGlow = `drop-shadow(0 0 var(--genre-hot-blur, 5px) color-mix(in srgb, var(--hot) var(--genre-hot-alpha, 55%), transparent))`;
   const accentGlow = `drop-shadow(0 0 ${glow}px color-mix(in srgb, var(--accent) var(--genre-accent-alpha, 74%), transparent))`;
 
+  // Images retain their silhouette: only centered light, never offset copies.
+  if (logo) {
+    const logoHot = synthwaveMode
+      ? 'drop-shadow(0 0 var(--genre-hot-blur, 7px) color-mix(in srgb, var(--accent-2) var(--genre-hot-alpha, 52%), transparent))'
+      : hotGlow;
+    return `${exposure} ${logoHot} ${accentGlow}`;
+  }
+
   if (tranceMode) {
     return `${exposure} ${hotGlow} ${accentGlow} drop-shadow(var(--genre-depth-x, 2px) var(--genre-depth-y, 2px) var(--genre-depth-blur, 0px) color-mix(in srgb, var(--accent-2) var(--genre-depth-alpha, 42%), transparent))`;
   }
@@ -45,7 +54,7 @@ function genreFilterValue({
 }
 
 export function createTextMotion(visual){
-const genreLabel=document.querySelector('#genre'),genreFace=document.querySelector('#genre-face');let tranceTextPulse=0,genreVelocity=0,genreScale=1,genreLiftValue=0,lastForegroundStyleAt=0;
+const genreLabel=document.querySelector('#genre'),genreFace=document.querySelector('#genre-face'),logo=document.querySelector('#dj-logo');let tranceTextPulse=0,genreVelocity=0,genreScale=1,genreLiftValue=0,lastForegroundStyleAt=0;
 return (currentTheme,metrics,time,elapsedMs,playbackActive,fullscreenLayoutMode)=>{const frameScale=Math.min(2,elapsedMs/16.667),foregroundStyleDue=!lastForegroundStyleAt||time-lastForegroundStyleAt>=1000/60,stageOutputActive=true,bilibiliMode=false,asmrMode=false,asmrBreath=.5+.5*Math.sin(time*.00062),synthwaveMode=currentTheme.id==='synthwave',tranceMode=currentTheme.mode==='trance'&&currentTheme.family!=='classical'&&!['soundtrack','synthwave'].includes(currentTheme.id);
 if(foregroundStyleDue)lastForegroundStyleAt=time;
   const rawTextPulse = playbackActive && !bilibiliMode ? clamp(metrics.rhythmPulse || 0) : 0;
@@ -154,6 +163,22 @@ if(foregroundStyleDue)lastForegroundStyleAt=time;
     echoAlpha: genreEchoAlpha.toFixed(1)
   });
   if (genreFace.style.filter !== nextGenreFilter) genreFace.style.filter = nextGenreFilter;
+  if (logo && !logo.hidden) {
+    // Share the title's spring, envelope, material and impact response. Text
+    // baseline offsets do not apply to an image; keep its native pixels sharp.
+    const logoTransform = `translateY(${genreLiftValue.toFixed(2)}px) scale(${genreScale.toFixed(4)})`;
+    const logoFilter = genreFilterValue({
+      logo: true,
+      bilibiliMode, tranceMode, synthwaveMode,
+      brightness: Math.min(1.18, genreBrightness).toFixed(3),
+      saturation: '1', blur: '0', distortion: genreDistortion,
+      glow: genreGlow.toFixed(2),
+      echoLeft: genreEchoLeft.toFixed(2), echoRight: genreEchoRight.toFixed(2),
+      echoBlur: genreEchoBlur.toFixed(2), echoAlpha: genreEchoAlpha.toFixed(1)
+    });
+    if (logo.style.transform !== logoTransform) logo.style.transform = logoTransform;
+    if (logo.style.filter !== logoFilter) logo.style.filter = logoFilter;
+  }
   if (foregroundStyleDue) {
     setDynamicStyleProperty(genreLabel, '--impact-slice-left', `${((-impactFx.slice * 9 - impactFx.chroma * 3) * textSliceFx * textMotionGate).toFixed(2)}px`);
     setDynamicStyleProperty(genreLabel, '--impact-slice-right', `${((impactFx.slice * 9 + impactFx.chroma * 3) * textSliceFx * textMotionGate).toFixed(2)}px`);

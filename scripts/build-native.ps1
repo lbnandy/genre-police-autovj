@@ -1,6 +1,7 @@
 $ErrorActionPreference = 'Stop'
 $taskRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 & (Join-Path $PSScriptRoot 'prepare-video.ps1')
+& (Join-Path $PSScriptRoot 'prepare-link.ps1')
 & node (Join-Path $PSScriptRoot 'prepare-native.cjs')
 if ($LASTEXITCODE -ne 0) { throw 'Native adapter preparation failed' }
 $taskVswhere = 'C:/Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe'

@@ -1,19 +1,20 @@
 {
   "name": "genre-police-autovj",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Automatic genre-aware VJ. Genre Police visuals and VJVision recognition.",
   "main": "app/main.cjs",
   "author": "LBN",
   "license": "MIT",
   "scripts": {
-    "start": "electron .",
+    "start": "npm run prepare:link && electron .",
     "test": "node --test tests/*.test.cjs",
     "build:native": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-native.ps1",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder --win portable && node scripts/write-release-metadata.cjs",
+    "pack": "npm run prepare:link && electron-builder --dir",
+    "dist": "npm run prepare:link && electron-builder --win portable && node scripts/write-release-metadata.cjs",
     "verify:upstream": "node scripts/verify-upstream.cjs",
-    "prepare:video": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/prepare-video.ps1"
+    "prepare:video": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/prepare-video.ps1",
+    "prepare:link": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/prepare-link.ps1"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.3.0",
@@ -79,7 +80,8 @@
     "asarUnpack": [
       "native/bin/*",
       "vendor/genre-police/assets/models/**/*",
-      "node_modules/onnxruntime-node/bin/**/*"
+      "node_modules/onnxruntime-node/bin/**/*",
+      "assets/models/**/*"
     ],
     "extraFiles": [
       {
@@ -99,6 +101,16 @@
       "target": "portable",
       "icon": "assets/icon.png",
       "artifactName": "Genre-Police-AutoVJ-${version}-portable.exe"
-    }
+    },
+    "extraResources": [
+      {
+        "from": "vendor/carabiner",
+        "to": "carabiner",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "beforePack": "./scripts/verify-link-bundle.cjs"
   }
 }

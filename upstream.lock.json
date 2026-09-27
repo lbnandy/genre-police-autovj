@@ -112,5 +112,12 @@
         "third_party/sqlite3_extract/sqlite-amalgamation-3490100/sqlite3ext.h": "70c25d7d4bbee5fe094ef80a8ef38d2390b00d438eb4b74a02dbd83acb4d2572"
       }
     }
+  },
+  "adaptations": {
+    "genre-police/src/rhythm-model-runtime.js": {
+      "upstreamSha256": "2be7e8bf27555289c7b5efa955d98750a8641cb47b6e9cc3d718b77c67ced7b4",
+      "sha256": "bd295c80772a0abe338e8cde29fc8af2413016f4bd415b066a230032f2d646bd",
+      "reason": "Streaming BeatNet+ features, recurrent state, particle decoding and silence handling; see docs/ARCHITECTURE.md."
+    }
   }
 }

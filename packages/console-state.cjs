@@ -8,7 +8,7 @@ class ConsoleState {
       const tracks = library.data.tracks.map(t => library.publicTrack(t));
       this.tracks = new Map(tracks.map(t => [t.id, t]));
       this.view = {id:library.data.libraryId, name:library.data.name || 'My library',
-        djName:library.data.djName, revision:library.revision, tracks, themes:library.themes()};
+        customArtwork:library.data.customArtwork, djName:library.data.djName, djLogo:library.data.djLogo, djLogoScale:library.data.djLogoScale, revision:library.revision, tracks, themes:library.themes()};
     }
     return this.view;
   }
