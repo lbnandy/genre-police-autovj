@@ -67,3 +67,7 @@ The JavaScript beat-stage decoder is ported from Mojtaba Heydari’s [BeatNet](h
 ### BeatNet+ model
 
 The bundled generic ONNX weights were exported from Mojtaba Heydari’s BeatNet-Plus at revision `bb90eb0a9065b101a4b4c4cb2b2061950266cb4b`. Source: https://github.com/mjhydri/BeatNet-Plus. Export provenance and hashes are in `assets/models/beatnet-plus/provenance.json`. This adaptation uses streaming ONNX inference and a 20 ms beat boundary correction; it is not upstream-endorsed. The pinned repository does not contain a top-level license file; no additional license grant for these weights is asserted here.
+
+## Video export encoder
+
+Offline video export invokes FFmpeg as a separate process. The Windows x64 binary is FFmpeg 6.1.1 essentials from Gyan, distributed by `ffmpeg-static` 5.3.0 (binary release `b6.1.1`), with GPL v3 enabled and libx264 for H.264 encoding. It is separate from Electron's FFmpeg runtime component. The binary hash and original source/build links are in `assets/licenses/ffmpeg-provenance.json`; the original GPL license and build README are retained beside it and shipped in the portable distribution's `licenses` directory. The npm package retains its own GPL-3.0-or-later license. Binary distribution and build information: https://github.com/eugeneware/ffmpeg-static/releases/tag/b6.1.1 and https://www.gyan.dev/ffmpeg/builds/ . FFmpeg source revision: https://github.com/FFmpeg/FFmpeg/commit/e38092ef93 .

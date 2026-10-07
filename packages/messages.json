@@ -1831,7 +1831,7 @@
   },
   "显示封面": {
     "en": "Show artwork",
-    "ja": "アートワークを表示",
+    "ja": "カバーを表示",
     "ko": "커버 표시"
   },
   "选择 DJ Logo": {
@@ -2163,5 +2163,350 @@
     "en": "Ultra",
     "ja": "超高",
     "ko": "초강력"
+  },
+  "导出视频": {
+    "en": "Export video",
+    "ja": "動画を書き出す",
+    "ko": "동영상 내보내기"
+  },
+  "片段预览": {
+    "en": "Preview clip",
+    "ja": "区間プレビュー",
+    "ko": "구간 미리보기"
+  },
+  "预览使用与导出相同的视觉设置。": {
+    "en": "Preview uses the same visual settings as export.",
+    "ja": "書き出しと同じビジュアル設定で確認できます。",
+    "ko": "내보내기와 동일한 시각 효과 설정으로 미리 봅니다."
+  },
+  "预览起点（秒）": {
+    "en": "Start time (seconds)",
+    "ja": "開始位置（秒）",
+    "ko": "시작 위치(초)"
+  },
+  "预览 8 秒；导出包含整首歌和音频。": {
+    "en": "Preview 8 seconds. Export includes the full song and audio.",
+    "ja": "8 秒間をプレビュー。書き出しには曲全体と音声を含みます。",
+    "ko": "8초를 미리 봅니다. 내보내기에는 전체 곡과 오디오가 포함됩니다."
+  },
+  "导出进度": {
+    "en": "Export progress",
+    "ja": "書き出しの進行状況",
+    "ko": "내보내기 진행률"
+  },
+  "导出设置": {
+    "en": "Export settings",
+    "ja": "書き出し設定",
+    "ko": "내보내기 설정"
+  },
+  "画面": {
+    "en": "Picture",
+    "ja": "画面",
+    "ko": "화면"
+  },
+  "画面比例": {
+    "en": "Aspect ratio",
+    "ja": "アスペクト比",
+    "ko": "화면 비율"
+  },
+  "横屏 16:9": {
+    "en": "Landscape 16:9",
+    "ja": "横長 16:9",
+    "ko": "가로 16:9"
+  },
+  "竖屏 9:16": {
+    "en": "Portrait 9:16",
+    "ja": "縦長 9:16",
+    "ko": "세로 9:16"
+  },
+  "方形 1:1": {
+    "en": "Square 1:1",
+    "ja": "正方形 1:1",
+    "ko": "정사각형 1:1"
+  },
+  "视频质量": {
+    "en": "Video quality",
+    "ja": "動画の画質",
+    "ko": "동영상 화질"
+  },
+  "视觉表现": {
+    "en": "Visual performance",
+    "ja": "ビジュアル表現",
+    "ko": "시각 효과"
+  },
+  "显示品牌文字": {
+    "en": "Show branding",
+    "ja": "ブランド名を表示",
+    "ko": "브랜드 표시"
+  },
+  "音乐响应程度": {
+    "en": "Music response",
+    "ja": "音楽への反応",
+    "ko": "음악 반응"
+  },
+  "此处设置单独保存，不影响现场演出。Logo 和封面沿用当前曲库。": {
+    "en": "Saved separately from live settings. Logo and artwork come from this library.",
+    "ja": "ライブ設定とは別に保存します。ロゴとカバーはこのライブラリを使用します。",
+    "ko": "라이브 설정과 별도로 저장됩니다. 로고와 커버는 현재 라이브러리를 사용합니다."
+  },
+  "取消导出": {
+    "en": "Cancel export",
+    "ja": "書き出しをキャンセル",
+    "ko": "내보내기 취소"
+  },
+  "预览片段": {
+    "en": "Preview clip",
+    "ja": "区間をプレビュー",
+    "ko": "구간 미리보기"
+  },
+  "导出 MP4": {
+    "en": "Export MP4",
+    "ja": "MP4 を書き出す",
+    "ko": "MP4 내보내기"
+  },
+  "正在读取音频…": {
+    "en": "Reading audio…",
+    "ja": "音声を読み込み中…",
+    "ko": "오디오 읽는 중…"
+  },
+  "正在分析节拍…": {
+    "en": "Analyzing beats…",
+    "ja": "ビートを解析中…",
+    "ko": "비트 분석 중…"
+  },
+  "正在准备预览…": {
+    "en": "Preparing preview…",
+    "ja": "プレビューを準備中…",
+    "ko": "미리보기 준비 중…"
+  },
+  "正在渲染视频…": {
+    "en": "Rendering video…",
+    "ja": "動画をレンダリング中…",
+    "ko": "동영상 렌더링 중…"
+  },
+  "正在完成视频…": {
+    "en": "Finalizing video…",
+    "ja": "動画を仕上げ中…",
+    "ko": "동영상 마무리 중…"
+  },
+  "预览已就绪": {
+    "en": "Preview ready",
+    "ja": "プレビューの準備完了",
+    "ko": "미리보기 준비 완료"
+  },
+  "视频已导出": {
+    "en": "Video exported",
+    "ja": "動画を書き出しました",
+    "ko": "동영상 내보내기 완료"
+  },
+  "已取消导出": {
+    "en": "Export cancelled",
+    "ja": "書き出しをキャンセルしました",
+    "ko": "내보내기가 취소되었습니다"
+  },
+  "导出失败": {
+    "en": "Export failed",
+    "ja": "書き出しに失敗しました",
+    "ko": "내보내기 실패"
+  },
+  "先预览片段，再导出整首歌。": {
+    "en": "Preview a clip, then export the full song.",
+    "ja": "区間を確認してから曲全体を書き出せます。",
+    "ko": "구간을 미리 본 다음 전체 곡을 내보내세요."
+  },
+  "视频正在导出，请稍候。": {
+    "en": "A video is being exported. Please wait.",
+    "ja": "動画の書き出しが終わるまでお待ちください。",
+    "ko": "동영상 내보내기가 완료될 때까지 기다려 주세요."
+  },
+  "选择这首曲目的原始音频": {
+    "en": "Locate the original audio for this track",
+    "ja": "この曲の元の音声ファイルを選択",
+    "ko": "이 곡의 원본 오디오 선택"
+  },
+  "请选择不同的输出文件。": {
+    "en": "Choose a different output file.",
+    "ja": "別の出力ファイルを選択してください。",
+    "ko": "다른 출력 파일을 선택하세요."
+  },
+  "分辨率": {
+    "en": "Resolution",
+    "ja": "解像度",
+    "ko": "해상도"
+  },
+  "帧率": {
+    "en": "Frame rate",
+    "ja": "フレームレート",
+    "ko": "프레임 레이트"
+  },
+  "节拍冲击强度": {
+    "en": "Beat strength",
+    "ja": "ビートの強さ",
+    "ko": "비트 강도"
+  },
+  "设置已更改，请重新预览。": {
+    "en": "Settings changed. Preview again to see the result.",
+    "ja": "設定を変更しました。もう一度プレビューしてください。",
+    "ko": "설정이 변경되었습니다. 다시 미리 보세요."
+  },
+  "视频编码": {
+    "en": "Video encoding",
+    "ja": "動画エンコード",
+    "ko": "비디오 인코딩"
+  },
+  "自动（优先硬件）": {
+    "en": "Auto (prefer hardware)",
+    "ja": "自動（ハードウェア優先）",
+    "ko": "자동 (하드웨어 우선)"
+  },
+  "软件（兼容模式）": {
+    "en": "Software (compatibility)",
+    "ja": "ソフトウェア（互換モード）",
+    "ko": "소프트웨어 (호환 모드)"
+  },
+  "硬件编码": {
+    "en": "Hardware encoding",
+    "ja": "ハードウェアエンコード",
+    "ko": "하드웨어 인코딩"
+  },
+  "软件编码": {
+    "en": "Software encoding",
+    "ja": "ソフトウェアエンコード",
+    "ko": "소프트웨어 인코딩"
+  },
+  "帧": {
+    "en": "frames",
+    "ja": "フレーム",
+    "ko": "프레임"
+  },
+  "预计剩余": {
+    "en": "About",
+    "ja": "残り約",
+    "ko": "약"
+  },
+  "批量导出视频": {
+    "en": "Export selected videos",
+    "ja": "動画を一括書き出し",
+    "ko": "선택한 비디오 내보내기"
+  },
+  "导出任务": {
+    "en": "Video export tasks",
+    "ja": "動画の書き出し状況",
+    "ko": "비디오 내보내기 작업"
+  },
+  "正在导出视频…": {
+    "en": "Exporting videos…",
+    "ja": "動画を書き出し中…",
+    "ko": "비디오 내보내는 중…"
+  },
+  "选择视频输出文件夹": {
+    "en": "Choose a video output folder",
+    "ja": "動画の保存先フォルダーを選択",
+    "ko": "비디오 출력 폴더 선택"
+  },
+  "已选择 {count} 首曲目": {
+    "en": "{count} tracks selected",
+    "ja": "{count} 曲を選択",
+    "ko": "{count}곡 선택됨"
+  },
+  "预览曲目": {
+    "en": "Preview track",
+    "ja": "プレビューする曲",
+    "ko": "미리 볼 곡"
+  },
+  "统一设置，每首曲目导出一个视频。": {
+    "en": "Use shared settings to export one video per track.",
+    "ja": "共通の設定で、曲ごとに動画を書き出します。",
+    "ko": "공통 설정으로 곡마다 비디오 하나를 내보냅니다."
+  },
+  "预计体积约 {size}；实际大小取决于编码器。": {
+    "en": "Estimated size: {size}. Actual size depends on the encoder.",
+    "ja": "推定サイズ：約 {size}。実際のサイズはエンコーダーにより異なります。",
+    "ko": "예상 크기: 약 {size}. 실제 크기는 인코더에 따라 달라집니다."
+  },
+  "使用 H.264 / AAC 压缩，文件大小随画面和编码器变化。": {
+    "en": "H.264 / AAC compression. File size varies with visuals and encoder.",
+    "ja": "H.264 / AAC で圧縮します。サイズは映像とエンコーダーにより異なります。",
+    "ko": "H.264 / AAC 압축을 사용합니다. 크기는 영상과 인코더에 따라 달라집니다."
+  },
+  "已导出 {done} 首，失败 {failed} 首": {
+    "en": "{done} exported, {failed} failed",
+    "ja": "{done} 曲を書き出し完了、{failed} 曲が失敗",
+    "ko": "{done}곡 내보내기 완료, {failed}곡 실패"
+  },
+  "等待导出": {
+    "en": "Queued",
+    "ja": "待機中",
+    "ko": "대기 중"
+  },
+  "已取消": {
+    "en": "Cancelled",
+    "ja": "キャンセル済み",
+    "ko": "취소됨"
+  },
+  "正在导出": {
+    "en": "Exporting",
+    "ja": "書き出し中",
+    "ko": "내보내는 중"
+  },
+  "已导出": {
+    "en": "Exported",
+    "ja": "完了",
+    "ko": "내보내기 완료"
+  },
+  "原始音频不存在，请重新关联音频后重试。": {
+    "en": "Original audio is missing. Relink the audio and try again.",
+    "ja": "元の音声が見つかりません。音声を再リンクして再試行してください。",
+    "ko": "원본 오디오가 없습니다. 오디오를 다시 연결한 후 재시도하세요."
+  },
+  "取消剩余任务": {
+    "en": "Cancel remaining",
+    "ja": "残りをキャンセル",
+    "ko": "남은 작업 취소"
+  },
+  "选择文件夹并导出": {
+    "en": "Choose folder and export",
+    "ja": "フォルダーを選んで書き出し",
+    "ko": "폴더 선택 후 내보내기"
+  },
+  "分钟": {
+    "en": "min left",
+    "ja": "分",
+    "ko": "분 남음"
+  },
+  "曲库视觉素材": {
+    "en": "Library visuals",
+    "ja": "ライブラリのビジュアル素材",
+    "ko": "라이브러리 비주얼"
+  },
+  "曲目详情": {
+    "en": "Track details",
+    "ja": "曲の詳細",
+    "ko": "곡 상세"
+  },
+  "先勾选需要操作的曲目": {
+    "en": "Select tracks first",
+    "ja": "先に曲を選択してください",
+    "ko": "먼저 곡을 선택하세요"
+  },
+  "勾选曲目可批量操作": {
+    "en": "Select tracks for batch actions",
+    "ja": "曲を選択して一括操作",
+    "ko": "곡을 선택하여 일괄 작업"
+  },
+  "近期": {
+    "en": "Recent",
+    "ja": "直近",
+    "ko": "최근"
+  },
+  "平均": {
+    "en": "Average",
+    "ja": "平均",
+    "ko": "평균"
+  },
+  "渲染速度，不是成片帧率；近期速度按最近 5 秒计算。": {
+    "en": "Rendering speed, not the video frame rate. Recent speed covers the last 5 seconds.",
+    "ja": "動画のフレームレートではなく、レンダリング速度です。直近は過去5秒間の値です。",
+    "ko": "영상 프레임률이 아닌 렌더링 속도입니다. 최근 속도는 지난 5초 기준입니다."
   }
 }

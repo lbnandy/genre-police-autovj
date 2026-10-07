@@ -40,6 +40,7 @@ const calls = new Set([
   "delete-library",
   "preview-track",
   "relink-track",
+  "video-export-options", "video-export-start", "video-export-batch", "video-export-cancel", "video-export-reveal",
 ]);
 function subscribe(channel, callback) {
   const listener = (_, data) => callback(data);
@@ -51,6 +52,7 @@ contextBridge.exposeInMainWorld("autovj", {
     if (!calls.has(name)) return Promise.reject(new Error("Unknown action"));
     return ipcRenderer.invoke("autovj:action", name, data);
   },
+  onExport: (fn) => subscribe("autovj:export", fn),
   onState: (fn) => subscribe("autovj:state", fn),
   onScene: (fn) => subscribe("autovj:scene", fn),
   onOutputResume: (fn) => subscribe("autovj:output-resume", fn),

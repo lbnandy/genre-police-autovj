@@ -2,7 +2,18 @@
 
 All notable changes to Genre Police AutoVJ are documented here.
 
-## Unreleased
+## 0.1.2 - 2026-10-08
+
+- Added low, medium and high video quality presets with smaller hardware bitrate targets and matching file-size estimates.
+- Added batch video export from selected tracks, shared export settings, per-track results, background progress and collision-safe output names.
+- Added whole-song MP4 export from track actions, with local audio, clip previews and separately saved visual settings.
+- Added sample-clock rendering, cached sequential beat analysis, cancellable export and a bundled FFmpeg encoder. Live recording and offline DBN decoding are not included.
+- Added automatic NVIDIA hardware encoding with a checked software fallback, an explicit software compatibility option and active encoder status.
+- Added shared-texture WebCodecs export to avoid full-frame CPU readback, with bounded rendering/encoding overlap and frame-order validation.
+
+- Made library visuals, track video export and batch actions directly accessible in Prepare; refreshed the localized screenshots.
+- Removed export startup transitions and paused clip playback during export.
+- Separated recent and average render speed, with remaining time based on recent throughput.
 
 ## 0.1.1
 

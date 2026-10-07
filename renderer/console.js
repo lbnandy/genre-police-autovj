@@ -1,3 +1,4 @@
+import { createVideoExporter } from "./video-export.mjs";
 import { cropCover } from "./cover-crop.mjs";
 import { updateSelectPickers, closeSelectPicker } from "./select-picker.mjs";
 import { translate, setLanguage } from "./i18n.mjs";
@@ -28,6 +29,7 @@ let state,
 let removal = null, removalBusy = false;
 let libraryStatsOwner = null, libraryStats = {}, filteredOwner = null, filteredKey = '', filteredTracks = [];
 const t = (zh, en) => translate(state?.settings.language || "zh", zh, en);
+const openVideoExport = createVideoExporter({api,t,esc});
 const iconNames = {"volume-2": "volume_up", monitor: "desktop_windows", "sliders-horizontal": "tune", "refresh-cw": "refresh", "music-2": "music_note", x: "close"};
 const icon = (name) => `<img class="ui-icon material-symbol" src="../assets/material-symbols/${iconNames[name] || name}.svg" alt="">`;
 const windowIcon = (name) => `<img class="ui-icon material-symbol" data-symbol="${name}" src="../assets/material-symbols/${name}.svg" alt="">`;
@@ -102,10 +104,10 @@ function view() {
 </section>
 <section class="page" id="page-library">
   <div class="page-heading"><h1>${t("准备音乐", "Prepare")}</h1><div class="row"><button data-action="import">${t("导入曲库包", "Import pack")}</button><button data-action="export">${t("导出曲库包", "Export library pack")}</button></div></div>
-  <div class="library-bar"><label class="field"><span>${t("当前曲库", "Active library")}</span><select id="library-select"></select></label><button data-action="new-library">+ ${t("新建曲库", "New library")}</button><div class="library-management"><button id="library-manage-button" class="ghost" popovertarget="library-manage" aria-controls="library-manage" aria-expanded="false">${t("管理曲库", "Manage library")}<img class="ui-icon" src="../assets/material-symbols/expand_more.svg" alt=""></button><div id="library-manage" class="action-popover" popover aria-label="${t("管理曲库", "Manage library")}"><button class="ghost" data-action="rename-library">${t("重命名", "Rename")}</button><button class="ghost" data-action="reveal">${t("打开曲库数据文件夹", "Open library data folder")}</button><div class="divider"></div><button class="ghost danger" data-action="delete-library">${t("删除曲库", "Delete library")}</button></div></div><div class="summary-grid" id="summaries"></div></div>
-  <details class="performance-details dj-profile"><summary>${t("DJ 标识", "DJ identity")}<img class="ui-icon" src="../assets/material-symbols/expand_more.svg" alt=""></summary><p class="dj-profile-note">${t("自动保存到当前曲库，导出曲库时一起携带。", "Saved automatically to this library and included in its export.")}</p><div class="dj-profile-fields"><label class="field dj-name-field"><span>${t("DJ 名字", "DJ name")}</span><input id="dj-name" type="text" maxlength="64" autocomplete="off" placeholder="${t("整套曲库使用的 DJ 名字", "One DJ name for this library")}" title="${t("自动保存到当前曲库，导出曲库时一起携带。", "Saved automatically to this library and included in its export.")}"></label><div class="dj-logo-control"><span class="profile-label">DJ Logo</span><div class="profile-actions"><img id="dj-logo-preview" alt="DJ Logo" hidden><button class="ghost" data-action="choose-logo">${t("选择 DJ Logo", "Choose DJ logo")}</button><button id="remove-logo" class="small ghost" data-action="remove-logo">${t("移除", "Remove")}</button></div><label id="logo-scale-field" class="field"><span>${t("Logo 大小", "Logo size")} <output id="logo-scale-value"></output></span><input id="logo-scale" type="range" min="50" max="150" step="5" aria-label="${t("Logo 大小", "Logo size")}"></label><small>${t("推荐透明 PNG，自动裁去透明边距并保留比例。", "Transparent PNG recommended; padding is trimmed and proportions preserved.")}</small></div><div class="library-cover-control"><span class="profile-label">${t("自定义封面", "Custom cover")}</span><div class="profile-actions"><img id="custom-cover-preview" alt="" hidden><button class="ghost" data-action="choose-cover">${t("自定义封面", "Custom cover")}</button><button id="remove-cover" class="small ghost" data-action="remove-cover">${t("移除", "Remove")}</button></div><small>${t("替换整套曲库的封面；移除后恢复曲目封面。", "Overrides artwork for this library. Remove to restore track artwork.")}</small></div></div></details>
-  <div class="toolbar"><button class="primary" data-action="files">+ ${t("添加音乐", "Add music")}</button><button data-action="folder">${t("添加文件夹", "Add folder")}</button><span class="analysis-control"><button id="analyze-button" data-action="analyze"></button><button id="cancel-analysis" class="ghost inactive" data-action="cancel" aria-hidden="true">${t("停止分析", "Stop analysis")}</button></span><span class="grow"></span><input id="search" type="search" aria-label="${t("搜索曲名或艺人", "Search tracks or artists")}" placeholder="${t("搜索曲名或艺人", "Search tracks or artists")}"><select id="filter" aria-label="${t("筛选曲目", "Filter tracks")}"><option value="all">${t("全部曲目", "All tracks")}</option><option value="review">${t("需要确认", "Needs review")}</option><option value="pending">${t("待准备", "Not prepared")}</option><option value="ready">${t("已准备", "Prepared")}</option></select></div>
-  <article class="panel"><div class="table-wrap" id="tracks"></div><div class="table-footer"><span id="selection-info"></span><div class="library-activity"><div id="undo-removal-note" class="undo-note" role="status" hidden><span id="undo-removal-text"></span><button class="small ghost" data-action="undo-removal">${t("撤销移除", "Undo removal")}</button></div><p id="library-busy" role="status" hidden></p><div id="job" class="job" hidden><div class="job-copy"><span id="job-title"></span><span id="job-count" class="muted"></span><span id="job-detail" class="muted"></span></div><div id="job-progress" class="meter" role="progressbar" aria-label="${t("整批分析进度", "Batch analysis progress")}" aria-valuemin="0" aria-valuemax="100"><i class="job-progress-fill"></i></div></div></div><div class="row" id="selection-actions" hidden><button class="small ghost" data-action="clear-selection">${t("清除选择", "Clear selection")}</button><button id="remove-selected" class="small ghost danger" data-action="remove-selected">${t("移除所选曲目", "Remove selected tracks")}</button></div></div></article><p class="bottom-caption">${t("曲库包包含分析数据，不含音乐文件。音乐需另行携带。", "Library packs contain analysis data, not music. Bring your audio files separately.")}</p>
+  <div class="library-bar"><label class="field"><span>${t("当前曲库", "Active library")}</span><select id="library-select"></select></label><button data-action="new-library">+ ${t("新建曲库", "New library")}</button><button class="ghost" data-action="rename-library">${t("重命名", "Rename")}</button><div class="library-management"><button id="library-manage-button" class="ghost" popovertarget="library-manage" aria-controls="library-manage" aria-expanded="false">${t("管理曲库", "Manage library")}<img class="ui-icon" src="../assets/material-symbols/expand_more.svg" alt=""></button><div id="library-manage" class="action-popover" popover aria-label="${t("管理曲库", "Manage library")}"><button class="ghost" data-action="reveal">${t("打开曲库数据文件夹", "Open library data folder")}</button><div class="divider"></div><button class="ghost danger" data-action="delete-library">${t("删除曲库", "Delete library")}</button></div></div><div class="summary-grid" id="summaries"></div></div>
+  <article class="dj-profile"><h2>${t("曲库视觉素材")}</h2><p class="dj-profile-note">${t("自动保存到当前曲库，导出曲库时一起携带。", "Saved automatically to this library and included in its export.")}</p><div class="dj-profile-fields"><label class="field dj-name-field"><span>${t("DJ 名字", "DJ name")}</span><input id="dj-name" type="text" maxlength="64" autocomplete="off" placeholder="${t("整套曲库使用的 DJ 名字", "One DJ name for this library")}" title="${t("自动保存到当前曲库，导出曲库时一起携带。", "Saved automatically to this library and included in its export.")}"></label><div class="dj-logo-control"><span class="profile-label">DJ Logo</span><div class="profile-actions"><img id="dj-logo-preview" alt="DJ Logo" hidden><button class="ghost" data-action="choose-logo">${t("选择 DJ Logo", "Choose DJ logo")}</button><button id="remove-logo" class="small ghost" data-action="remove-logo">${t("移除", "Remove")}</button></div><label id="logo-scale-field" class="field"><span>${t("Logo 大小", "Logo size")} <output id="logo-scale-value"></output></span><input id="logo-scale" type="range" min="50" max="150" step="5" aria-label="${t("Logo 大小", "Logo size")}"></label><small>${t("推荐透明 PNG，自动裁去透明边距并保留比例。", "Transparent PNG recommended; padding is trimmed and proportions preserved.")}</small></div><div class="library-cover-control"><span class="profile-label">${t("自定义封面", "Custom cover")}</span><div class="profile-actions"><img id="custom-cover-preview" alt="" hidden><button class="ghost" data-action="choose-cover">${t("自定义封面", "Custom cover")}</button><button id="remove-cover" class="small ghost" data-action="remove-cover">${t("移除", "Remove")}</button></div><small>${t("替换整套曲库的封面；移除后恢复曲目封面。", "Overrides artwork for this library. Remove to restore track artwork.")}</small></div></div></article>
+  <div class="toolbar"><button class="primary" data-action="files">+ ${t("添加音乐", "Add music")}</button><button data-action="folder">${t("添加文件夹", "Add folder")}</button><span class="analysis-control"><button id="analyze-button" data-action="analyze"></button><button id="cancel-analysis" class="ghost inactive" data-action="cancel" aria-hidden="true">${t("停止分析", "Stop analysis")}</button></span><button id="export-task" class="small ghost" data-action="export-task" hidden>${t("导出任务")}</button><span class="grow"></span><input id="search" type="search" aria-label="${t("搜索曲名或艺人", "Search tracks or artists")}" placeholder="${t("搜索曲名或艺人", "Search tracks or artists")}"><select id="filter" aria-label="${t("筛选曲目", "Filter tracks")}"><option value="all">${t("全部曲目", "All tracks")}</option><option value="review">${t("需要确认", "Needs review")}</option><option value="pending">${t("待准备", "Not prepared")}</option><option value="ready">${t("已准备", "Prepared")}</option></select></div>
+  <article class="panel tracks-panel"><div class="track-selection-bar"><span id="selection-info"></span><div class="row" id="selection-actions"><button class="small ghost" data-action="clear-selection">${t("清除选择", "Clear selection")}</button><button id="export-selected" class="small ghost" data-action="export-selected">${t("批量导出视频")}</button><button id="remove-selected" class="small ghost danger" data-action="remove-selected">${t("移除所选曲目", "Remove selected tracks")}</button></div></div><div class="table-wrap" id="tracks"></div><div class="table-footer"><div class="library-activity"><div id="undo-removal-note" class="undo-note" role="status" hidden><span id="undo-removal-text"></span><button class="small ghost" data-action="undo-removal">${t("撤销移除", "Undo removal")}</button></div><p id="library-busy" role="status" hidden></p><div id="job" class="job" hidden><div class="job-copy"><span id="job-title"></span><span id="job-count" class="muted"></span><span id="job-detail" class="muted"></span></div><div id="job-progress" class="meter" role="progressbar" aria-label="${t("整批分析进度", "Batch analysis progress")}" aria-valuemin="0" aria-valuemax="100"><i class="job-progress-fill"></i></div></div></div></div></article><p class="bottom-caption">${t("曲库包包含分析数据，不含音乐文件。音乐需另行携带。", "Library packs contain analysis data, not music. Bring your audio files separately.")}</p>
 </section>
 <section class="page" id="page-settings">
   <div class="page-heading"><h1>${t("设置", "Settings")}</h1><label class="settings-language"><span>${t("语言", "Language")}</span><select id="language"><option value="system">${t("跟随系统", "Follow system")}</option><option value="zh">简体中文</option><option value="en">English</option><option value="ja">日本語</option><option value="ko">한국어</option></select></label></div>
@@ -454,7 +456,8 @@ function sync() {
   $("library-select").disabled = busy;
   for (const el of document.querySelectorAll("[data-action=import], [data-action=export], [data-action=new-library], [data-action=rename-library], [data-action=delete-library], [data-action=files], [data-action=folder]")) el.disabled = busy;
   syncEditorActions();
-  $("selection-actions").hidden = !selected.size;
+  document.querySelector("[data-action=clear-selection]").disabled = !selected.size;
+  $("export-selected").title = $("remove-selected").title = selected.size ? "" : t("先勾选需要操作的曲目");
   $("undo-removal-note").hidden = !state.undoRemoval || busy;
   $("undo-removal-text").textContent = state.undoRemoval ? t("已移除 {count} 首曲目，可撤销上次移除。", "Removed {count} tracks. The last removal can be undone.").replace("{count}",state.undoRemoval.count) : "";
   document.querySelector("[data-action=undo-removal]").disabled = busy;
@@ -463,6 +466,7 @@ function sync() {
     ? t("正在监听。停止监听后可切换、整理和分析曲库。", "Listening is active. Stop listening to switch, organize or analyze libraries.")
     : t("曲库正在更新，完成后可继续管理。", "The library is being updated. Management will be available when it finishes.");
   if ($("library-busy").textContent !== libraryBusyMessage) $("library-busy").textContent = libraryBusyMessage;
+  $("export-selected").disabled = busy || !selected.size;
   $("remove-selected").disabled = busy || !selected.size;
   $("remove-selected").textContent = `${t("移除所选曲目", "Remove selected tracks")}${selected.size ? ` (${selected.size})` : ""}`;
   if (state.maintenance) $("remove-selected").textContent = t("正在更新曲库，请稍候。", "Updating library. Please wait.");
@@ -534,7 +538,7 @@ function sync() {
   if (!analyzing && analysisFocus === $("cancel-analysis") && !$("analyze-button").disabled) $("analyze-button").focus({ preventScroll: true });
   $("selection-info").textContent = selected.size
     ? `${selected.size} ${t("首已选择", "selected")}`
-    : `${all.length} ${t("首音乐", "tracks")}`;
+    : `${all.length} ${t("首音乐", "tracks")} · ${t("勾选曲目可批量操作")}`;
   updateSelectPickers();
   renderPerformance();
   renderTracks();
@@ -606,15 +610,15 @@ function renderTracks() {
             }[x.status] || x.status;
       const mins = Math.floor((x.durationMs || 0) / 60000),
         secs = Math.floor((x.durationMs || 0) / 1000) % 60;
-      return `<tr><td><input type="checkbox" data-track-select="${x.id}" ${selected.has(x.id) ? "checked" : ""} aria-label="${esc(x.title)}"></td><td class="track-cell"><b title="${esc(x.title)}">${esc(x.title)}</b><small>${esc(x.artist || "—")}</small></td><td>${esc(themeLabel(x.genreId))}${x.manualGenre ? ` <span class="badge purple">${t("手动", "Manual")}</span>` : ""}</td><td><span class="badge ${review ? "amber" : ready ? "green" : ""}">${esc(status)}</span></td><td class="muted">${x.durationMs ? `${mins}:${String(secs).padStart(2, "0")}` : "—"}</td><td><button class="small ghost" data-edit="${x.id}">${t("编辑", "Edit")}</button></td></tr>`;
+      return `<tr><td><input type="checkbox" data-track-select="${x.id}" ${selected.has(x.id) ? "checked" : ""} aria-label="${esc(x.title)}"></td><td class="track-cell"><b title="${esc(x.title)}">${esc(x.title)}</b><small>${esc(x.artist || "—")}</small></td><td>${esc(themeLabel(x.genreId))}${x.manualGenre ? ` <span class="badge purple">${t("手动", "Manual")}</span>` : ""}</td><td><span class="badge ${review ? "amber" : ready ? "green" : ""}">${esc(status)}</span></td><td class="muted">${x.durationMs ? `${mins}:${String(secs).padStart(2, "0")}` : "—"}</td><td class="track-row-actions"><button class="small ghost" data-edit="${x.id}">${t("曲目详情")}</button><button class="small ghost" data-track-export="${x.id}">${t("导出视频")}</button></td></tr>`;
     })
     .join("");
   const spacer=count=>count?`<tr class="virtual-spacer" aria-hidden="true"><td colspan="6" style="height:${count*60}px"></td></tr>`:'';
-  const focused=document.activeElement?.closest('[data-track-select],[data-edit]');
+  const focused=document.activeElement?.closest('[data-track-select],[data-edit],[data-track-export]');
   const headerFocused=document.activeElement?.id==='select-all';
-  const focusKey=focused?.dataset.trackSelect?['data-track-select',focused.dataset.trackSelect]:focused?.dataset.edit?['data-edit',focused.dataset.edit]:null;
+  const focusKey=focused?.dataset.trackSelect?['data-track-select',focused.dataset.trackSelect]:focused?.dataset.edit?['data-edit',focused.dataset.edit]:focused?.dataset.trackExport?['data-track-export',focused.dataset.trackExport]:null;
   $("tracks").innerHTML =
-    `<table class="${virtual?'virtual-table':''}" aria-rowcount="${tracks.length+1}"><colgroup><col style="width:40px"><col style="width:38%"><col style="width:21%"><col style="width:15%"><col style="width:10%"><col></colgroup><thead><tr><th><input type="checkbox" id="select-all" aria-label="${t("选择列表曲目", "Select displayed tracks")}"></th><th>${t("曲目 / 艺人", "Track / artist")}</th><th>${t("曲风", "Genre")}</th><th>${t("状态", "Status")}</th><th>${t("时长", "Length")}</th><th></th></tr></thead><tbody>${spacer(first)}${rows}${spacer(tracks.length-end)}</tbody></table>`;
+    `<table class="${virtual?'virtual-table':''}" aria-rowcount="${tracks.length+1}"><colgroup><col style="width:40px"><col><col style="width:18%"><col style="width:13%"><col style="width:8%"><col style="width:240px"></colgroup><thead><tr><th><input type="checkbox" id="select-all" aria-label="${t("选择列表曲目", "Select displayed tracks")}"></th><th>${t("曲目 / 艺人", "Track / artist")}</th><th>${t("曲风", "Genre")}</th><th>${t("状态", "Status")}</th><th>${t("时长", "Length")}</th><th></th></tr></thead><tbody>${spacer(first)}${rows}${spacer(tracks.length-end)}</tbody></table>`;
   if(focusKey)$('tracks').querySelector(`[${focusKey[0]}="${focusKey[1]}"]`)?.focus({preventScroll:true});
   if(headerFocused)$('select-all').focus({preventScroll:true});
   let rowIndex=first+2;
@@ -755,6 +759,11 @@ document.addEventListener("click", async (e) => {
     setTab(b.dataset.tab);
     return;
   }
+  if (b.dataset.trackExport) {
+    const track = state.library.tracks.find(x => x.id === b.dataset.trackExport);
+    if (track) await openVideoExport(track);
+    return;
+  }
   if (b.dataset.edit) {
     editTrack(b.dataset.edit);
     addEditorActions();
@@ -780,6 +789,13 @@ document.addEventListener("click", async (e) => {
   if (b.closest("#library-manage")) $("library-manage").hidePopover();
   if (action === "video-config") { document.querySelector("[data-tab=settings]").click(); $("video-settings").open=true; $("video-settings").scrollIntoView({block:"center"}); $("video-settings").querySelector("summary").focus(); return; }
   if (action === "video-retry") { await call("video-retry"); return; }
+  if (action === "export-task") { await openVideoExport(); return; }
+  if (action === "export-selected") { await openVideoExport(state.library.tracks.filter(x=>selected.has(x.id))); return; }
+  if (action === "export-video") {
+    const track=state.library.tracks.find(x=>x.id===editorId);
+    if(track){$("editor").close();await openVideoExport(track);}
+    return;
+  }
   if (action === "preview-track") {
     $("editor").close();
     const r = await call("preview-track", editorId);
@@ -956,7 +972,7 @@ function addEditorActions() {
   const row = document.createElement("div");
   row.className = "row editor-secondary";
   row.style.marginTop = "16px";
-  row.innerHTML = `<button class="small ghost" data-action="preview-track">${t("预览视觉", "Preview visual")}</button><button class="small ghost" data-action="reanalyze">${t("重新分析", "Analyze again")}</button><button class="small ghost" data-action="relink-track">${t("重新关联音频", "Relink audio")}</button><span class="grow"></span><button class="small ghost danger" data-action="remove-track">${t("从曲库移除", "Remove from library")}</button>`;
+  row.innerHTML = `<button class="small ghost" data-action="export-video">${t("导出视频", "Export video")}</button><button class="small ghost" data-action="preview-track">${t("预览视觉", "Preview visual")}</button><button class="small ghost" data-action="reanalyze">${t("重新分析", "Analyze again")}</button><button class="small ghost" data-action="relink-track">${t("重新关联音频", "Relink audio")}</button><span class="grow"></span><button class="small ghost danger" data-action="remove-track">${t("从曲库移除", "Remove from library")}</button>`;
   $("editor").insertBefore(row, $("editor").querySelector(".editor-save"));
   syncEditorActions();
 }
@@ -1029,6 +1045,7 @@ api.onState((next) => {
   if (previousLibrary !== state.library.id) selected.clear();
   if (!$("page-live") || language !== state.settings.language) view();
   else sync();
+  openVideoExport.refresh();
 });
 const previewObserver = new ResizeObserver(entries => {
   const r = entries[0]?.contentRect;

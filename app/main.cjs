@@ -47,6 +47,22 @@ const realResource = (p) =>
   app.isPackaged
     ? path.join(process.resourcesPath, "app.asar.unpacked", p)
     : path.join(ROOT, p);
+const {VideoExport} = require('../packages/video-export.cjs');
+const {exportOptions} = require('../packages/export-options.cjs');
+const videoExport = new VideoExport({root:ROOT,resource:realResource,sharedTexture,
+  createWindow:(width,height,gpu=false)=>{
+    const w=secureWindow({width,height,show:false,useContentSize:true,webPreferences:{offscreen:gpu?{useSharedTexture:true,sharedTexturePixelFormat:'argb'}:true,...(gpu?{preload:path.join(__dirname,'export-encoder-preload.cjs')}:{})}});
+    if(gpu)w.webContents.on('paint',event=>{if(!w.webContents.exportCaptureActive)event.texture?.release();});
+    // Offscreen bitmap dimensions are the compositor viewport, not the
+    // physical monitor size. Do not divide them by Windows display scaling.
+    w.setContentSize(width,height);
+    // Export advances song time explicitly. The offscreen compositor must not
+    // pace the job at the live display's refresh rate.
+    w.webContents.setZoomFactor(1);w.webContents.setFrameRate(240);
+    return w;
+  },
+  onState:state=>{if(consoleWindow&&!consoleWindow.isDestroyed())consoleWindow.webContents.send('autovj:export',state);}
+});
 const EXE = realResource("native/bin/autovj-recognizer.exe"),
   MODELS = realResource("vendor/genre-police/assets/models");
 const LINK_EXE = realResource("native/bin/Carabiner.exe");
@@ -876,6 +892,57 @@ async function action(name, input) {
       if (input === null && !live.running) live.currentId = null;
       sendScene();
       break;
+    case "video-export-options":
+      return {options:exportOptions(config.exportOptions,settings()),job:videoExport.state};
+    case "video-export-cancel":
+      videoExport.cancel();return {ok:true};
+    case "video-export-reveal":
+      if(videoExport.state.batch?.directory)await shell.openPath(videoExport.state.batch.directory);
+      else if(videoExport.state.status==='complete'&&videoExport.state.file)shell.showItemInFolder(videoExport.state.file);
+      return {ok:true};
+    case "video-export-batch": {
+      ensureIdle();
+      if(videoExport.task)throw new Error(tr("视频正在导出，请稍候。"));
+      const owner=library,ids=[...new Set(Array.isArray(input?.ids)?input.ids:[])];
+      const tracks=ids.map(id=>owner.track(id));
+      if(!tracks.length||tracks.some(track=>!track))throw new Error(tr("曲目不存在"));
+      const pick=await dialog.showOpenDialog(consoleWindow,{title:tr("选择视频输出文件夹"),properties:['openDirectory','createDirectory']});
+      if(pick.canceled)return {canceled:true};
+      ensureIdle();
+      if(owner!==library)throw new Error(tr("曲库已切换，请重新选择。"));
+      if(videoExport.task)throw new Error(tr("视频正在导出，请稍候。"));
+      const options=exportOptions(input.options,settings()),base=structuredClone(scene());
+      const requests=tracks.map(track=>{
+        const themeId=owner.visual(track),theme=owner.theme(themeId)||owner.theme('unknown');
+        return {file:track.filePath,options,scene:{...base,track:owner.publicTrack(track,true),theme:{...theme,id:theme.baseId||theme.id},themeKey:themeId}};
+      });
+      config.exportOptions=options;saveConfig();videoExport.startBatch(requests,pick.filePaths[0]);return {ok:true};
+    }
+    case "video-export-start": {
+      ensureIdle();
+      if(videoExport.task)throw new Error(tr("视频正在导出，请稍候。"));
+      const track=library.track(input?.id);
+      if(!track)throw new Error(tr("曲目不存在"));
+      let file=track.filePath;
+      if(!file||!fs.existsSync(file)){
+        const pick=await dialog.showOpenDialog(consoleWindow,{title:tr("选择这首曲目的原始音频"),properties:['openFile'],filters:[{name:tr("音频文件"),extensions:[...audioExtensions].map(s=>s.slice(1))}]});
+        if(pick.canceled)return {canceled:true};file=pick.filePaths[0];
+      }
+      const options=exportOptions(input.options,settings()),preview=input.preview===true;
+      let output;
+      if(preview)output=path.join(app.getPath('temp'),`autovj-preview-${crypto.randomUUID()}.mp4`);
+      else{
+        const pick=await dialog.showSaveDialog(consoleWindow,{title:tr("导出视频"),defaultPath:(track.title||'AutoVJ').replace(/[<>:"/\\|?*]/g,'_')+'.mp4',filters:[{name:'MP4',extensions:['mp4']}]});
+        if(pick.canceled||!pick.filePath)return {canceled:true};
+        output=pick.filePath.toLowerCase().endsWith('.mp4')?pick.filePath:pick.filePath+'.mp4';
+        if(path.resolve(output).toLowerCase()===path.resolve(file).toLowerCase())throw new Error(tr("请选择不同的输出文件。"));
+      }
+      config.exportOptions=options;saveConfig();
+      const themeId=library.visual(track),theme=library.theme(themeId)||library.theme('unknown');
+      const exportScene={...scene(),track:library.publicTrack(track,true),theme:{...theme,id:theme.baseId||theme.id},themeKey:themeId};
+      videoExport.start({file,output,scene:exportScene,options,preview,previewStart:input.previewStart});
+      return {ok:true};
+    }
     case "preview-track":
       if (live.running) throw new Error(tr("停止现场监听后可预览曲目视觉。"));
       if (!library.track(input)) throw new Error(tr("曲目不存在"));
@@ -1245,7 +1312,7 @@ app.on("before-quit", (e) => {
   queue = [];
   worker?.postMessage("cancel");
   stopRhythm();
-  Promise.allSettled([host?.stop(),videoChange.then(()=>videoSender.stop()),textures.drain()]).finally(() => {
+  Promise.allSettled([videoExport.dispose(),host?.stop(),videoChange.then(()=>videoSender.stop()),textures.drain()]).finally(() => {
     worker?.terminate();
     analysisPool?.terminate();
     app.quit();

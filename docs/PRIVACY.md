@@ -39,3 +39,9 @@ The default data directory is `%APPDATA%/Genre Police AutoVJ`. Set `AUTOVJ_DATA_
 Library export omits source paths, machine audio-device settings and local lookup caches. Import creates an independent local library and does not modify the original audio files.
 
 曲库导出不会包含源文件路径、机器音频设备设置和本地查询缓存。导入会创建独立的本地曲库，不会修改原始音频文件。
+
+## Video export / 视频导出
+
+Video export reads a user-selected local audio file, computes beat data locally, and writes an MP4 with the song audio to the chosen location. It does not capture the desktop or upload media. Decoded mono audio and beat results for the most recently exported track are cached in the Windows temporary directory during the app session; normal exit removes these files and generated clip previews. An interrupted process may leave temporary files for Windows cleanup. Cancelled or failed exports remove their partial video without deleting an existing destination file.
+
+视频导出读取用户选择的本地音频，在本机计算节拍，并将包含歌曲音频的 MP4 写入所选位置，不捕获桌面或上传媒体。最近一首曲目的解码音频和节拍结果会在本次运行期间缓存在 Windows 临时目录；正常退出时会清理缓存与片段预览。进程异常退出可能留下临时文件。取消或失败时会删除未完成的视频，不删除已有的目标文件。

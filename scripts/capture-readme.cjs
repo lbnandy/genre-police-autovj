@@ -3,11 +3,12 @@ const fs = require("node:fs"), path = require("node:path"), crypto = require("no
 const { spawnSync } = require("node:child_process");
 const { _electron } = require(process.env.AUTOVJ_PLAYWRIGHT || "playwright");
 const { Library, atomicJson } = require("../packages/library.cjs");
-const ROOT = path.resolve(__dirname, ".."), OUT = path.join(ROOT, "docs", "screenshots");
+const ROOT = path.resolve(__dirname, ".."), OUT = process.env.AUTOVJ_README_OUT || path.join(ROOT, "docs", "screenshots");
 // The capture script is a maintainer tool. Keep source and personal media paths separate
 // so another checkout can reproduce it by setting these environment variables.
 const MUSIC = process.env.AUTOVJ_README_MUSIC || path.join(ROOT, "examples", "readme-music");
 const THEME = process.env.AUTOVJ_README_THEME || "techno";
+const PREPARE_ONLY = process.env.AUTOVJ_README_PREPARE_ONLY === "1";
 const LIVE_ONLY = process.env.AUTOVJ_README_LIVE_ONLY === "1";
 const IMPACT = process.env.AUTOVJ_README_IMPACT === "1";
 const COVER_PATH = process.env.AUTOVJ_README_COVER || path.join(ROOT, "assets", "icon.png");
@@ -15,7 +16,7 @@ const COVER_PATH = process.env.AUTOVJ_README_COVER || path.join(ROOT, "assets", 
 async function presentAutoDemo(app, library, trackId, themeId, artwork, consoleOnly = false) {
   const consolePage = app.windows().find(window => window.url().includes("console.html"));
   const state = await consolePage.evaluate(() => window.autovj.call("state"));
-  const track = state.library.tracks.find(item => item.id === trackId), theme = library.theme(themeId);
+  const track = {...state.library.tracks.find(item => item.id === trackId), genreId:themeId, visualId:themeId}, theme = library.theme(themeId);
   const demoDevice = state.devices?.[0] || { id: "demo-dj-master", name: "DJ Master · Demo", loopback: false };
   const demoChannels = state.channels?.length ? state.channels : [{ value: 0, label: "1 + 2", mono: false }];
   const nextState = {
@@ -91,10 +92,12 @@ async function animateAudio(app, musicFile) {
   const coverDir = path.join(library.root, "covers"); fs.mkdirSync(coverDir, { recursive: true });
   fs.copyFileSync(COVER_PATH, path.join(coverDir, selectedId + ".png"));
   library.data.name = "Demo Library"; library.data.djName = "ICHIRYU";
+  let sourceLibrary;
   if (process.env.AUTOVJ_README_LIBRARY) {
-    const source = JSON.parse(fs.readFileSync(process.env.AUTOVJ_README_LIBRARY, "utf8"));
+    const source = sourceLibrary = JSON.parse(fs.readFileSync(process.env.AUTOVJ_README_LIBRARY, "utf8"));
     for (const key of ["djName", "djLogo", "djLogoScale", "customArtwork"]) library.data[key] = source[key];
   }
+  if (!library.data.djName) library.data.djName = "ICHIRYU";
   const tracks = [
     ["Action (Extended Mix)", "Alessia Labate, Conrad Taylor", "Action (Extended Mix).flac", "techno"],
     ["Afterlife (Original Mix)", "Kurbz, scoobs_mc", "Afterlife (Original Mix).flac", "drum-bass"],
@@ -109,11 +112,13 @@ async function animateAudio(app, musicFile) {
     if (probe.status !== 0) throw new Error(probe.stderr || "Unable to read screenshot music metadata");
     const format = JSON.parse(probe.stdout).format;
     const tags = Object.fromEntries(Object.entries(format.tags || {}).map(([key, value]) => [key.toLowerCase(), value]));
+    const prepared = sourceLibrary?.tracks?.find(item => path.basename(item.filePath || "") === file);
+    const preparedGenre = prepared && (prepared.manualGenre || prepared.suggestion?.id);
     library.upsert({
     id: ids[index], filePath: path.join(MUSIC, file),
     title: tags.title || title, artist: tags.artist || artist, durationMs: Math.round(Number(format.duration) * 1000),
     ...(index === 0 ? { cover: "covers/" + selectedId + ".png" } : {}),
-    suggestion: { id: genre, source: "ai", confidence: 0.94 }, status: "ready", confirmed: true,
+    suggestion: { id: preparedGenre || genre, source: "ai", confidence: 0.94 }, status: "ready", confirmed: true,
     });
   });
   const selectedIndex = tracks.findIndex(track => track[3] === THEME);
@@ -123,12 +128,20 @@ async function animateAudio(app, musicFile) {
   const app = await _electron.launch({ executablePath: path.join(ROOT, "node_modules/electron/dist/electron.exe"), args: [ROOT, "--lang=zh-CN"], env });
   try {
     const page = app.windows().find(window => window.url().includes("console.html")) || await app.waitForEvent("window", { predicate: window => window.url().includes("console.html") });
-    await page.waitForSelector("#live-toggle"); await page.setViewportSize({ width: 1440, height: 960 });
+    await page.waitForSelector("#live-toggle"); await page.setViewportSize({ width: 1800, height: 1200 });
     await page.evaluate(IMPACT => window.autovj.call("settings", { brightness: 1, fullscreenLayout: "stacked", headingMode: "logo", trackInfoVisible: false, impactMode: "music", screenImpact: IMPACT, impactLevel: IMPACT ? "high" : "medium" }), IMPACT);
     const artwork = "data:image/png;base64," + fs.readFileSync(path.join(coverDir, ids[0] + ".png")).toString("base64");
     for (const language of ["zh", "en", "ja"]) {
       await page.evaluate(language => window.autovj.call("settings", { language }), language);
       await page.waitForFunction(language => document.documentElement.lang === (language === "zh" ? "zh-CN" : language), language);
+      if (PREPARE_ONLY) {
+        await page.setViewportSize({width:1800,height:1200});
+        await page.locator('[data-tab="library"]').click();
+        await page.evaluate(()=>document.fonts.ready);
+        await page.waitForTimeout(500);
+        await page.screenshot({path:path.join(OUT,`autovj-prepare-library-${language}.png`)});
+        continue;
+      }
       await page.locator('[data-tab="live"]').click();
       await page.evaluate(id => window.autovj.call("preview-track", id), selectedId);
       await presentAutoDemo(app, library, selectedId, THEME, artwork);
@@ -159,14 +172,18 @@ async function animateAudio(app, musicFile) {
         await presentAutoDemo(app, library, selectedId, THEME, artwork, true);
         await page.waitForTimeout(150);
       }
+      const liveOverflow = await page.evaluate(() => [...document.querySelectorAll('main, .page.active, .table-wrap')].some(el => el.clientHeight > 0 && ['auto','scroll'].includes(getComputedStyle(el).overflowY) && el.scrollHeight > el.clientHeight + 1));
+      if (liveOverflow) throw new Error('Live screenshot requires scrolling: ' + language);
       await page.screenshot({ path: path.join(OUT, `autovj-live-stacked-${language}.png`), fullPage: true });
       if (IMPACT) { const stage=app.windows().find(w=>w.url().includes("stage.html")); await stage.reload(); await stage.waitForTimeout(500); }
       await page.evaluate(() => window.autovj.call("live-stop"));
       if (LIVE_ONLY) continue;
       await page.waitForTimeout(300);
       await page.locator('[data-tab="library"]').click(); await page.waitForTimeout(500);
+      const prepareOverflow = await page.evaluate(() => [...document.querySelectorAll('main, .page.active, .table-wrap')].some(el => el.clientHeight > 0 && ['auto','scroll'].includes(getComputedStyle(el).overflowY) && el.scrollHeight > el.clientHeight + 1));
+      if (prepareOverflow) throw new Error('Prepare screenshot requires scrolling: ' + language);
       await page.screenshot({ path: path.join(OUT, `autovj-prepare-library-${language}.png`), fullPage: true });
     }
-    console.log("Localized live and library README screenshots captured");
+    console.log("Localized README screenshots captured");
   } finally { await app.evaluate(async()=>{for(const host of globalThis.readmeHosts||[]) await host.stop();}); await app.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

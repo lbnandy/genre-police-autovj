@@ -113,3 +113,10 @@ body[data-fullscreen-layout="stacked"] #dj-logo { transform-origin:center; }
 
 #screen-impact-layer { position: fixed; inset: 0; transform-origin: center; }
 #screen-impact-flash { position: fixed; inset: 0; background: white; opacity: 0; pointer-events: none; z-index: 99997; }
+
+/* Offline output starts after assets are ready; live loading/layout transitions
+   must not become part of the song. Theme animations remain sample-clock driven. */
+body[data-offline-export="true"],
+body[data-offline-export="true"] *,
+body[data-offline-export="true"] *::before,
+body[data-offline-export="true"] *::after { transition: none !important; }

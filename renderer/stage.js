@@ -1,5 +1,7 @@
 import { ScreenImpact } from "./screen-impact.mjs";
 const screenImpact = new ScreenImpact();
+const exporting = new URLSearchParams(location.search).has("export");
+let exportPacket = null;
 let brandAnchor = null;
 let brandLayoutTransition = false;
 import { RhythmClock } from "./rhythm-clock.mjs";
@@ -227,7 +229,7 @@ function setTheme(next, key) {
     back.animate([{ opacity: 0 }, { opacity: 1 }], timing),
   ];
 }
-window.autovj.onScene((next) => {
+function receiveScene(next) {
   const reset = scene?.active && !next.active,
     changed =
       scene?.themeKey !== next.themeKey || scene?.track?.id !== next.track?.id;
@@ -294,7 +296,8 @@ window.autovj.onScene((next) => {
       1100,
     );
   }
-});
+}
+window.autovj.onScene(receiveScene);
 $("dj-logo").onload = () => scale();
 $("artwork").onload = () => $("artwork").classList.add("loaded");
 window.autovj.onPCM((frame) => {
@@ -368,7 +371,7 @@ window.addEventListener("unhandledrejection", (e) =>
 );
 function animate(time) {
   if (!renderActive) return;
-  animationRequest = requestAnimationFrame(animate);
+  if (!exporting) animationRequest = requestAnimationFrame(animate);
   if (!theme) return;
   const interval = outputFrameInterval(scene);
   if (interval !== frameInterval) {
@@ -377,7 +380,7 @@ function animate(time) {
   }
   const scheduled = scheduleFrame(time, nextFrame, interval);
   nextFrame = scheduled.deadline;
-  if (!scheduled.due) return;
+  if (!exporting && !scheduled.due) return;
   applyResolution(resolutionScale(time));
   const workStartedAt = performance.now();
   const rawInterval = time - lastFrame;
@@ -388,9 +391,15 @@ function animate(time) {
     audio.resetDetectionState();
     audio.setModelAssist({type:"disabled"});
   }
+  if (exportPacket) {
+    for (const e of exportPacket.rhythm) {
+      audio.setModelAssist(e);
+      rhythmClock.setModel(e, performance.timeOrigin + e.time);
+    }
+  }
   let metrics = scene?.active ? audio.update(time) : audio.emptyMetrics();
   // Raw waveform threshold, independent of adaptive visual gain.
-  const signal=scene?.active && performance.now()-lastSignalAt<150;
+  const signal=scene?.active && (exporting ? exportPacket?.signal : performance.now()-lastSignalAt<150);
   metrics = rhythmClock.update(metrics, scene?.settings || {}, performance.timeOrigin + time, Boolean(scene?.active), signal);
   const impactLevel = scene?.settings.impactLevel || 'medium';
   const hit = screenImpact.update(metrics, time, Boolean(scene?.settings.screenImpact && scene?.active && signal && !scene?.blackout), scene?.settings.impactMode, impactLevel);
@@ -541,7 +550,60 @@ function animate(time) {
     }
   } else fpsStartedAt = fpsFrames = 0;
 }
-audio
+if (exporting) {
+  let exportStamp;
+  body.dataset.offlineExport = "true";
+  audio.context = {sampleRate:44100};
+  audio.frequency = new Uint8Array(1024); audio.waveform = new Uint8Array(2048);
+  audio.beatFrequency = new Uint8Array(512); audio.beatPrevious = new Uint8Array(512);
+  audio.analyser = {getByteFrequencyData:a=>a.set(exportPacket.frequency),getByteTimeDomainData:a=>a.set(exportPacket.waveform)};
+  audio.beatAnalyser = {getByteFrequencyData:a=>a.set(exportPacket.beatFrequency)};
+  window.exportStage = {
+    async initialize(next,viewport) {
+      // Reserve a four-pixel compositor synchronization gutter outside the
+      // video. Layout and effects still see precisely the requested viewport.
+      if(viewport){
+        Object.defineProperty(window,'innerWidth',{value:viewport.width,configurable:true});
+        Object.defineProperty(window,'innerHeight',{value:viewport.height,configurable:true});
+        document.body.style.width=viewport.width+'px';
+        document.body.style.height=viewport.height+'px';
+        $('screen-impact-layer').style.width=viewport.width+'px';
+        $('screen-impact-layer').style.height=viewport.height+'px';
+        const stamp=document.createElement('canvas');stamp.width=64;stamp.height=4;
+        stamp.style.cssText=`position:fixed;left:0;top:${viewport.height}px;width:64px;height:4px;z-index:2147483647;pointer-events:none`;
+        document.body.append(stamp);exportStamp=stamp.getContext('2d');
+      }
+      receiveScene(next);
+      await document.fonts.ready;
+      await Promise.all(Array.from(document.images, image=>image.src ? image.decode().catch(()=>{}) : Promise.resolve()));
+      clearTimeout(refreshTypography.timer);
+      $('hud').classList.remove('entering');
+      for(const animation of fade) animation.cancel();
+      $('themed-backdrop-previous').style.visibility='hidden';
+      $('poster-backdrop').style.opacity='1';
+      // The first encoded frame is the prepared scene, not a live scene switch.
+      // Keep theme motion on song time without its initial blank-canvas fade.
+      visual.transitionSnapshot = null;
+      visual.transitionStartedAt = 0;
+      refreshTypography();
+      rhythmClock.prepare(next.settings,performance.timeOrigin,true);
+      audio.resetDetectionState();audio.setModelAssist({type:'ready'});
+    },
+    async frame(packet) {
+      window.exportTime=packet.time;exportPacket=packet;
+      animate(packet.time);
+      // CSS/WAAPI and canvas share the same song time. No wall-clock animations
+      // can race the frame capture on a slow machine.
+      for(const animation of document.getAnimations()) {
+        animation.pause();animation.currentTime=packet.time;
+      }
+      if(exportStamp)for(let bit=0;bit<32;bit++){
+        exportStamp.fillStyle=(packet.frameId>>>bit)&1?'#fff':'#000';
+        exportStamp.fillRect(bit*2,0,2,4);
+      }
+    }
+  };
+} else audio
   .initialize()
   .catch((e) => window.autovj.stageError("实时音频图初始化失败：" + e.message))
   .finally(() => {
